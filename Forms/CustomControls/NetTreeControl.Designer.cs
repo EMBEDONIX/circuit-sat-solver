@@ -32,8 +32,8 @@
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.browseForNetlist = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.expandNodes = new System.Windows.Forms.ToolStripButton();
+            this.collapseNodes = new System.Windows.Forms.ToolStripButton();
             this.treeView = new SatSolver.UserInterface.CustomControls.NetListTreeView();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -59,8 +59,8 @@
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.browseForNetlist,
             this.toolStripSeparator1,
-            this.toolStripButton2,
-            this.toolStripButton3});
+            this.expandNodes,
+            this.collapseNodes});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(181, 25);
@@ -83,23 +83,25 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton2
+            // expandNodes
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = global::SatSolver.UserInterface.Properties.Resources.expand_32;
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.Text = "toolStripButton2";
+            this.expandNodes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.expandNodes.Image = global::SatSolver.UserInterface.Properties.Resources.expand_32;
+            this.expandNodes.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.expandNodes.Name = "expandNodes";
+            this.expandNodes.Size = new System.Drawing.Size(23, 22);
+            this.expandNodes.Text = "Expand Nodes";
+            this.expandNodes.Click += new System.EventHandler(this.expandNodes_Click);
             // 
-            // toolStripButton3
+            // collapseNodes
             // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = global::SatSolver.UserInterface.Properties.Resources.collapse_32;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton3.Text = "toolStripButton3";
+            this.collapseNodes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.collapseNodes.Image = global::SatSolver.UserInterface.Properties.Resources.collapse_32;
+            this.collapseNodes.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.collapseNodes.Name = "collapseNodes";
+            this.collapseNodes.Size = new System.Drawing.Size(23, 22);
+            this.collapseNodes.Text = "Collapse Nodes";
+            this.collapseNodes.Click += new System.EventHandler(this.collapseNodes_Click);
             // 
             // treeView
             // 
@@ -134,8 +136,8 @@
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ToolStripButton browseForNetlist;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton expandNodes;
+        private System.Windows.Forms.ToolStripButton collapseNodes;
 
 
     }

@@ -120,5 +120,15 @@ namespace SatSolver.UserInterface.CustomControls
                 AddCircuit(circuit);
             }
         }
+
+        private void expandNodes_Click(object sender, EventArgs e)
+        {
+            treeView.ExpandAll();
+        }
+
+        private void collapseNodes_Click(object sender, EventArgs e)
+        {
+            treeView.CollapseAll();
+        }
     }
 }
