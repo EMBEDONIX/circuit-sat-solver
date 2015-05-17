@@ -94,5 +94,19 @@ namespace SatSolver.Objects.Gates
         {
             _inGate = gate;
         }
+
+        /// <summary>
+        /// Determine if the net is top level input of the circuit
+        /// </summary>
+        /// <returns>true if top level, otherwise false</returns>
+        public bool IsMasterInput()
+        {
+            return (!string.IsNullOrWhiteSpace(Name) && _outGate != null);
+        }
+
+        public bool HasName()
+        {
+            return (!string.IsNullOrWhiteSpace(Name));
+        }
     }
 }

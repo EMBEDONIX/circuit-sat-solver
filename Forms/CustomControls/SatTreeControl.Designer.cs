@@ -30,12 +30,12 @@
         {
             this.textBoxInfo = new MetroFramework.Controls.MetroTextBox();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.browseForNetlist = new System.Windows.Forms.ToolStripButton();
+            this.labelControlName = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.browseForNetlist = new System.Windows.Forms.ToolStripButton();
             this.expandNodes = new System.Windows.Forms.ToolStripButton();
             this.collapseNodes = new System.Windows.Forms.ToolStripButton();
             this.treeView = new SatSolver.UserInterface.CustomControls.NetListTreeView();
-            this.labelControlName = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,7 +43,7 @@
             // 
             this.textBoxInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.textBoxInfo.Lines = new string[0];
-            this.textBoxInfo.Location = new System.Drawing.Point(0, 519);
+            this.textBoxInfo.Location = new System.Drawing.Point(0, 481);
             this.textBoxInfo.MaxLength = 32767;
             this.textBoxInfo.Multiline = true;
             this.textBoxInfo.Name = "textBoxInfo";
@@ -51,7 +51,7 @@
             this.textBoxInfo.ReadOnly = true;
             this.textBoxInfo.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.textBoxInfo.SelectedText = "";
-            this.textBoxInfo.Size = new System.Drawing.Size(181, 82);
+            this.textBoxInfo.Size = new System.Drawing.Size(181, 120);
             this.textBoxInfo.TabIndex = 1;
             this.textBoxInfo.UseSelectable = true;
             // 
@@ -69,6 +69,20 @@
             this.toolStrip.TabIndex = 2;
             this.toolStrip.Text = "toolStrip1";
             // 
+            // labelControlName
+            // 
+            this.labelControlName.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.labelControlName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.labelControlName.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelControlName.Name = "labelControlName";
+            this.labelControlName.Size = new System.Drawing.Size(55, 22);
+            this.labelControlName.Text = "Circuit N";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // browseForNetlist
             // 
             this.browseForNetlist.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -79,11 +93,6 @@
             this.browseForNetlist.Text = "Browse for NetList";
             this.browseForNetlist.ToolTipText = "Open NetList File";
             this.browseForNetlist.Click += new System.EventHandler(this.browseForNetlist_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // expandNodes
             // 
@@ -112,27 +121,18 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView.Location = new System.Drawing.Point(0, 28);
             this.treeView.Name = "treeView";
-            this.treeView.Size = new System.Drawing.Size(181, 485);
+            this.treeView.Size = new System.Drawing.Size(181, 447);
             this.treeView.TabIndex = 0;
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
             // 
-            // labelControlName
-            // 
-            this.labelControlName.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.labelControlName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.labelControlName.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.labelControlName.Name = "labelControlName";
-            this.labelControlName.Size = new System.Drawing.Size(55, 22);
-            this.labelControlName.Text = "Circuit N";
-            // 
-            // NetTreeControl
+            // SatTreeControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.textBoxInfo);
             this.Controls.Add(this.treeView);
-            this.Name = "NetTreeControl";
+            this.Name = "SatTreeControl";
             this.Size = new System.Drawing.Size(181, 601);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();

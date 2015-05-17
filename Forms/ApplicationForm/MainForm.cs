@@ -16,6 +16,11 @@ namespace SatSolver.UserInterface.ApplicationForm
         public MainForm()
         {
             InitializeComponent();
+
+            Focus();
+            tabPages.Focus();
+            tabPages.Controls[0].Focus();
+            netControl1.Focus();
         }
 
         private void MainForm_Load(object sender, System.EventArgs e)
@@ -24,7 +29,21 @@ namespace SatSolver.UserInterface.ApplicationForm
             netControl1.SetParent(this);
             netControl2.setId(2);
             netControl2.SetParent(this);
+            
         }
+
+        ///// <summary>
+        /////  http://stackoverflow.com/questions/3718380/winforms-double-buffering
+        ///// </summary>
+        //protected override CreateParams CreateParams
+        //{
+        //    get
+        //    {
+        //        CreateParams cp = base.CreateParams;
+        //        cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+        //        return cp;
+        //    }
+        //}
 
 
 

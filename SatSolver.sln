@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Util
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objects", "Objects\Objects.csproj", "{9D8EF7B2-EC9B-4D6F-8605-F7D776454840}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchematicsDrawer", "SchematicsDrawer\SchematicsDrawer.csproj", "{98AFCA58-59B5-4314-A462-0280B2FEB513}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{9D8EF7B2-EC9B-4D6F-8605-F7D776454840}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D8EF7B2-EC9B-4D6F-8605-F7D776454840}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D8EF7B2-EC9B-4D6F-8605-F7D776454840}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98AFCA58-59B5-4314-A462-0280B2FEB513}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98AFCA58-59B5-4314-A462-0280B2FEB513}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98AFCA58-59B5-4314-A462-0280B2FEB513}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98AFCA58-59B5-4314-A462-0280B2FEB513}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

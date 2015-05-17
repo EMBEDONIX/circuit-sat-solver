@@ -179,6 +179,10 @@
       <Project>{9D8EF7B2-EC9B-4D6F-8605-F7D776454840}</Project>
       <Name>Objects</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SchematicsDrawer\SchematicsDrawer.csproj">
+      <Project>{98afca58-59b5-4314-a462-0280b2feb513}</Project>
+      <Name>SchematicsDrawer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{4236589F-5E84-43E1-8A2F-77D2C64BD415}</Project>
       <Name>Utilities</Name>

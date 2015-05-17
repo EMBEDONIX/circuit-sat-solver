@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,8 @@ namespace SatSolver.Objects.Gates
     public abstract class Gate
     {
         protected GateType _type;
-        protected IList<Net> _inNets;
-        protected Net _outNets;
+        protected List<Net> _inNets;
+        protected Net _outNet;
 
         /// <summary>
         /// Protected constructor
@@ -45,7 +46,7 @@ namespace SatSolver.Objects.Gates
         /// <param name="net"><see cref="Net"/> to be set as output of this gate</param>
         public void SetOutputSignal(Net net)
         {
-            _outNets = net;
+            _outNet = net;
         }
 
         /// <summary>
@@ -125,8 +126,18 @@ namespace SatSolver.Objects.Gates
         {
             List<Net> nets = new List<Net>();
             nets.AddRange(_inNets);
-            nets.Add(_outNets);
+            nets.Add(_outNet);
             return nets;
+        }
+
+        public List<Net> GetInputNets()
+        {
+            return _inNets;
+        }
+
+        public Net GetOutputNet()
+        {
+            return _outNet;
         }
     }
 }
