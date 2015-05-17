@@ -91,12 +91,21 @@
     <Compile Include="CustomControls\NetListTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomControls\NetTreeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\NetTreeControl.Designer.cs">
+      <DependentUpon>NetTreeControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomControls\NodeType.cs" />
     <Compile Include="CustomControls\SignalTreeNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ApplicationForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\NetTreeControl.resx">
+      <DependentUpon>NetTreeControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -108,7 +117,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="ApplicationForm\MainForm.Events.TreeViews.cs">
+    <Compile Include="ApplicationForm\MainForm.NetTreeControl.cs">
       <SubType>Form</SubType>
     </Compile>
     <None Include="packages.config" />
@@ -210,6 +219,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\count.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\collapse-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\expand-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\open-folder-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\info_16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

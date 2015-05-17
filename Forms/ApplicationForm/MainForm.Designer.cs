@@ -28,15 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openNetList1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openNetList2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.netTree2 = new SatSolver.UserInterface.CustomControls.NetListTreeView();
-            this.netTree1 = new SatSolver.UserInterface.CustomControls.NetListTreeView();
+            this.netControl2 = new SatSolver.UserInterface.CustomControls.NetTreeControl();
+            this.netControl1 = new SatSolver.UserInterface.CustomControls.NetTreeControl();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,7 +45,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(20, 60);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(813, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(984, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -87,33 +86,38 @@
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // netTree2
+            // netControl2
             // 
-            this.netTree2.Location = new System.Drawing.Point(240, 88);
-            this.netTree2.Name = "netTree2";
-            this.netTree2.Size = new System.Drawing.Size(231, 424);
-            this.netTree2.TabIndex = 2;
-            this.netTree2.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.netTree2_NodeMouseDoubleClick);
+            this.netControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.netControl2.Location = new System.Drawing.Point(280, 88);
+            this.netControl2.Name = "netControl2";
+            this.netControl2.Size = new System.Drawing.Size(250, 657);
+            this.netControl2.TabIndex = 2;
+            this.netControl2.UseSelectable = true;
             // 
-            // netTree1
+            // netControl1
             // 
-            this.netTree1.Location = new System.Drawing.Point(24, 88);
-            this.netTree1.Name = "netTree1";
-            this.netTree1.Size = new System.Drawing.Size(210, 424);
-            this.netTree1.TabIndex = 1;
-            this.netTree1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.netTree1_NodeMouseDoubleClick);
+            this.netControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.netControl1.Location = new System.Drawing.Point(24, 88);
+            this.netControl1.Name = "netControl1";
+            this.netControl1.Size = new System.Drawing.Size(250, 657);
+            this.netControl1.TabIndex = 1;
+            this.netControl1.UseSelectable = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(853, 535);
-            this.Controls.Add(this.netTree2);
-            this.Controls.Add(this.netTree1);
+            this.ClientSize = new System.Drawing.Size(1024, 768);
+            this.Controls.Add(this.netControl2);
+            this.Controls.Add(this.netControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "SAT Solver";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -129,8 +133,8 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openNetList1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openNetList2ToolStripMenuItem;
-        private CustomControls.NetListTreeView netTree1;
-        private CustomControls.NetListTreeView netTree2;
+        private CustomControls.NetTreeControl netControl1;
+        private CustomControls.NetTreeControl netControl2;
 
     }
 }

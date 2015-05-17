@@ -20,14 +20,8 @@ namespace SatSolver.UserInterface.CustomControls
         /// </summary>
         public NetListTreeView()
         {
-            CircuitTreeNode root = new CircuitTreeNode("Click to load netlist", this);
-            root.ImageIndex = 0;
-            BeginUpdate();
-            Nodes.Add(root);
 
-            EndUpdate();
-        }
-
+        }   
         /// <summary>
         /// Add
         /// </summary>
@@ -53,7 +47,6 @@ namespace SatSolver.UserInterface.CustomControls
             Nodes.Add(root);
 
             EndUpdate();
-        }
-
+        } 
     }
 }

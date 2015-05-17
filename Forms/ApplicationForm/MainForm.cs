@@ -11,7 +11,7 @@ namespace SatSolver.UserInterface.ApplicationForm
     public partial class MainForm : MetroForm
     {
 
-        private ImageList _nodesImageList;
+        public ImageList TreeImageList;
             
         /// <summary>
         /// Default Constructor for the MainForm
@@ -19,20 +19,14 @@ namespace SatSolver.UserInterface.ApplicationForm
         public MainForm()
         {
             InitializeComponent();
+        }
 
-            _nodesImageList = new ImageList();
-            _nodesImageList.TransparentColor = Color.White;
-            _nodesImageList.Images.Add(new Bitmap(Properties.Resources.circuit)); //0
-            _nodesImageList.Images.Add(new Bitmap(Properties.Resources.count)); //1
-            _nodesImageList.Images.Add(new Bitmap(Properties.Resources.wiring)); //2
-            _nodesImageList.Images.Add(new Bitmap(Properties.Resources.gate_and)); //3
-            _nodesImageList.Images.Add(new Bitmap(Properties.Resources.gate_or)); //4
-            _nodesImageList.Images.Add(new Bitmap(Properties.Resources.gate_xor)); //5
-            _nodesImageList.Images.Add(new Bitmap(Properties.Resources.gate_inv)); //6
-            _nodesImageList.Images.Add(new Bitmap(Properties.Resources.gate_one)); //7
-
-
-            netTree1.ImageList = netTree2.ImageList = _nodesImageList;
+        private void MainForm_Load(object sender, System.EventArgs e)
+        {
+            netControl1.setId(1);
+            netControl1.SetParent(this);
+            netControl2.setId(2);
+            netControl2.SetParent(this);
         }
 
 

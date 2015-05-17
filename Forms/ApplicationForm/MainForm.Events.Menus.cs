@@ -14,12 +14,12 @@ namespace SatSolver.UserInterface.ApplicationForm
 
         private void openNetList1ToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            ShowBrowseNetListFileDialog(1);
+            netControl1.ShowBrowseNetListFileDialog();
         }
 
         private void openNetList2ToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            ShowBrowseNetListFileDialog(2);
+            netControl1.ShowBrowseNetListFileDialog();
         }
 
         private void exitToolStripMenuItem_Click(object sender, System.EventArgs e)
