@@ -1,0 +1,11 @@
+D:\WORK\SatSolver\Forms\bin\Debug\Forms.exe.config
+D:\WORK\SatSolver\Forms\bin\Debug\Forms.exe
+D:\WORK\SatSolver\Forms\bin\Debug\Forms.pdb
+D:\WORK\SatSolver\Forms\bin\Debug\MetroFramework.Design.dll
+D:\WORK\SatSolver\Forms\bin\Debug\MetroFramework.dll
+D:\WORK\SatSolver\Forms\bin\Debug\MetroFramework.Fonts.dll
+D:\WORK\SatSolver\Forms\obj\Debug\SatSolver.Forms.ApplicationForm.MainForm.resources
+D:\WORK\SatSolver\Forms\obj\Debug\SatSolver.Forms.Properties.Resources.resources
+D:\WORK\SatSolver\Forms\obj\Debug\Forms.csproj.GenerateResource.Cache
+D:\WORK\SatSolver\Forms\obj\Debug\Forms.exe
+D:\WORK\SatSolver\Forms\obj\Debug\Forms.pdb
