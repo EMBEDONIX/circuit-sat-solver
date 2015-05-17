@@ -12,6 +12,8 @@ namespace SatSolver.UserInterface.CustomControls
     public class NetListTreeView : TreeView
     {
 
+        public TreeNode LastActiveNode = null;
+
         private Circuit _circuit;
         private CircuitTreeNode _circuitNode;
 
@@ -20,7 +22,19 @@ namespace SatSolver.UserInterface.CustomControls
         /// </summary>
         public NetListTreeView()
         {
+            this.AfterSelect += (sender, args) =>
+            {
+                if (LastActiveNode != null)
+                    LastActiveNode.BackColor = Color.White;
+                                    
+                LastActiveNode = args.Node;
+            };
 
+            this.LostFocus += (sender, args) =>
+            {
+                if(LastActiveNode != null)
+                    LastActiveNode.BackColor = Color.LightPink;
+            };
         }   
         /// <summary>
         /// Add
@@ -48,5 +62,7 @@ namespace SatSolver.UserInterface.CustomControls
 
             EndUpdate();
         } 
+
+
     }
 }

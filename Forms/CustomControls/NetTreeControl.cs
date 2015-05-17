@@ -130,5 +130,11 @@ namespace SatSolver.UserInterface.CustomControls
         {
             treeView.CollapseAll();
         }
+
+        private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {   
+            textBoxInfo.Clear();
+            textBoxInfo.Text = e.Node.ToString();
+        }
     }
 }
