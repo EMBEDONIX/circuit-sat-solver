@@ -11,8 +11,10 @@ namespace SatSolver.UserInterface.CustomControls
 {
     public class NetListTreeView : TreeView
     {
-
-        public TreeNode LastActiveNode = null;
+        /// <summary>
+        /// The last TreeNode which was selected by user
+        /// </summary>
+        public TreeNode LastSelectedNode { get; private set; }
 
         private Circuit _circuit;
         private CircuitTreeNode _circuitNode;
@@ -22,20 +24,29 @@ namespace SatSolver.UserInterface.CustomControls
         /// </summary>
         public NetListTreeView()
         {
-            this.AfterSelect += (sender, args) =>
+            InitializeEvents();
+        }
+
+        private void InitializeEvents()
+        {
+            //after each nodes becomes selected, it will be the LastSelectedNode
+            AfterSelect += (sender, args) =>
             {
-                if (LastActiveNode != null)
-                    LastActiveNode.BackColor = Color.White;
-                                    
-                LastActiveNode = args.Node;
+                if (LastSelectedNode != null)
+                    LastSelectedNode.BackColor = Color.White;
+
+                LastSelectedNode = args.Node;
             };
 
-            this.LostFocus += (sender, args) =>
+            //Change the background of LastSelected Node, to help user to remember which node was 
+            //selected
+            LostFocus += (sender, args) =>
             {
-                if(LastActiveNode != null)
-                    LastActiveNode.BackColor = Color.LightPink;
+                if (LastSelectedNode != null)
+                    LastSelectedNode.BackColor = Color.LightPink;
             };
-        }   
+        }
+
         /// <summary>
         /// Add
         /// </summary>
@@ -50,9 +61,9 @@ namespace SatSolver.UserInterface.CustomControls
             CircuitTreeNode root = new CircuitTreeNode(circuit, this) {ImageIndex = 0};
             TreeNode countGatesNode = new TreeNode("Gate = " + circuit.GetGatesCount()) 
                 { ImageIndex = 1, SelectedImageIndex = 1};
-            TreeNode countSignalsNode = new TreeNode("Signals = " + circuit.GetSignalsCount())
+            TreeNode countNetsNode = new TreeNode("Nets = " + circuit.GetNetsCount())
                 { ImageIndex = 1, SelectedImageIndex = 1 };
-            root.Nodes.AddRange(new TreeNode[]{countGatesNode, countSignalsNode});
+            root.Nodes.AddRange(new TreeNode[]{countGatesNode, countNetsNode});
 
             GateTreeNode[] gateNodes = root.GetGateNodes();
 

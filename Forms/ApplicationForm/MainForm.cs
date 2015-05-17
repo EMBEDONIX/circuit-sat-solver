@@ -9,10 +9,7 @@ namespace SatSolver.UserInterface.ApplicationForm
     /// 
     /// </summary>
     public partial class MainForm : MetroForm
-    {
-
-        public ImageList TreeImageList;
-            
+    {          
         /// <summary>
         /// Default Constructor for the MainForm
         /// </summary>

@@ -26,7 +26,7 @@ namespace SatSolver.Utilities
         public Circuit GenerateCircuit()
         {
             var circuit = new Circuit(_file);
-            int numSignals;
+            int numNets;
             char[] delimiterChars = { ' ', ',', '.', ':', '\t' };
             Dictionary<string, int> inputs = new Dictionary<string, int>();
             Dictionary<string, int> outpus = new Dictionary<string, int>();
@@ -53,7 +53,7 @@ namespace SatSolver.Utilities
             //Check for line 1 to get toal number of nets in the circuit
             if (Helpers.IsDigitsOnly(lines[0]))
             {
-                numSignals = Convert.ToInt32(lines[0]);
+                numNets = Convert.ToInt32(lines[0]);
             }
             else //if first line is not integer, throw exception
             {
@@ -73,9 +73,9 @@ namespace SatSolver.Utilities
              */
             int numLinesToCheck = inputNames.Count() + outputNames.Count();
 
-            //if (numSignals != numLinesToCheck)
+            //if (numNets != numLinesToCheck)
             //{
-            //    throw new Exception("Error: Number of total netlists does not match number of assigned signals to netlist");
+            //    throw new Exception("Error: Number of total netlists does not match number of assigned nets to netlist");
             //}
 
             int emptyLinePosition = 3 + numLinesToCheck;
@@ -110,7 +110,7 @@ namespace SatSolver.Utilities
             for (int i = 3 + numLinesToCheck + 1; i < lines.Count; i++)
             {
                 Gate gate;
-                Signal signal;
+                Net net;
                 int id;
                 string name;
                 
@@ -140,10 +140,10 @@ namespace SatSolver.Utilities
                          * Also the last 3 elements should be digits only.
                          */
                         if (data.Length != 4)
-                            throw new InvalidNetListFileException("There are insufficent signals for" +
+                            throw new InvalidNetListFileException("There are insufficent nets for" +
                                      gateType.GetEnumDescription() + " gate", _file, i);
                         if (!Helpers.IsDigitsOnly(data.SubArray(1, 3)))
-                            throw new InvalidNetListFileException("Signals are not nummeric", _file, i);
+                            throw new InvalidNetListFileException("Nets are not nummeric", _file, i);
 
                         //By now, we should have a valid line, so construction the gate object
                         gate = new GateAnd(gateType);
@@ -151,19 +151,19 @@ namespace SatSolver.Utilities
                         //get 2 inputs
                         for (int j = 1; j <= gate.GetCountOfInputsRequired(); j++)
                         {
-                            //get input signal 1
+                            //get input net 1
                             id = Convert.ToInt32(data[j]);
                             name = inputs.Where(x => x.Value == id).FirstOrDefault().Key;
-                            signal = !string.IsNullOrWhiteSpace(name) ? new Signal(name, id) : new Signal(id);
+                            net = !string.IsNullOrWhiteSpace(name) ? new Net(name, id) : new Net(id);
 
-                            gate.AddInputSignal(signal);
+                            gate.AddInputNet(net);
                         }
 
                         //get 1 output
                         id = Convert.ToInt32(data[3]);
                         name = inputs.Where(x => x.Value == id).FirstOrDefault().Key;
-                        signal = !string.IsNullOrWhiteSpace(name) ? new Signal(name, id) : new Signal(id);
-                        gate.SetOutputSignal(signal);
+                        net = !string.IsNullOrWhiteSpace(name) ? new Net(name, id) : new Net(id);
+                        gate.SetOutputSignal(net);
 
                         circuit.AddGate(gate);
                         break;
@@ -175,27 +175,27 @@ namespace SatSolver.Utilities
 
                         //similar checks as in the dual input case
                         if (data.Length != 3)
-                            throw new InvalidNetListFileException("There are insufficent signals for" +
+                            throw new InvalidNetListFileException("There are insufficent nets for" +
                                                                  gateType.GetEnumDescription() + " gate", _file, i);
                         if (!Helpers.IsDigitsOnly(data.SubArray(1, 2)))
-                            throw new InvalidNetListFileException("Signals are not nummeric", _file, i);
+                            throw new InvalidNetListFileException("Nets are not nummeric", _file, i);
 
                         //By now, we should have a valid line, so construction the gate object
                         gate = new GateAnd(gateType);
 
-                        //get input signal 1
+                        //get input net 1
                         id = Convert.ToInt32(data[1]);
                         name = inputs.FirstOrDefault(c => c.Value == id).Key;
-                        signal = !string.IsNullOrWhiteSpace(name) ? new Signal(name, id) : new Signal(id);
+                        net = !string.IsNullOrWhiteSpace(name) ? new Net(name, id) : new Net(id);
 
-                        gate.AddInputSignal(signal);
+                        gate.AddInputNet(net);
                         
 
                         //get 1 output
                         id = Convert.ToInt32(data[2]);
                         name = outpus.Where(x => x.Value == id).FirstOrDefault().Key;
-                        signal = !string.IsNullOrWhiteSpace(name) ? new Signal(name, id) : new Signal(id);
-                        gate.SetOutputSignal(signal);
+                        net = !string.IsNullOrWhiteSpace(name) ? new Net(name, id) : new Net(id);
+                        gate.SetOutputSignal(net);
 
                         circuit.AddGate(gate);
 

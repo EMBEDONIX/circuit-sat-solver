@@ -2,7 +2,7 @@
 
 namespace SatSolver.Objects.Gates
 {
-    public enum SignalValue
+    public enum NetValue
     {
         [Description("0")]
         Low = 0,

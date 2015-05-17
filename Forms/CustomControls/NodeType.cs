@@ -20,9 +20,9 @@ namespace SatSolver.UserInterface.CustomControls
         /// </summary>
         Gate,
         /// <summary>
-        /// represents a <see cref="Signal"/>
+        /// represents a <see cref="Net"/>
         /// </summary>
-        Signal,
+        Net,
         /// <summary>
         /// If a node is default, it means no data is loaded
         /// </summary>

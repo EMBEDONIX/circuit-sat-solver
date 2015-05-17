@@ -1,6 +1,6 @@
 ﻿namespace SatSolver.UserInterface.CustomControls
 {
-    partial class NetTreeControl
+    partial class SatTreeControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -35,6 +35,7 @@
             this.expandNodes = new System.Windows.Forms.ToolStripButton();
             this.collapseNodes = new System.Windows.Forms.ToolStripButton();
             this.treeView = new SatSolver.UserInterface.CustomControls.NetListTreeView();
+            this.labelControlName = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,8 +58,9 @@
             // toolStrip
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.browseForNetlist,
+            this.labelControlName,
             this.toolStripSeparator1,
+            this.browseForNetlist,
             this.expandNodes,
             this.collapseNodes});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
@@ -114,6 +116,15 @@
             this.treeView.TabIndex = 0;
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
             // 
+            // labelControlName
+            // 
+            this.labelControlName.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.labelControlName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.labelControlName.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.labelControlName.Name = "labelControlName";
+            this.labelControlName.Size = new System.Drawing.Size(55, 22);
+            this.labelControlName.Text = "Circuit N";
+            // 
             // NetTreeControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -139,6 +150,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton expandNodes;
         private System.Windows.Forms.ToolStripButton collapseNodes;
+        private System.Windows.Forms.ToolStripLabel labelControlName;
 
 
     }

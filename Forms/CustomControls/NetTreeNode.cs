@@ -9,18 +9,18 @@ using SatSolver.Objects.Gates;
 namespace SatSolver.UserInterface.CustomControls
 {
     [DefaultProperty("Text")]
-    class SignalTreeNode : BaseTreeNode
+    class NetTreeNode : BaseTreeNode
     {
-        private Signal _signal;
+        private Net _net;
 
-        public SignalTreeNode(Signal signal, TreeView containerTreeView) : base(NodeType.Signal, containerTreeView)
+        public NetTreeNode(Net net, TreeView containerTreeView) : base(NodeType.Net, containerTreeView)
         {
-            _signal = signal;
+            _net = net;
             
-            if (!string.IsNullOrWhiteSpace(signal.Name))
-                Text = signal.Name + "/" + signal.Id;
+            if (!string.IsNullOrWhiteSpace(net.Name))
+                Text = net.Name + "/" + net.Id;
             else
-                Text = signal.Id.ToString();
+                Text = net.Id.ToString();
 
             ImageIndex = 2;
             SelectedImageIndex = 2;

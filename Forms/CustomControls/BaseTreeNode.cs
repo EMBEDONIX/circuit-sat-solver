@@ -11,7 +11,14 @@ namespace SatSolver.UserInterface.CustomControls
     /// </summary>
     public abstract class BaseTreeNode : TreeNode
     {
+        /// <summary>
+        /// Type of the Node
+        /// </summary>
         public NodeType NodeType { get; private set; }
+
+        /// <summary>
+        /// The <see cref="TreeView"/> which will host this node
+        /// </summary>
         public TreeView ContainerTreeView { get; private set; } 
 
         /// <summary>

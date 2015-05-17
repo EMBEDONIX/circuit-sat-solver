@@ -91,21 +91,21 @@
     <Compile Include="CustomControls\NetListTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomControls\NetTreeControl.cs">
+    <Compile Include="CustomControls\SatTreeControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CustomControls\NetTreeControl.Designer.cs">
-      <DependentUpon>NetTreeControl.cs</DependentUpon>
+    <Compile Include="CustomControls\SatTreeControl.Designer.cs">
+      <DependentUpon>SatTreeControl.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\NodeType.cs" />
-    <Compile Include="CustomControls\SignalTreeNode.cs" />
+    <Compile Include="CustomControls\NetTreeNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ApplicationForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomControls\NetTreeControl.resx">
-      <DependentUpon>NetTreeControl.cs</DependentUpon>
+    <EmbeddedResource Include="CustomControls\SatTreeControl.resx">
+      <DependentUpon>SatTreeControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

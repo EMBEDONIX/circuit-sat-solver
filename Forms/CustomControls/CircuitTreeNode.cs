@@ -18,6 +18,9 @@ namespace SatSolver.UserInterface.CustomControls
         private bool _hasData = false;
         
 
+        /// <summary>
+        /// The <see cref="Circuit"/> that will be used as data in this node
+        /// </summary>
         public Circuit Circuit { get; private set; }
         /// <summary>
         /// Constructor
@@ -45,6 +48,16 @@ namespace SatSolver.UserInterface.CustomControls
             IList<GateTreeNode> gateNodes = (from Gate gate in Circuit.GetGates() select new GateTreeNode(gate, ContainerTreeView)).ToList();
 
             return gateNodes.ToArray();
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("File:" + Environment.NewLine + Circuit.GetFilePath());
+            sb.AppendLine("Gates:\t" + Circuit.GetGates().Count);
+            sb.AppendLine("Nets:\t" + Circuit.GetNetsCount());
+
+            return sb.ToString();
         }
     }
 }

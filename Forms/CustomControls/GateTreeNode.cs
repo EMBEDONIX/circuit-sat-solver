@@ -53,14 +53,44 @@ namespace SatSolver.UserInterface.CustomControls
                     throw new ArgumentOutOfRangeException();
             }
 
-            List<SignalTreeNode> signalNodes = new List<SignalTreeNode>();
+            List<NetTreeNode> netNodes = new List<NetTreeNode>();
             
-            foreach (Signal signal in _gate.GetAllSignals())
+            foreach (Net signal in _gate.GetAllNets())
             {
-                signalNodes.Add(new SignalTreeNode(signal, ContainerTreeView));
+                netNodes.Add(new NetTreeNode(signal, ContainerTreeView));
             }
 
-            Nodes.AddRange(signalNodes.ToArray());
+            Nodes.AddRange(netNodes.ToArray());
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("Gate Type:\t" + _gate.GetGateTypeAsString());
+
+            switch (_gate.GetGateType())
+            {
+                case GateType.One:
+                case GateType.Zero:
+                case GateType.Inv:
+
+                    sb.AppendLine("Input:");
+
+                    break;
+
+                case GateType.Or:
+                case GateType.And:
+                case GateType.Xor:
+
+
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return sb.ToString();
         }
     }
 }

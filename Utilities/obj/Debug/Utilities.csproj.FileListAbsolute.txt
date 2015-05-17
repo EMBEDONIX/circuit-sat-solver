@@ -1,0 +1,7 @@
+D:\WORK\SatSolver\Utilities\bin\Debug\Utilities.dll
+D:\WORK\SatSolver\Utilities\bin\Debug\Utilities.pdb
+D:\WORK\SatSolver\Utilities\bin\Debug\Objects.dll
+D:\WORK\SatSolver\Utilities\bin\Debug\Objects.pdb
+D:\WORK\SatSolver\Utilities\obj\Debug\Utilities.csprojResolveAssemblyReference.cache
+D:\WORK\SatSolver\Utilities\obj\Debug\Utilities.dll
+D:\WORK\SatSolver\Utilities\obj\Debug\Utilities.pdb

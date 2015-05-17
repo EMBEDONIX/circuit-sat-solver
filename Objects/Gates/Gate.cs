@@ -8,8 +8,8 @@ namespace SatSolver.Objects.Gates
     public abstract class Gate
     {
         protected GateType _type;
-        protected IList<Signal> _inSignals;
-        protected Signal _outSignals;
+        protected IList<Net> _inNets;
+        protected Net _outNets;
 
         /// <summary>
         /// Protected constructor
@@ -18,34 +18,34 @@ namespace SatSolver.Objects.Gates
         protected Gate(GateType type)
         {
             _type = type;
-            _inSignals = new List<Signal>();
+            _inNets = new List<Net>();
         }                                         
 
         /// <summary>
-        /// Add a <see cref="Signal"/> to list of input signals for this gate
+        /// Add a <see cref="Net"/> to list of input nets for this gate
         /// </summary>
-        /// <param name="signal"><see cref="Signal"/> to be added</param>
-        public void AddInputSignal(Signal signal)
+        /// <param name="net"><see cref="Net"/> to be added</param>
+        public void AddInputNet(Net net)
         {
-            //First check if this gate is single input and wheter or not it alreday as an input signal
+            //First check if this gate is single input and wheter or not it alreday as an input net
             //assigned to it
-            if (IsSingleInput() && _inSignals.Count > 1)
+            if (IsSingleInput() && _inNets.Count > 1)
             {
                 throw new Exception("Error: This gate is '" + Helpers.GetEnumDescription(_type) + "' and it has already" +
-                                    " have been assigned with an input signal. Can not add another signal to this type" +
+                                    " have been assigned with an input net. Can not add another net to this type" +
                                     " of gate");
             }
 
-            _inSignals.Add(signal);
+            _inNets.Add(net);
         }
 
         /// <summary>
-        /// Set the output <see cref="Signal"/> of this gate
+        /// Set the output <see cref="Net"/> of this gate
         /// </summary>
-        /// <param name="signal"><see cref="Signal"/> to be set as output of this gate</param>
-        public void SetOutputSignal(Signal signal)
+        /// <param name="net"><see cref="Net"/> to be set as output of this gate</param>
+        public void SetOutputSignal(Net net)
         {
-            _outSignals = signal;
+            _outNets = net;
         }
 
         /// <summary>
@@ -108,12 +108,12 @@ namespace SatSolver.Objects.Gates
         }
 
         /// <summary>
-        /// Get number of input and output signals to and from this gate
+        /// Get number of input and output nets to and from this gate
         /// </summary>
-        /// <returns>Number of signals</returns>
-        public int GetSignalsCount()
+        /// <returns>Number of nets</returns>
+        public int GetNetsCount()
         {
-            return _inSignals.Count + 1; //remember there is always one output signal!
+            return _inNets.Count + 1; //remember there is always one output net!
         }
 
         public GateType GetGateType()
@@ -121,12 +121,12 @@ namespace SatSolver.Objects.Gates
             return _type;
         }
 
-        public IEnumerable<Signal> GetAllSignals()
+        public IEnumerable<Net> GetAllNets()
         {
-            List<Signal> signals = new List<Signal>();
-            signals.AddRange(_inSignals);
-            signals.Add(_outSignals);
-            return signals;
+            List<Net> nets = new List<Net>();
+            nets.AddRange(_inNets);
+            nets.Add(_outNets);
+            return nets;
         }
     }
 }

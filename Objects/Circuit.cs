@@ -47,17 +47,22 @@ namespace SatSolver.Objects
         }
 
         /// <summary>
-        /// Get total number of signals in all of the gates in this circuit
+        /// Get total number of nets in all of the gates in this circuit
         /// </summary>
-        /// <returns>number of total signals in every gate in this circuit</returns>
-        public int GetSignalsCount()
+        /// <returns>number of total nets in every gate in this circuit</returns>
+        public int GetNetsCount()
         {
-            return _gates.Sum(gate => gate.GetSignalsCount());
+            return _gates.Sum(gate => gate.GetNetsCount());
         }
 
-        public IEnumerable GetGates()
+        public IList<Gate> GetGates()
         {
             return _gates;
+        }
+
+        public string GetFilePath()
+        {
+            return _file;
         }
     }
 }

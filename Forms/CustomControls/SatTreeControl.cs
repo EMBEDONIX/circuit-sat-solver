@@ -13,14 +13,14 @@ using SatSolver.Utilities;
 
 namespace SatSolver.UserInterface.CustomControls
 {
-    public partial class NetTreeControl : MetroUserControl
+    public partial class SatTreeControl : MetroUserControl
     {
         public int Id;
         private MainForm _mainForm;
         private ImageList _imageList;
         
 
-        public NetTreeControl()
+        public SatTreeControl()
         {
             InitializeComponent();
 
@@ -48,6 +48,7 @@ namespace SatSolver.UserInterface.CustomControls
         public void setId(int id)
         {
             Id = id;
+            labelControlName.Text = "Circuit " + id;
         }
 
         public void AddCircuit(Circuit circuit)

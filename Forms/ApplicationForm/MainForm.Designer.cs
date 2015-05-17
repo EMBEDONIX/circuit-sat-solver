@@ -34,8 +34,8 @@
             this.openNetList2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.netControl2 = new SatSolver.UserInterface.CustomControls.NetTreeControl();
-            this.netControl1 = new SatSolver.UserInterface.CustomControls.NetTreeControl();
+            this.netControl2 = new SatSolver.UserInterface.CustomControls.SatTreeControl();
+            this.netControl1 = new SatSolver.UserInterface.CustomControls.SatTreeControl();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -133,8 +133,8 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openNetList1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openNetList2ToolStripMenuItem;
-        private CustomControls.NetTreeControl netControl1;
-        private CustomControls.NetTreeControl netControl2;
+        private CustomControls.SatTreeControl netControl1;
+        private CustomControls.SatTreeControl netControl2;
 
     }
 }
