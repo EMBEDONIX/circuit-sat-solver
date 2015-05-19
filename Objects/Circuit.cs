@@ -10,8 +10,12 @@ namespace SatSolver.Objects
     public class Circuit
     {
         private bool _gatesAssignedToNets;
-        private IList<Gate> _gates;
+        private List<Gate> _gates;
+        private List<Gate> _inputGates;
+        private List<Gate> _middleGates;
+        private Gate _outputGate;
         private string _file;
+
 
         public Circuit(string file)
         {
@@ -129,6 +133,68 @@ namespace SatSolver.Objects
         public string GetFilePath()
         {
             return _file;
+        }
+
+        /// <summary>
+        /// Get gates that are top level input gates
+        ///     These are the gates that their input net(s) has a name assigned.
+        /// </summary>
+        /// <returns></returns>
+        public IList<Gate> GetInputGates()
+        {
+            if (_inputGates == null || _inputGates.Count == 0)
+            {
+                _inputGates = new List<Gate>();
+                _inputGates = _gates.Where(gate => gate.GetInputNets().Any(x => x.HasName())).ToList();
+            }
+
+            if (_inputGates == null || _inputGates.Count == 0)
+                throw new Exception(GetName() + " Does not have any top level input gates!");
+            return _inputGates;
+        }
+
+        /// <summary>
+        /// Get the gate that is the final gate of the circuit which its output will determine
+        /// the circuit result. This is the gate that its output net has a name assigned.
+        /// </summary>
+        /// <returns></returns>
+        public Gate GetOutputGate()
+        {
+            if (_outputGate == null)
+            {
+                _outputGate = _gates.FirstOrDefault(g => g.GetOutputNet().HasName());
+            }
+
+
+            if (_outputGate == null)
+                throw new Exception(GetName() + " Does not have an output gate!");
+            return _outputGate;
+            
+        }
+
+        /// <summary>
+        /// Middle gates are the gates that sit between top level and output gate
+        /// </summary>
+        /// <returns></returns>
+        public List<Gate> GetMiddleGates()
+        {
+            if (_middleGates == null || _middleGates.Count == 0)
+            {
+                _middleGates = new List<Gate>();
+
+                foreach (var gate in _gates)
+                {
+                        if(_inputGates.Contains(gate) || _outputGate == gate)
+                            continue;
+                        else
+                            _middleGates.Add(gate);
+                }
+            }
+
+            return _middleGates;
+
+
+
         }
     }
 }

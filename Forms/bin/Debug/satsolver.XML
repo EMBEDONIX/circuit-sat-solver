@@ -1,0 +1,245 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>satsolver</name>
+    </assembly>
+    <members>
+        <member name="T:SatSolver.UserInterface.ApplicationForm.MainForm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SatSolver.UserInterface.ApplicationForm.MainForm.#ctor">
+            <summary>
+            Default Constructor for the MainForm
+            </summary>
+        </member>
+        <member name="F:SatSolver.UserInterface.ApplicationForm.MainForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:SatSolver.UserInterface.ApplicationForm.MainForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:SatSolver.UserInterface.ApplicationForm.MainForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:SatSolver.UserInterface.CustomControls.BaseTreeNode">
+            <summary>
+            An abstract implementation of TreeNode which is used in this application
+            </summary>
+        </member>
+        <member name="M:SatSolver.UserInterface.CustomControls.BaseTreeNode.#ctor(SatSolver.UserInterface.CustomControls.NodeType,System.Windows.Forms.TreeView)">
+            <summary>
+            
+            </summary>
+            <param name="nodeType"></param>
+            <param name="containerTreeView"></param>
+        </member>
+        <member name="P:SatSolver.UserInterface.CustomControls.BaseTreeNode.NodeType">
+            <summary>
+            Type of the Node
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.CustomControls.BaseTreeNode.ContainerTreeView">
+            <summary>
+            The <see cref="T:System.Windows.Forms.TreeView"/> which will host this node
+            </summary>
+        </member>
+        <member name="T:SatSolver.UserInterface.CustomControls.GateTreeNode">
+            <summary>
+            Node that deals with gates
+            </summary>
+        </member>
+        <member name="T:SatSolver.UserInterface.CustomControls.CircuitTreeNode">
+            <summary>
+            Drived from <see cref="T:System.Windows.Forms.TreeNode"/> to help maintaining <see cref="T:SatSolver.UserInterface.CustomControls.NetListTreeView"/>
+            </summary>
+        </member>
+        <member name="M:SatSolver.UserInterface.CustomControls.CircuitTreeNode.#ctor(SatSolver.Objects.Circuit,System.Windows.Forms.TreeView)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="circuit">The circuit object to build this node for</param>
+            <param name="netListTreeView"></param>
+            <param name="treeViewContainer">The TreeView that this node is going to be inside it</param>
+        </member>
+        <member name="P:SatSolver.UserInterface.CustomControls.CircuitTreeNode.Circuit">
+            <summary>
+            The <see cref="P:SatSolver.UserInterface.CustomControls.CircuitTreeNode.Circuit"/> that will be used as data in this node
+            </summary>
+        </member>
+        <member name="M:SatSolver.UserInterface.CustomControls.NetListTreeView.#ctor">
+            <summary>
+            Default constructor necessary for design time
+            </summary>
+        </member>
+        <member name="M:SatSolver.UserInterface.CustomControls.NetListTreeView.AddCircuit(SatSolver.Objects.Circuit)">
+            <summary>
+            Add
+            </summary>
+            <param name="circuit"></param>
+        </member>
+        <member name="P:SatSolver.UserInterface.CustomControls.NetListTreeView.LastSelectedNode">
+            <summary>
+            The last TreeNode which was selected by user
+            </summary>
+        </member>
+        <member name="M:SatSolver.UserInterface.CustomControls.SatTreeControl.Clean">
+            <summary>
+            Cleans up the control of any loaded file, calculation and setting
+            </summary>
+        </member>
+        <member name="M:SatSolver.UserInterface.CustomControls.SatTreeControl.ShowBrowseNetListFileDialog(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="id">
+            Integer to indicate which TreeNodeControl has called this method, or if it is called by something else,
+            which TreeNodeControl should be affected. id can only 1 or 2. Because we only have 2 TreeNodeControls.
+            If you add more TreeNodeControls then change the check at the beggining of the method.
+            </param>
+        </member>
+        <member name="M:SatSolver.UserInterface.CustomControls.SatTreeControl.LoadNetListFromFile(System.String)">
+            <summary>
+            Load a file directly. This method must not be executed in production! only for debug
+            </summary>
+            <param name="pathToFile"></param>
+        </member>
+        <member name="F:SatSolver.UserInterface.CustomControls.SatTreeControl.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:SatSolver.UserInterface.CustomControls.SatTreeControl.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:SatSolver.UserInterface.CustomControls.SatTreeControl.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:SatSolver.UserInterface.CustomControls.NodeType">
+            <summary>
+            Enumeration of possible different node types
+            </summary>
+        </member>
+        <member name="F:SatSolver.UserInterface.CustomControls.NodeType.Circuit">
+            <summary>
+            Represents a <see cref="F:SatSolver.UserInterface.CustomControls.NodeType.Circuit"/>
+            </summary>
+        </member>
+        <member name="F:SatSolver.UserInterface.CustomControls.NodeType.Gate">
+            <summary>
+            Represents a <see cref="F:SatSolver.UserInterface.CustomControls.NodeType.Gate"/>
+            </summary>
+        </member>
+        <member name="F:SatSolver.UserInterface.CustomControls.NodeType.Net">
+            <summary>
+            represents a <see cref="F:SatSolver.UserInterface.CustomControls.NodeType.Net"/>
+            </summary>
+        </member>
+        <member name="F:SatSolver.UserInterface.CustomControls.NodeType.Default">
+            <summary>
+            If a node is default, it means no data is loaded
+            </summary>
+        </member>
+        <member name="M:SatSolver.UserInterface.Program.Main">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="T:SatSolver.UserInterface.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.circuit">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.collapse_32">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.count">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.expand_32">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.gate_and">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.gate_inv">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.gate_one">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.gate_or">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.gate_xor">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.info_16">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.open_folder_32">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.signal">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.Properties.Resources.wiring">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+    </members>
+</doc>

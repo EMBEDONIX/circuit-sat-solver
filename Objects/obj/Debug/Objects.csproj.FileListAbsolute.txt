@@ -1,0 +1,5 @@
+D:\WORK\SatSolver\Objects\bin\Debug\Objects.dll
+D:\WORK\SatSolver\Objects\bin\Debug\Objects.pdb
+D:\WORK\SatSolver\Objects\obj\Debug\Objects.csprojResolveAssemblyReference.cache
+D:\WORK\SatSolver\Objects\obj\Debug\Objects.dll
+D:\WORK\SatSolver\Objects\obj\Debug\Objects.pdb

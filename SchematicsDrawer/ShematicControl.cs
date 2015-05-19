@@ -72,8 +72,7 @@ namespace SatSolver.SchematicsDrawer
         }
 
         private void DrawNetConnections(PaintEventArgs p)
-        {
-
+        {   
             GateShape[] shapes = _drawnGates.ToArray();
             GateShape cs; //current shape
             GateShape ns = null; //next shape
@@ -83,7 +82,7 @@ namespace SatSolver.SchematicsDrawer
             for (int i = 0; i < shapes.Length - 1; i++)
             {
 
-                Pen pen = new Pen(Color.Red, 1);
+                Pen pen = new Pen(Color.Red, 2);
                 pen.ScaleTransform(_zoomFactor, _zoomFactor);
                 pen.Brush = new SolidBrush(Color.Green);
                 
@@ -99,7 +98,7 @@ namespace SatSolver.SchematicsDrawer
                 PointF po; //point for output of current gate
                 if (i == 0)
                 {
-                    pen.Color = Color.Green;
+                    pen.Color = Color.Blue;
                     if (cg.IsSingleInput()) //if has onlye 1 input e.g. inv gate
                     {
                         pi1 = new PointF(5, cs.PortInA.Y );
@@ -115,21 +114,17 @@ namespace SatSolver.SchematicsDrawer
                     }
 
                     pen.Color = Color.Orange;
-                    foreach (var net in ng.GetInputNets())
-                    {
-                        if(ng.GetInputNets().Contains(cg.GetOutputNet()))
-                        {
-                                g.DrawLine(pen, cs.PortOut, ns.PortInA);                            
-                        }
-                    }                                                                               
+                    g.DrawLine(pen, cs.PortOut, ns.PortInA);
                 }
                 else
                 {
+                    pen.Color = Color.SaddleBrown;
                     if (cg.IsSingleInput()) //if has onlye 1 input e.g. inv gate
                     {
-                        pi1 = ns.PortInA;
-                        pi2 = new PointF(0, 0);
-                        g.DrawLine(pen, pi1, cs.PortInA);
+                        
+                        pi1 = cs.PortOut;
+                        pi2 = new PointF(50, 50);
+                        g.DrawLine(pen, pi1, ns.PortOut);
                     }
                     else
                     {
@@ -139,14 +134,9 @@ namespace SatSolver.SchematicsDrawer
                         g.DrawLine(pen, pi2, cs.PortInB);
                     }
 
-                    pen.Color = Color.OrangeRed;
-                    foreach (var net in ng.GetInputNets())
-                    {
-                        if(ng.GetInputNets().Contains(cg.GetOutputNet()))
-                        {
-                                g.DrawLine(pen, cs.PortOut, ns.PortInA);                            
-                        }
-                    } 
+                    pen.Color = Color.Orange;
+                    g.DrawLine(pen, cs.PortOut, ns.PortInA);
+
                 }
             }
 

@@ -84,7 +84,7 @@ namespace SatSolver.SchematicsDrawer.Shapes
                 PortInB = new PointF(DrawingRect.X, StartPoint.Y + (DrawingRect.Height/1.3f));
             }  
 
-            PortOut = new PointF(DrawingRect.X + DrawingRect.Width, DrawingRect.Height / 2f);
+            PortOut = new PointF(DrawingRect.X + DrawingRect.Width, StartPoint.Y + (DrawingRect.Height / 2f));
 
             return this;
         }
