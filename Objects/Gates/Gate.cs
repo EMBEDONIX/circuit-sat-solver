@@ -139,5 +139,22 @@ namespace SatSolver.Objects.Gates
         {
             return _outNet;
         }
+
+
+        
+        /// <summary>
+        /// Gets the string which represents the gate symbol
+        /// </summary>
+        /// <returns></returns>
+        public abstract string GetSymbol();
+
+        /// <summary>
+        /// Check if all input nets of this gate are named, e.g. a1 a2 b3 etccc
+        /// </summary>
+        /// <returns></returns>
+        public bool IsTopLevelGate()
+        {
+            return _inNets.All(net => net.HasName());
+        }
     }
 }

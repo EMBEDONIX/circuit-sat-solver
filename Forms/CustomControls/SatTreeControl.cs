@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -16,8 +17,18 @@ namespace SatSolver.UserInterface.CustomControls
     public partial class SatTreeControl : MetroUserControl
     {
         public int Id;
+        public Circuit Circuit { get; private set; }
         private MainForm _mainForm;
         private ImageList _imageList;
+
+        public event EventHandler<CircuitLoadedEventArgs> CircuitLoaded;
+
+        private void OnCircuitLoaded(CircuitLoadedEventArgs e)
+        {
+            EventHandler<CircuitLoadedEventArgs> handler = CircuitLoaded;
+            if (handler != null)
+                handler(this, e);
+        }
         
 
         public SatTreeControl()
@@ -54,7 +65,10 @@ namespace SatSolver.UserInterface.CustomControls
         public void AddCircuit(Circuit circuit)
         {
             Clean();
+            Circuit = circuit;
             treeView.AddCircuit(circuit);
+            CircuitLoadedEventArgs e = new CircuitLoadedEventArgs(circuit, Id);
+            OnCircuitLoaded(e);
         }
 
         /// <summary>
@@ -85,7 +99,7 @@ namespace SatSolver.UserInterface.CustomControls
         /// which TreeNodeControl should be affected. id can only 1 or 2. Because we only have 2 TreeNodeControls.
         /// If you add more TreeNodeControls then change the check at the beggining of the method.
         /// </param>
-        public void ShowBrowseNetListFileDialog()
+        public void ShowBrowseNetListFileDialog(string pathToFile = null)
         {
             Circuit circuit = null;
 
@@ -136,6 +150,40 @@ namespace SatSolver.UserInterface.CustomControls
         {   
             textBoxInfo.Clear();
             textBoxInfo.Text = e.Node.ToString();
+        }
+
+
+        /// <summary>
+        /// Load a file directly. This method must not be executed in production! only for debug
+        /// </summary>
+        /// <param name="pathToFile"></param>
+        public void LoadNetListFromFile(string pathToFile)
+        {                                   
+            Circuit circuit = null;
+
+            if (File.Exists(pathToFile))
+            {
+                NetListReader reader = new NetListReader(pathToFile);
+                try
+                {
+                    circuit = reader.GenerateCircuit();
+                }
+                catch (InvalidNetListFileException inlfException)
+                {
+                    MessageBox.Show(inlfException.ToString(), "Invalid NetList File", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Critical Error", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                }
+            }
+
+            if (circuit != null)
+            {
+                AddCircuit(circuit);
+            }
         }
     }
 }

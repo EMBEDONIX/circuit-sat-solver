@@ -146,7 +146,21 @@ namespace SatSolver.Utilities
                             throw new InvalidNetListFileException("Nets are not nummeric", _file, i);
 
                         //By now, we should have a valid line, so construction the gate object
-                        gate = new GateAnd(gateType);
+                        switch (gateType)
+                        {
+                            case GateType.Or:
+                                gate = new GateOr(GateType.Or);
+                                break;
+                            case GateType.And:
+                                gate = new GateAnd(GateType.And);
+                                break;
+                            case GateType.Xor:
+                                gate = new GateXor(GateType.Xor);
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+
 
                         //get 2 inputs
                         for (int j = 1; j <= gate.GetCountOfInputsRequired(); j++)
@@ -181,7 +195,20 @@ namespace SatSolver.Utilities
                             throw new InvalidNetListFileException("Nets are not nummeric", _file, i);
 
                         //By now, we should have a valid line, so construction the gate object
-                        gate = new GateAnd(gateType);
+                        switch (gateType)
+                        {
+                            case GateType.Inv:
+                                gate = new GateInv(GateType.Inv);
+                                break;
+                            case GateType.One:
+                                gate = new GateOne(GateType.One);
+                                break;
+                            case GateType.Zero:
+                                gate = new GateZero(GateType.Zero);
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
 
                         //get input net 1
                         id = Convert.ToInt32(data[1]);

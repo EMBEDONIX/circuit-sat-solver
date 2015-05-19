@@ -37,9 +37,9 @@
             this.tabPages = new MetroFramework.Controls.MetroTabControl();
             this.tabSchematic = new MetroFramework.Controls.MetroTabPage();
             this.tabSolution = new MetroFramework.Controls.MetroTabPage();
+            this.schematicControl = new SatSolver.SchematicsDrawer.ShematicControl();
             this.netControl2 = new SatSolver.UserInterface.CustomControls.SatTreeControl();
             this.netControl1 = new SatSolver.UserInterface.CustomControls.SatTreeControl();
-            this.shematicControl1 = new SatSolver.SchematicsDrawer.ShematicControl();
             this.menuStrip1.SuspendLayout();
             this.tabPages.SuspendLayout();
             this.tabSchematic.SuspendLayout();
@@ -99,22 +99,22 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabPages.Controls.Add(this.tabSchematic);
             this.tabPages.Controls.Add(this.tabSolution);
-            this.tabPages.Location = new System.Drawing.Point(536, 88);
+            this.tabPages.Location = new System.Drawing.Point(537, 88);
             this.tabPages.Name = "tabPages";
             this.tabPages.SelectedIndex = 0;
-            this.tabPages.Size = new System.Drawing.Size(478, 657);
+            this.tabPages.Size = new System.Drawing.Size(464, 657);
             this.tabPages.TabIndex = 3;
             this.tabPages.UseSelectable = true;
             // 
             // tabSchematic
             // 
-            this.tabSchematic.Controls.Add(this.shematicControl1);
+            this.tabSchematic.Controls.Add(this.schematicControl);
             this.tabSchematic.HorizontalScrollbarBarColor = true;
             this.tabSchematic.HorizontalScrollbarHighlightOnWheel = false;
             this.tabSchematic.HorizontalScrollbarSize = 10;
             this.tabSchematic.Location = new System.Drawing.Point(4, 38);
             this.tabSchematic.Name = "tabSchematic";
-            this.tabSchematic.Size = new System.Drawing.Size(470, 615);
+            this.tabSchematic.Size = new System.Drawing.Size(456, 615);
             this.tabSchematic.TabIndex = 0;
             this.tabSchematic.Text = "Schematics";
             this.tabSchematic.VerticalScrollbarBarColor = true;
@@ -128,12 +128,21 @@
             this.tabSolution.HorizontalScrollbarSize = 10;
             this.tabSolution.Location = new System.Drawing.Point(4, 38);
             this.tabSolution.Name = "tabSolution";
-            this.tabSolution.Size = new System.Drawing.Size(470, 615);
+            this.tabSolution.Size = new System.Drawing.Size(456, 615);
             this.tabSolution.TabIndex = 1;
             this.tabSolution.Text = "Solution";
             this.tabSolution.VerticalScrollbarBarColor = true;
             this.tabSolution.VerticalScrollbarHighlightOnWheel = false;
             this.tabSolution.VerticalScrollbarSize = 10;
+            // 
+            // schematicControl
+            // 
+            this.schematicControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.schematicControl.Location = new System.Drawing.Point(0, 0);
+            this.schematicControl.Name = "schematicControl";
+            this.schematicControl.Size = new System.Drawing.Size(456, 615);
+            this.schematicControl.TabIndex = 2;
+            this.schematicControl.UseSelectable = true;
             // 
             // netControl2
             // 
@@ -141,7 +150,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.netControl2.Location = new System.Drawing.Point(280, 88);
             this.netControl2.Name = "netControl2";
-            this.netControl2.Size = new System.Drawing.Size(250, 657);
+            this.netControl2.Size = new System.Drawing.Size(251, 657);
             this.netControl2.TabIndex = 2;
             this.netControl2.UseSelectable = true;
             // 
@@ -149,20 +158,11 @@
             // 
             this.netControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.netControl1.Location = new System.Drawing.Point(24, 88);
+            this.netControl1.Location = new System.Drawing.Point(23, 88);
             this.netControl1.Name = "netControl1";
-            this.netControl1.Size = new System.Drawing.Size(250, 657);
+            this.netControl1.Size = new System.Drawing.Size(251, 657);
             this.netControl1.TabIndex = 1;
             this.netControl1.UseSelectable = true;
-            // 
-            // shematicControl1
-            // 
-            this.shematicControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.shematicControl1.Location = new System.Drawing.Point(0, 0);
-            this.shematicControl1.Name = "shematicControl1";
-            this.shematicControl1.Size = new System.Drawing.Size(470, 615);
-            this.shematicControl1.TabIndex = 2;
-            this.shematicControl1.UseSelectable = true;
             // 
             // MainForm
             // 
@@ -199,7 +199,7 @@
         private MetroFramework.Controls.MetroTabControl tabPages;
         private MetroFramework.Controls.MetroTabPage tabSchematic;
         private MetroFramework.Controls.MetroTabPage tabSolution;
-        private SchematicsDrawer.ShematicControl shematicControl1;
+        private SchematicsDrawer.ShematicControl schematicControl;
 
     }
 }

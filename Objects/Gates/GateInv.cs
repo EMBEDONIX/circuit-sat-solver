@@ -18,5 +18,10 @@ namespace SatSolver.Objects.Gates
         {   
             throw new NotImplementedException();
         }
+
+        public override string GetSymbol()
+        {
+            return "!1";
+        }
     }
 }

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.box = new System.Windows.Forms.PictureBox();
-            this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
             ((System.ComponentModel.ISupportInitialize)(this.box)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,26 +43,10 @@
             this.box.TabIndex = 0;
             this.box.TabStop = false;
             // 
-            // metroPanel1
-            // 
-            this.metroPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroPanel1.HorizontalScrollbarBarColor = true;
-            this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(4, 391);
-            this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(621, 137);
-            this.metroPanel1.TabIndex = 1;
-            this.metroPanel1.VerticalScrollbarBarColor = true;
-            this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.VerticalScrollbarSize = 10;
-            // 
             // ShematicControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.metroPanel1);
             this.Controls.Add(this.box);
             this.Name = "ShematicControl";
             this.Size = new System.Drawing.Size(628, 531);
@@ -76,6 +59,5 @@
         #endregion
 
         private System.Windows.Forms.PictureBox box;
-        private MetroFramework.Controls.MetroPanel metroPanel1;
     }
 }

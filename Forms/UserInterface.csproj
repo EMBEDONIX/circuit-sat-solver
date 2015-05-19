@@ -86,6 +86,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CustomControls\BaseTreeNode.cs" />
+    <Compile Include="CustomControls\CircuitLoadedEventArgs.cs" />
     <Compile Include="CustomControls\GateTreeNode.cs" />
     <Compile Include="CustomControls\CircuitTreeNode.cs" />
     <Compile Include="CustomControls\NetListTreeView.cs">

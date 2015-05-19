@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using SatSolver.UserInterface.CustomControls;
@@ -29,7 +31,15 @@ namespace SatSolver.UserInterface.ApplicationForm
             netControl1.SetParent(this);
             netControl2.setId(2);
             netControl2.SetParent(this);
-            
+
+            netControl1.CircuitLoaded += (o, args) =>
+            {
+               schematicControl.SetCircuit(args.Circuit, args.TreeId);
+            };
+
+            #if DEBUG
+            netControl1.LoadNetListFromFile(@"D:\WORK\SatSolver\Forms\SampleNetlists\xor2_nand.net");
+            #endif
         }
 
         ///// <summary>
