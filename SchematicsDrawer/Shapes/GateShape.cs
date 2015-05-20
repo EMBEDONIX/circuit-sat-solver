@@ -46,7 +46,19 @@ namespace SatSolver.SchematicsDrawer.Shapes
             P = p;
             StartPoint = new Point(x, y);
             ShapeSize = new Size(20 , 20);
-            Draw();
+            _zoomFactor = zoomFactor;
+            //Draw();
+        }
+
+        public GateShape(Gate gate, Point dPoint, float zoomFactor, PictureBox box, PaintEventArgs p)
+        {
+            _gate = gate;
+            P = p;
+            StartPoint = dPoint;
+            ShapeSize = new Size(20, 20);
+            _zoomFactor = zoomFactor;
+            //Draw();
+            
         }
 
         /// <summary>

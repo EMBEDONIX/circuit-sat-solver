@@ -18,15 +18,15 @@ namespace SatSolver.SchematicsDrawer
     public partial class ShematicControl : MetroUserControl
     {
         //minimum space from left side of box
-        private const int MinDistanceFromLeft = 20;
+        private const int MinDistanceFromLeft = 50;
         //minimum space from top side of box
-        private const int MinDistanceFromTop = 20;
+        private const int MinDistanceFromTop = 50;
         private float _zoomFactor = 1;
         private int _spaceBetweenGates = 20;
 
         private Circuit _circuit;
-        private List<GateShape> _drawnGates;
-        private Point _drawingPoint = new Point(MinDistanceFromLeft, MinDistanceFromTop);
+        private List<GateShape> _drawnShapes;
+        private Point _dPoint = new Point(MinDistanceFromLeft, MinDistanceFromTop);
 
         public ShematicControl()
         {
@@ -34,24 +34,26 @@ namespace SatSolver.SchematicsDrawer
 
             Debug.WriteLine("_zoomFactor is now " + _zoomFactor);
 
+            //Pain event
             box.Paint += Draw; //draw grid
 
+            //capture focus when mouse enters in box
             box.MouseEnter += (sender, args) => { box.Focus(); };
 
+            //Handle zoom using mouse wheel
             box.MouseWheel += (sender, args) =>
             { 
                 if (args.Delta > 0)
                 {
-                    _zoomFactor += 0.1f;
+                    _zoomFactor += 0.2f;
                 } 
                 else
                 {
-                    _zoomFactor -= 0.1f;
+                    _zoomFactor -= 0.2f;
                 }
 
                 if (_zoomFactor <= 0)
-                    _zoomFactor = 1f;
-               
+                    _zoomFactor = 1f; 
 
                 Debug.WriteLine("_zoomFactor is now " + _zoomFactor);
             };
@@ -61,7 +63,7 @@ namespace SatSolver.SchematicsDrawer
         {
             p.Graphics.ScaleTransform(_zoomFactor, _zoomFactor);
 
-            _drawingPoint = new Point(MinDistanceFromLeft, MinDistanceFromTop);
+            _dPoint = new Point(MinDistanceFromLeft, MinDistanceFromTop);
             DrawGrid(p);
             if (_circuit != null && _circuit.GetGatesCount() > 0)
             {
@@ -73,7 +75,7 @@ namespace SatSolver.SchematicsDrawer
 
         private void DrawNetConnections(PaintEventArgs p)
         {   
-            GateShape[] shapes = _drawnGates.ToArray();
+            GateShape[] shapes = _drawnShapes.ToArray();
             GateShape cs; //current shape
             GateShape ns = null; //next shape
             Gate cg; //current gate
@@ -144,46 +146,118 @@ namespace SatSolver.SchematicsDrawer
 
         private void DrawCircuit(PaintEventArgs p)
         {
-            _drawnGates = new List<GateShape>();
+            GateShape shape = null;
+            //space between gates both vertical and horizontal
+            _spaceBetweenGates = 30;
+            //after each gate is drawn its shape should go in this list for further use!
+            _drawnShapes = new List<GateShape>();
             //keep trak of how many gates are drawn in x axis, if near left side of
             //the control, move to next line!
             float spaceTaken = MinDistanceFromLeft;
             //keep track of how many rows are drawn so far
             int rowsTaken = 1;
-            int newHeight = _drawingPoint.Y;
 
-            _spaceBetweenGates = 30;
-
-            Gate[] gates = _circuit.GetGates().ToArray();
-            for (int i = 0; i < gates.Length; i++)
+            //First of all, the input gates must be drawn in a column
+            var inGates = _circuit.GetInputGates();
+            for (int i = 0; i < inGates.Count; i++)
             {
-                var gate = gates[i];
-                //construct shape object for each gate
-                GateShape shape = new GateShape(gate, _drawingPoint.X, newHeight, _zoomFactor, box, p);
+                //GateShape shape = new GateShape(inGates[i], _dPoint.X, _dPoint.Y, _zoomFactor, box, p);
+                shape = new GateShape(inGates[i], _dPoint, _zoomFactor, box, p);
                 shape.Draw();
+                _drawnShapes.Add(shape);
 
-                //calculate positon of next gate
-
-                spaceTaken += (shape.GetDrawingRectangle().Width + _spaceBetweenGates);
-
-
-                if (spaceTaken >
-                    box.Width - (_spaceBetweenGates - shape.GetDrawingRectangle().Width)*p.Graphics.PageScale)
-                {
-                    //move to new row
-                    rowsTaken++;
-                    newHeight = (rowsTaken*MinDistanceFromTop) + ((rowsTaken - 1)*shape.GetDrawingRectangle().Height);
-
-                    _drawingPoint = new Point(MinDistanceFromLeft, newHeight);
-                    spaceTaken = MinDistanceFromLeft;
-                }
-                else
-                    _drawingPoint =
-                        new Point((_drawingPoint.X += _spaceBetweenGates) + shape.GetDrawingRectangle().Width,
-                            newHeight);
-
-                 _drawnGates.Add(shape);
+                _dPoint.Y += _spaceBetweenGates;
             }
+
+            //now draw output gate!
+            var outGate = _circuit.GetOutputGate();                                    
+            //but we need to check how many middle gates do we have to make enoughspace
+            var mgc = _circuit.GetMiddleGates().Count;
+            if (mgc == 0) //if there are no middle gates!
+                mgc = 1; //just not to screw up calculation
+            //worst case scenario is when all middle gates go in one row! so we take that for now :P
+            _dPoint.X += (_spaceBetweenGates * (mgc * 2)) + (_drawnShapes.FirstOrDefault().GetDrawingRectangle().Width * mgc);
+            _dPoint.Y = MinDistanceFromTop;
+            shape = new GateShape(outGate, _dPoint, _zoomFactor, box, p);
+            shape.Draw();
+            _drawnShapes.Add(shape);                                     
+
+
+            //move draw point to next column
+            _dPoint.X = MinDistanceFromLeft + _spaceBetweenGates + _drawnShapes.FirstOrDefault().GetDrawingRectangle().Width;
+            _dPoint.Y = MinDistanceFromTop;
+
+            //now we need to know how manny middle gate we have
+            //we need to copy by value this time!
+            var midGates = new List<Gate>(_circuit.GetMiddleGates());
+            //if we have any
+            //draw them! 
+            //TODO draw based on net connection with input gates and respective other middle gates!
+            //start by the gates that are connected to the input gates
+            while (midGates.Count != 0)
+            {
+                for (int i = 0; i < midGates.Count; i++)
+                {
+                    for (int j = 0; j < _drawnShapes.Count; j++)
+                    {
+                        int id = _drawnShapes[j].GetAssignedGate().GetOutputNet().Id;
+                        if (midGates[i].GetInputNets().Any(net => net.Id == id))
+                        {
+                            shape = new GateShape(midGates[i], _dPoint, _zoomFactor, box, p);
+                            shape.Draw();
+                            _drawnShapes.Add(shape);
+                            _dPoint.Y += _spaceBetweenGates;
+                            midGates.RemoveAt(i);
+                        }
+
+                        //The last remaining middle shape should be connected to the output gate's inputs!!!
+                        if (midGates.Count == 1)
+                        {
+                            shape = new GateShape(midGates[0], _dPoint, _zoomFactor, box, p);
+                            shape.Draw();
+                            _drawnShapes.Add(shape); 
+                            midGates.Clear();
+                            break;
+                        }
+                    }
+                    
+                }
+            }
+
+
+
+
+
+            //Gate[] gates = _circuit.GetGates().ToArray();
+            //for (int i = 0; i < gates.Length; i++)
+            //{
+            //    var gate = gates[i];
+            //    //construct shape object for each gate
+            //    GateShape shape = new GateShape(gate, _dPoint.X, newHeight, _zoomFactor, box, p);
+            //    shape.Draw();
+
+            //    //calculate positon of next gate
+
+            //    spaceTaken += (shape.GetDrawingRectangle().Width + _spaceBetweenGates);
+
+
+            //    if (spaceTaken >
+            //        box.Width - (_spaceBetweenGates - shape.GetDrawingRectangle().Width)*p.Graphics.PageScale)
+            //    {
+            //        //move to new row
+            //        rowsTaken++;
+            //        newHeight = (rowsTaken*MinDistanceFromTop) + ((rowsTaken - 1)*shape.GetDrawingRectangle().Height);
+
+            //        _dPoint = new Point(MinDistanceFromLeft, newHeight);
+            //        spaceTaken = MinDistanceFromLeft;
+            //    }
+            //    else
+            //        _dPoint =
+            //            new Point((_dPoint.X += _spaceBetweenGates) + shape.GetDrawingRectangle().Width,
+            //                newHeight);
+
+            //     _drawnShapes.Add(shape);
+            //}
         }
 
         private void DrawGrid(PaintEventArgs p)
@@ -229,9 +303,14 @@ namespace SatSolver.SchematicsDrawer
         public void SetCircuit(Circuit circuit, int treeId)
         {   
             _circuit = circuit;
-            _drawnGates = new List<GateShape>();
+            _drawnShapes = new List<GateShape>();
 
             box.Invalidate();
+        }
+
+        private void box_Click(object sender, EventArgs e)
+        {
+            box.Focus();
         }
 
     }

@@ -42,6 +42,7 @@
             this.box.Size = new System.Drawing.Size(621, 381);
             this.box.TabIndex = 0;
             this.box.TabStop = false;
+            this.box.Click += new System.EventHandler(this.box_Click);
             // 
             // ShematicControl
             // 

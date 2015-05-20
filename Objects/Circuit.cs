@@ -181,13 +181,19 @@ namespace SatSolver.Objects
             if (_middleGates == null || _middleGates.Count == 0)
             {
                 _middleGates = new List<Gate>();
-
+              
                 foreach (var gate in _gates)
                 {
-                        if(_inputGates.Contains(gate) || _outputGate == gate)
-                            continue;
-                        else
-                            _middleGates.Add(gate);
+                    bool shouldAdd = true;
+
+                    foreach (var net in gate.GetAllNets())
+                    {
+                        if (net.HasName())
+                            shouldAdd = false;
+                    }
+
+                    if(shouldAdd)
+                        _middleGates.Add(gate);
                 }
             }
 
