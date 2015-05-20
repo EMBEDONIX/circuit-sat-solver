@@ -85,8 +85,7 @@ namespace SatSolver.Objects
 
             //Assignements are done!
             _gatesAssignedToNets = true;
-        }
-
+        }  
 
         /// <summary>
         /// Get the file name which this circuit is generated from

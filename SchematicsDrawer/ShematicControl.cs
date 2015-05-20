@@ -17,6 +17,10 @@ namespace SatSolver.SchematicsDrawer
 {
     public partial class ShematicControl : MetroUserControl
     {
+        //keyboard!
+        private bool _keyControllPressed;
+
+
         //minimum space from left side of box
         private const int MinDistanceFromLeft = 50;
         //minimum space from top side of box
@@ -42,20 +46,41 @@ namespace SatSolver.SchematicsDrawer
 
             //Handle zoom using mouse wheel
             box.MouseWheel += (sender, args) =>
-            { 
-                if (args.Delta > 0)
+            {
+                if (_keyControllPressed)
                 {
-                    _zoomFactor += 0.2f;
-                } 
-                else
+                    if (args.Delta > 0)
+                    {
+                        _zoomFactor += 0.2f;
+                    }
+                    else
+                    {
+                        _zoomFactor -= 0.2f;
+                    }
+
+                    if (_zoomFactor <= 0)
+                        _zoomFactor = 1f;
+
+                    Debug.WriteLine("_zoomFactor is now " + _zoomFactor);
+                }
+            };
+
+            box.KeyDown += ShematicControl_KeyDown;
+            box.KeyUp += ShematicControl_KeyUp;
+
+            //To prevent box from repainting itself while panel 
+            //is being scrolled by mousewheel
+            panel.MouseWheel += (sender, e) =>
+            {
+
+                box.SuspendDrawing(panel);
+                if (_keyControllPressed)
                 {
-                    _zoomFactor -= 0.2f;
+                    ((HandledMouseEventArgs) e).Handled = true;
                 }
 
-                if (_zoomFactor <= 0)
-                    _zoomFactor = 1f; 
-
-                Debug.WriteLine("_zoomFactor is now " + _zoomFactor);
+                box.ResumeDrawing(panel);
+                
             };
         }
 
@@ -69,8 +94,7 @@ namespace SatSolver.SchematicsDrawer
             {
                 DrawCircuit(p);
                 DrawNetConnections(p);
-            }
-
+            } 
         }
 
         private void DrawNetConnections(PaintEventArgs p)
@@ -84,7 +108,7 @@ namespace SatSolver.SchematicsDrawer
             for (int i = 0; i < shapes.Length - 1; i++)
             {
 
-                Pen pen = new Pen(Color.Red, 2);
+                Pen pen = new Pen(Color.Red, 0.2f);
                 pen.ScaleTransform(_zoomFactor, _zoomFactor);
                 pen.Brush = new SolidBrush(Color.Green);
                 
@@ -308,10 +332,37 @@ namespace SatSolver.SchematicsDrawer
             box.Invalidate();
         }
 
-        private void box_Click(object sender, EventArgs e)
+        private void panel_Paint(object sender, PaintEventArgs e)
         {
-            box.Focus();
+            //box.Invalidate(); //redraw picturebox
         }
 
+        private void ShematicControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (sender != null)
+            {
+                if (sender == box)
+                {
+                    _keyControllPressed = true;
+#if DEBUG
+                    Debug.WriteLine("KeyDown '" + e.KeyCode + "' in PictureBox");
+#endif
+                }
+            }
+        }
+
+        private void ShematicControl_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (sender != null)
+            {
+                if (sender == box)
+                {
+                    _keyControllPressed = false;
+#if DEBUG
+                    Debug.WriteLine("KeyUp '" + e.KeyCode + "' in PictureBox");
+#endif
+                }
+            }
+        }
     }
 }

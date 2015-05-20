@@ -28,30 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.box = new System.Windows.Forms.PictureBox();
+            this.panel = new System.Windows.Forms.Panel();
+            this.box = new SchematicBox();
+            this.panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.box)).BeginInit();
             this.SuspendLayout();
             // 
+            // panel
+            // 
+            this.panel.AutoScroll = true;
+            this.panel.Controls.Add(this.box);
+            this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel.Location = new System.Drawing.Point(0, 0);
+            this.panel.Name = "panel";
+            this.panel.Size = new System.Drawing.Size(628, 531);
+            this.panel.TabIndex = 0;
+            this.panel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Paint);
+            // 
             // box
             // 
-            this.box.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.box.Location = new System.Drawing.Point(4, 4);
+            this.box.Location = new System.Drawing.Point(3, 3);
             this.box.Name = "box";
-            this.box.Size = new System.Drawing.Size(621, 381);
-            this.box.TabIndex = 0;
+            this.box.Size = new System.Drawing.Size(5000, 5000);
+            this.box.TabIndex = 1;
             this.box.TabStop = false;
-            this.box.Click += new System.EventHandler(this.box_Click);
             // 
             // ShematicControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.box);
+            this.AutoScroll = true;
+            this.Controls.Add(this.panel);
             this.Name = "ShematicControl";
             this.Size = new System.Drawing.Size(628, 531);
             this.Load += new System.EventHandler(this.ShematicControl_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ShematicControl_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ShematicControl_KeyUp);
+            this.panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.box)).EndInit();
             this.ResumeLayout(false);
 
@@ -59,6 +72,8 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox box;
+        private System.Windows.Forms.Panel panel;
+        private SchematicBox box;
+
     }
 }

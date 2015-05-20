@@ -73,7 +73,7 @@ namespace SatSolver.SchematicsDrawer.Shapes
             Debug.WriteLine("Drawing gate '" + _gate.GetGateType() + "' with symbol '" + _gate.GetSymbol() + "'");
             #endif
 
-            Pen pen = new Pen(Color.Red);
+            Pen pen = new Pen(Color.Red, 3);
             DrawingRect = new Rectangle(StartPoint.X, StartPoint.Y, ShapeSize.Width, ShapeSize.Height);
             P.Graphics.DrawRectangle(pen, DrawingRect);
 

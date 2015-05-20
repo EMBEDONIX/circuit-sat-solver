@@ -46,6 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SchematicBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Shapes\GateShape.cs" />
     <Compile Include="ShematicControl.cs">
       <SubType>UserControl</SubType>

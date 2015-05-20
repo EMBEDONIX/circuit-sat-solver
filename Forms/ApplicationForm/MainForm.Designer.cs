@@ -36,8 +36,8 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPages = new MetroFramework.Controls.MetroTabControl();
             this.tabSchematic = new MetroFramework.Controls.MetroTabPage();
-            this.tabSolution = new MetroFramework.Controls.MetroTabPage();
             this.schematicControl = new SatSolver.SchematicsDrawer.ShematicControl();
+            this.tabSolution = new MetroFramework.Controls.MetroTabPage();
             this.netControl2 = new SatSolver.UserInterface.CustomControls.SatTreeControl();
             this.netControl1 = new SatSolver.UserInterface.CustomControls.SatTreeControl();
             this.menuStrip1.SuspendLayout();
@@ -121,6 +121,16 @@
             this.tabSchematic.VerticalScrollbarHighlightOnWheel = false;
             this.tabSchematic.VerticalScrollbarSize = 10;
             // 
+            // schematicControl
+            // 
+            this.schematicControl.AutoScroll = true;
+            this.schematicControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.schematicControl.Location = new System.Drawing.Point(0, 0);
+            this.schematicControl.Name = "schematicControl";
+            this.schematicControl.Size = new System.Drawing.Size(456, 615);
+            this.schematicControl.TabIndex = 2;
+            this.schematicControl.UseSelectable = true;
+            // 
             // tabSolution
             // 
             this.tabSolution.HorizontalScrollbarBarColor = true;
@@ -134,15 +144,6 @@
             this.tabSolution.VerticalScrollbarBarColor = true;
             this.tabSolution.VerticalScrollbarHighlightOnWheel = false;
             this.tabSolution.VerticalScrollbarSize = 10;
-            // 
-            // schematicControl
-            // 
-            this.schematicControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.schematicControl.Location = new System.Drawing.Point(0, 0);
-            this.schematicControl.Name = "schematicControl";
-            this.schematicControl.Size = new System.Drawing.Size(456, 615);
-            this.schematicControl.TabIndex = 2;
-            this.schematicControl.UseSelectable = true;
             // 
             // netControl2
             // 
@@ -173,6 +174,7 @@
             this.Controls.Add(this.netControl2);
             this.Controls.Add(this.netControl1);
             this.Controls.Add(this.menuStrip1);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "SAT Solver";
