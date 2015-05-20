@@ -19,9 +19,9 @@ namespace SatSolver.SchematicsDrawer.Shapes
         /// </summary>
         private float _zoomFactor = 1;
 
-        private Point StartPoint { get; set; }
-        private Size ShapeSize { get; set; }
-        private Rectangle DrawingRect { get; set; }
+        private PointF StartPoint { get; set; }
+        private SizeF ShapeSize { get; set; }
+        private RectangleF DrawingRect { get; set; }
 
         private Bitmap _imageBuffer;
 
@@ -50,12 +50,13 @@ namespace SatSolver.SchematicsDrawer.Shapes
             //Draw();
         }
 
-        public GateShape(Gate gate, Point dPoint, float zoomFactor, PictureBox box, PaintEventArgs p)
+        public GateShape(Gate gate, PointF dPoint, float zoomFactor, PictureBox box, PaintEventArgs p)
         {
             _gate = gate;
             P = p;
             StartPoint = dPoint;
-            ShapeSize = new Size(20, 20);
+            ShapeSize = new SizeF(20 + (20 * _zoomFactor), 20 + (20 * _zoomFactor));
+            
             _zoomFactor = zoomFactor;
             //Draw();
             
@@ -73,9 +74,24 @@ namespace SatSolver.SchematicsDrawer.Shapes
             Debug.WriteLine("Drawing gate '" + _gate.GetGateType() + "' with symbol '" + _gate.GetSymbol() + "'");
             #endif
 
-            Pen pen = new Pen(Color.Red, 3);
-            DrawingRect = new Rectangle(StartPoint.X, StartPoint.Y, ShapeSize.Width, ShapeSize.Height);
-            P.Graphics.DrawRectangle(pen, DrawingRect);
+            Color color;
+            if (_gate.IsTopLevelGate())
+            {
+                color = Color.Blue;
+            }
+            else if (_gate.IsLastOutputGate())
+            {
+                color = Color.Blue;
+            }
+            else
+            {
+                color = Color.Red; //for middle gates
+            }
+
+
+            Pen pen = new Pen(color, 3);
+            DrawingRect = new RectangleF(StartPoint.X, StartPoint.Y, ShapeSize.Width, ShapeSize.Height);
+            P.Graphics.DrawRectangle(pen, DrawingRect.X, DrawingRect.Y, DrawingRect.Width, DrawingRect.Height);
 
             StringFormat sf = new StringFormat
             {
@@ -101,14 +117,14 @@ namespace SatSolver.SchematicsDrawer.Shapes
             return this;
         }
 
-        public Rectangle GetDrawingRectangle()
+        public RectangleF GetDrawingRectangle()
         {
             return DrawingRect;
         }
 
-        public Point GetTopRight()
+        public PointF GetTopRight()
         {
-            return new Point(DrawingRect.Width, DrawingRect.Top);
+            return new PointF(DrawingRect.Width, DrawingRect.Top);
         }
 
         public Gate GetAssignedGate()

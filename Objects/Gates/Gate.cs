@@ -44,7 +44,7 @@ namespace SatSolver.Objects.Gates
         /// Set the output <see cref="Net"/> of this gate
         /// </summary>
         /// <param name="net"><see cref="Net"/> to be set as output of this gate</param>
-        public void SetOutputSignal(Net net)
+        public void SetOutputNet(Net net)
         {
             _outNet = net;
         }
@@ -138,9 +138,7 @@ namespace SatSolver.Objects.Gates
         public Net GetOutputNet()
         {
             return _outNet;
-        }
-
-
+        } 
         
         /// <summary>
         /// Gets the string which represents the gate symbol
@@ -154,7 +152,16 @@ namespace SatSolver.Objects.Gates
         /// <returns></returns>
         public bool IsTopLevelGate()
         {
-            return _inNets.All(net => net.HasName());
+            return _inNets.Any(net => net.HasName());
+        }
+
+        /// <summary>
+        /// Check if the output of a gate is named, then its the master output
+        /// </summary>
+        /// <returns></returns>
+        public bool IsLastOutputGate()
+        {
+            return _outNet.HasName();
         }
     }
 }

@@ -30,7 +30,7 @@ namespace SatSolver.SchematicsDrawer
 
         private Circuit _circuit;
         private List<GateShape> _drawnShapes;
-        private Point _dPoint = new Point(MinDistanceFromLeft, MinDistanceFromTop);
+        private PointF _dPoint = new Point(MinDistanceFromLeft, MinDistanceFromTop);
 
         public ShematicControl()
         {
@@ -108,7 +108,7 @@ namespace SatSolver.SchematicsDrawer
             for (int i = 0; i < shapes.Length - 1; i++)
             {
 
-                Pen pen = new Pen(Color.Red, 0.2f);
+                Pen pen = new Pen(Color.Red, 0.8f);
                 pen.ScaleTransform(_zoomFactor, _zoomFactor);
                 pen.Brush = new SolidBrush(Color.Green);
                 
@@ -213,75 +213,104 @@ namespace SatSolver.SchematicsDrawer
 
             //now we need to know how manny middle gate we have
             //we need to copy by value this time!
-            var midGates = new List<Gate>(_circuit.GetMiddleGates());
-            //if we have any
-            //draw them! 
-            //TODO draw based on net connection with input gates and respective other middle gates!
-            //start by the gates that are connected to the input gates
-            while (midGates.Count != 0)
-            {
-                for (int i = 0; i < midGates.Count; i++)
-                {
-                    for (int j = 0; j < _drawnShapes.Count; j++)
-                    {
-                        int id = _drawnShapes[j].GetAssignedGate().GetOutputNet().Id;
-                        if (midGates[i].GetInputNets().Any(net => net.Id == id))
-                        {
-                            shape = new GateShape(midGates[i], _dPoint, _zoomFactor, box, p);
-                            shape.Draw();
-                            _drawnShapes.Add(shape);
-                            _dPoint.Y += _spaceBetweenGates;
-                            midGates.RemoveAt(i);
-                        }
+            var midGates =_circuit.GetMiddleGates();
+            var mgCount = midGates.Count;
+            //Now find the gates that are connected to the input gates
+            //and repeat this for the gates in next column
 
-                        //The last remaining middle shape should be connected to the output gate's inputs!!!
-                        if (midGates.Count == 1)
+            //do this untill count of middle gates is 0 
+            //in each itteration one gate willbe drawnand this cound will decrease
+            while (mgCount > 0)
+            {
+                //see
+                var drawnGates = _drawnShapes.Select(t => t.GetAssignedGate()).ToArray();
+                
+                List<Gate> matchGates = new List<Gate>();
+                for (int i = 0; i < drawnGates.Length; i++)
+                {
+                    Gate drawnGate = drawnGates[i];
+                    
+                    //TODO using midGates here is a performance hit....fix this ASAP because it itterase over all
+                    foreach (var gate in midGates)
+                    {
+                        //if already drawn, skip!
+                        //if (_drawnShapes.Any(x => x.GetAssignedGate().Equals(gate)))
+                        //    continue;
+
+                        if (gate.GetInputNets().Any(x => x.Id == drawnGate.GetOutputNet().Id))
                         {
-                            shape = new GateShape(midGates[0], _dPoint, _zoomFactor, box, p);
-                            shape.Draw();
-                            _drawnShapes.Add(shape); 
-                            midGates.Clear();
-                            break;
+                            matchGates.Add(gate);
                         }
                     }
-                    
+
+                    //if found any gates
+                    if (matchGates.Count > 0)
+                    {
+
+                        MoveDrawerPointToNextColumnOfAShape(_drawnShapes[i]);
+
+                        //draw gate(s)
+                        foreach (var gate in matchGates)
+                        {                                                  
+                                shape = new GateShape(gate, _dPoint, _zoomFactor, box, p);
+                                shape.Draw();           
+                                _drawnShapes.Add(shape);
+                                MoveDrawerPointToNextColumnOfAShape(shape);
+                        }
+
+                        //decrement while condition
+                        mgCount -= matchGates.Count;
+                    }
+
+                    //clear the list of matched gates for next itteration!
+                    matchGates.Clear();
                 }
             }
 
+            
 
+            
 
-
-
-            //Gate[] gates = _circuit.GetGates().ToArray();
-            //for (int i = 0; i < gates.Length; i++)
+            ////if we have any
+            ////draw them! 
+            ////TODO draw based on net connection with input gates and respective other middle gates!
+            ////start by the gates that are connected to the input gates
+            //while (midGates.Count != 0)
             //{
-            //    var gate = gates[i];
-            //    //construct shape object for each gate
-            //    GateShape shape = new GateShape(gate, _dPoint.X, newHeight, _zoomFactor, box, p);
-            //    shape.Draw();
-
-            //    //calculate positon of next gate
-
-            //    spaceTaken += (shape.GetDrawingRectangle().Width + _spaceBetweenGates);
-
-
-            //    if (spaceTaken >
-            //        box.Width - (_spaceBetweenGates - shape.GetDrawingRectangle().Width)*p.Graphics.PageScale)
+            //    for (int i = 0; i < midGates.Count; i++)
             //    {
-            //        //move to new row
-            //        rowsTaken++;
-            //        newHeight = (rowsTaken*MinDistanceFromTop) + ((rowsTaken - 1)*shape.GetDrawingRectangle().Height);
+            //        for (int j = 0; j < _drawnShapes.Count; j++)
+            //        {
+            //            int id = _drawnShapes[j].GetAssignedGate().GetOutputNet().Id;
+            //            if (midGates[i].GetInputNets().Any(net => net.Id == id))
+            //            {
+            //                shape = new GateShape(midGates[i], _dPoint, _zoomFactor, box, p);
+            //                shape.Draw();
+            //                _drawnShapes.Add(shape);
+            //                _dPoint.Y += _spaceBetweenGates;
+            //                midGates.RemoveAt(i);
+            //            }
 
-            //        _dPoint = new Point(MinDistanceFromLeft, newHeight);
-            //        spaceTaken = MinDistanceFromLeft;
+            //            //The last remaining middle shape should be connected to the output gate's inputs!!!
+            //            if (midGates.Count == 1)
+            //            {
+            //                shape = new GateShape(midGates[0], _dPoint, _zoomFactor, box, p);
+            //                shape.Draw();
+            //                _drawnShapes.Add(shape); 
+            //                midGates.Clear();
+            //                break;
+            //            }
+            //        }
+                    
             //    }
-            //    else
-            //        _dPoint =
-            //            new Point((_dPoint.X += _spaceBetweenGates) + shape.GetDrawingRectangle().Width,
-            //                newHeight);
+            //}   
+        }
 
-            //     _drawnShapes.Add(shape);
-            //}
+        private void MoveDrawerPointToNextColumnOfAShape(GateShape shape)
+        {
+            _dPoint.X = shape.GetDrawingRectangle().X 
+            + (shape.GetDrawingRectangle().Width * 2) + _spaceBetweenGates;
+            _dPoint.Y = shape.GetDrawingRectangle().Y  +  shape.GetDrawingRectangle().Height;
         }
 
         private void DrawGrid(PaintEventArgs p)

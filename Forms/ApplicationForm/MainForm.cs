@@ -38,7 +38,8 @@ namespace SatSolver.UserInterface.ApplicationForm
             };
 
             #if DEBUG
-            netControl1.LoadNetListFromFile(@"D:\WORK\SatSolver\Forms\SampleNetlists\xor2_nand.net");
+            //netControl1.LoadNetListFromFile(@"D:\WORK\SatSolver\Forms\SampleNetlists\xor2_nand.net");
+            netControl1.LoadNetListFromFile(@"D:\WORK\SatSolver\Forms\SampleNetlists\adder4.net");
             #endif
         }
 

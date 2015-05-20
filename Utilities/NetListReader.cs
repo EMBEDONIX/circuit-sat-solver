@@ -29,7 +29,7 @@ namespace SatSolver.Utilities
             int numNets;
             char[] delimiterChars = { ' ', ',', '.', ':', '\t' };
             Dictionary<string, int> inputs = new Dictionary<string, int>();
-            Dictionary<string, int> outpus = new Dictionary<string, int>();
+            Dictionary<string, int> outputs = new Dictionary<string, int>();
 
 
             var counter = 0;
@@ -93,7 +93,7 @@ namespace SatSolver.Utilities
                     inputs.Add(name, net);          
 
                 if (outputNames.Contains(data[1]))
-                    outpus.Add(name, net );                      
+                    outputs.Add(name, net );                      
             }
             
             /*
@@ -165,7 +165,7 @@ namespace SatSolver.Utilities
                         //get 2 inputs
                         for (int j = 1; j <= gate.GetCountOfInputsRequired(); j++)
                         {
-                            //get input net 1
+                            //get inputs
                             id = Convert.ToInt32(data[j]);
                             name = inputs.Where(x => x.Value == id).FirstOrDefault().Key;
                             net = !string.IsNullOrWhiteSpace(name) ? new Net(name, id) : new Net(id);
@@ -175,9 +175,13 @@ namespace SatSolver.Utilities
 
                         //get 1 output
                         id = Convert.ToInt32(data[3]);
-                        name = inputs.Where(x => x.Value == id).FirstOrDefault().Key;
+                        if (id == 49)
+                        {
+                            var shit = "cool!";
+                        }
+                        name = outputs.Where(x => x.Value == id).FirstOrDefault().Key;
                         net = !string.IsNullOrWhiteSpace(name) ? new Net(name, id) : new Net(id);
-                        gate.SetOutputSignal(net);
+                        gate.SetOutputNet(net);
 
                         circuit.AddGate(gate);
                         break;
@@ -220,9 +224,9 @@ namespace SatSolver.Utilities
 
                         //get 1 output
                         id = Convert.ToInt32(data[2]);
-                        name = outpus.Where(x => x.Value == id).FirstOrDefault().Key;
+                        name = outputs.Where(x => x.Value == id).FirstOrDefault().Key;
                         net = !string.IsNullOrWhiteSpace(name) ? new Net(name, id) : new Net(id);
-                        gate.SetOutputSignal(net);
+                        gate.SetOutputNet(net);
 
                         circuit.AddGate(gate);
 
