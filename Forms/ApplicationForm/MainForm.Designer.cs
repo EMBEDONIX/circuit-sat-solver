@@ -32,6 +32,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openNetList1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openNetList2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.solveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPages = new MetroFramework.Controls.MetroTabControl();
@@ -40,9 +41,11 @@
             this.tabSolution = new MetroFramework.Controls.MetroTabPage();
             this.netControl2 = new SatSolver.UserInterface.CustomControls.SatTreeControl();
             this.netControl1 = new SatSolver.UserInterface.CustomControls.SatTreeControl();
+            this.tbDebug = new MetroFramework.Controls.MetroTextBox();
             this.menuStrip1.SuspendLayout();
             this.tabPages.SuspendLayout();
             this.tabSchematic.SuspendLayout();
+            this.tabSolution.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -60,6 +63,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openNetList1ToolStripMenuItem,
             this.openNetList2ToolStripMenuItem,
+            this.solveToolStripMenuItem,
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -79,6 +83,13 @@
             this.openNetList2ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openNetList2ToolStripMenuItem.Text = "Open NetList &2";
             this.openNetList2ToolStripMenuItem.Click += new System.EventHandler(this.openNetList2ToolStripMenuItem_Click);
+            // 
+            // solveToolStripMenuItem
+            // 
+            this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
+            this.solveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.solveToolStripMenuItem.Text = "&Solve";
+            this.solveToolStripMenuItem.Click += new System.EventHandler(this.solveToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -101,7 +112,7 @@
             this.tabPages.Controls.Add(this.tabSolution);
             this.tabPages.Location = new System.Drawing.Point(537, 88);
             this.tabPages.Name = "tabPages";
-            this.tabPages.SelectedIndex = 0;
+            this.tabPages.SelectedIndex = 1;
             this.tabPages.Size = new System.Drawing.Size(464, 657);
             this.tabPages.TabIndex = 3;
             this.tabPages.UseSelectable = true;
@@ -133,6 +144,7 @@
             // 
             // tabSolution
             // 
+            this.tabSolution.Controls.Add(this.tbDebug);
             this.tabSolution.HorizontalScrollbarBarColor = true;
             this.tabSolution.HorizontalScrollbarHighlightOnWheel = false;
             this.tabSolution.HorizontalScrollbarSize = 10;
@@ -165,6 +177,21 @@
             this.netControl1.TabIndex = 1;
             this.netControl1.UseSelectable = true;
             // 
+            // tbDebug
+            // 
+            this.tbDebug.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbDebug.Lines = new string[0];
+            this.tbDebug.Location = new System.Drawing.Point(0, 0);
+            this.tbDebug.MaxLength = 65535;
+            this.tbDebug.Multiline = true;
+            this.tbDebug.Name = "tbDebug";
+            this.tbDebug.PasswordChar = '\0';
+            this.tbDebug.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.tbDebug.SelectedText = "";
+            this.tbDebug.Size = new System.Drawing.Size(456, 615);
+            this.tbDebug.TabIndex = 2;
+            this.tbDebug.UseSelectable = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -183,6 +210,7 @@
             this.menuStrip1.PerformLayout();
             this.tabPages.ResumeLayout(false);
             this.tabSchematic.ResumeLayout(false);
+            this.tabSolution.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -202,7 +230,8 @@
         private MetroFramework.Controls.MetroTabPage tabSchematic;
         private MetroFramework.Controls.MetroTabPage tabSolution;
         private SchematicsDrawer.ShematicControl schematicControl;
-
+        private System.Windows.Forms.ToolStripMenuItem solveToolStripMenuItem;
+        private MetroFramework.Controls.MetroTextBox tbDebug;
     }
 }
 

@@ -183,6 +183,22 @@ namespace SatSolver.SchematicsDrawer
 
             //First of all, the input gates must be drawn in a column
             var inGates = _circuit.GetInputGates();
+
+            //special case if the circuit only has 1 gate!
+            if (_circuit.GetGatesCount() == 1)
+            {
+                //GateShape shape = new GateShape(inGates[i], _dPoint.X, _dPoint.Y, _zoomFactor, box, p);
+                shape = new GateShape(_circuit.GetGates().FirstOrDefault(), _dPoint, _zoomFactor, box, p);
+                shape.Draw();
+                _drawnShapes.Add(shape);
+
+                _dPoint.Y += _spaceBetweenGates;
+
+                return;
+            }
+
+
+
             for (int i = 0; i < inGates.Count; i++)
             {
                 //GateShape shape = new GateShape(inGates[i], _dPoint.X, _dPoint.Y, _zoomFactor, box, p);

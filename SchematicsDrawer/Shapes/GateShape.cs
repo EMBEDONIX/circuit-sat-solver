@@ -12,7 +12,7 @@ namespace SatSolver.SchematicsDrawer.Shapes
     public sealed class GateShape
     {
         private readonly Gate _gate;
-        private readonly PaintEventArgs P;
+        private readonly PaintEventArgs _p;
 
         /// <summary>
         /// Ratio of painted objects compared to the container size
@@ -29,12 +29,12 @@ namespace SatSolver.SchematicsDrawer.Shapes
         /// <summary>
         /// Color of the shape
         /// </summary>
-        protected Color ShapeColor;
+        public Color ShapeColor;
 
         /// <summary>
         /// Type of the gate to draw
         /// </summary>
-        protected GateType GateType;
+        public GateType GateType;
 
         public PointF PortInA {get; private set;}
         public PointF PortInB { get; private set; }
@@ -43,7 +43,7 @@ namespace SatSolver.SchematicsDrawer.Shapes
         public GateShape(Gate gate, int x, int y, float zoomFactor, PictureBox box, PaintEventArgs p)
         {
             _gate = gate;
-            P = p;
+            _p = p;
             StartPoint = new Point(x, y);
             ShapeSize = new Size(20 , 20);
             _zoomFactor = zoomFactor;
@@ -53,7 +53,7 @@ namespace SatSolver.SchematicsDrawer.Shapes
         public GateShape(Gate gate, PointF dPoint, float zoomFactor, PictureBox box, PaintEventArgs p)
         {
             _gate = gate;
-            P = p;
+            _p = p;
             StartPoint = dPoint;
             ShapeSize = new SizeF(20 + (20 * _zoomFactor), 20 + (20 * _zoomFactor));
             
@@ -91,7 +91,7 @@ namespace SatSolver.SchematicsDrawer.Shapes
 
             Pen pen = new Pen(color, 3);
             DrawingRect = new RectangleF(StartPoint.X, StartPoint.Y, ShapeSize.Width, ShapeSize.Height);
-            P.Graphics.DrawRectangle(pen, DrawingRect.X, DrawingRect.Y, DrawingRect.Width, DrawingRect.Height);
+            _p.Graphics.DrawRectangle(pen, DrawingRect.X, DrawingRect.Y, DrawingRect.Width, DrawingRect.Height);
 
             StringFormat sf = new StringFormat
             {
@@ -99,7 +99,7 @@ namespace SatSolver.SchematicsDrawer.Shapes
                 LineAlignment = StringAlignment.Center
             };
             using(Font font = new Font(FontFamily.GenericMonospace, 8))
-            P.Graphics.DrawString(_gate.GetSymbol(), font, Brushes.Black, DrawingRect, sf);
+            _p.Graphics.DrawString(_gate.GetSymbol(), font, Brushes.Black, DrawingRect, sf);
 
             if (_gate.IsSingleInput())
             {

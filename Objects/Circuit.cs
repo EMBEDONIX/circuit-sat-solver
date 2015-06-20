@@ -28,10 +28,12 @@ namespace SatSolver.Objects
             _gates.Add(gate);
         }
 
+
+        //TODO move this method to the Circuit object
         /// <summary>
         /// Assigns gates to nets (input and output nets)
         /// </summary>
-        public void AssignGatesToNets()
+        private void AssignGatesToNets()
         {
             //itterate over all gates
             for (int i = 0; i < _gates.Count; i++)

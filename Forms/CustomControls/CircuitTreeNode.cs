@@ -36,6 +36,11 @@ namespace SatSolver.UserInterface.CustomControls
             _hasData = true;
         }
 
+        /// <summary>
+        /// Constructor for Circuit node
+        /// </summary>
+        /// <param name="textToShow"></param>
+        /// <param name="treeViewContainer"></param>
         public CircuitTreeNode(string textToShow, NetListTreeView treeViewContainer) 
             : base(NodeType.Default, treeViewContainer)
         {

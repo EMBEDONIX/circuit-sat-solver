@@ -163,5 +163,32 @@ namespace SatSolver.Objects.Gates
         {
             return _outNet.HasName();
         }
+
+        //returns CNF of this gate
+        public List<List<int>> GetCnf()
+        {
+            List<List<int>> cnf = new List<List<int>>();
+            
+            foreach (var i in _inNets)
+            {
+                 cnf.Add(new List<int>()
+                 {
+                    i.Id,
+                    -(_outNet.Id)
+                });
+            }
+
+            if (_inNets.Count == 2)
+            {
+                cnf.Add(new List<int>()
+                {
+                    -(_inNets[0].Id),
+                    -(_inNets[1].Id),
+                    _outNet.Id
+                });
+            }
+
+            return cnf;
+        }
     }
 }

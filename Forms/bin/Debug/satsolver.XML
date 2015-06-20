@@ -36,13 +36,6 @@
             An abstract implementation of TreeNode which is used in this application
             </summary>
         </member>
-        <member name="M:SatSolver.UserInterface.CustomControls.BaseTreeNode.#ctor(SatSolver.UserInterface.CustomControls.NodeType,System.Windows.Forms.TreeView)">
-            <summary>
-            
-            </summary>
-            <param name="nodeType"></param>
-            <param name="containerTreeView"></param>
-        </member>
         <member name="P:SatSolver.UserInterface.CustomControls.BaseTreeNode.NodeType">
             <summary>
             Type of the Node
@@ -52,6 +45,35 @@
             <summary>
             The <see cref="T:System.Windows.Forms.TreeView"/> which will host this node
             </summary>
+        </member>
+        <member name="M:SatSolver.UserInterface.CustomControls.BaseTreeNode.#ctor(SatSolver.UserInterface.CustomControls.NodeType,System.Windows.Forms.TreeView)">
+            <summary>
+            
+            </summary>
+            <param name="nodeType"></param>
+            <param name="containerTreeView"></param>
+        </member>
+        <member name="T:SatSolver.UserInterface.CustomControls.CircuitLoadedEventArgs">
+            <summary>
+            Event Arguments when a circuit is loaded in <see cref="T:SatSolver.UserInterface.CustomControls.NetListTreeView"/>
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.CustomControls.CircuitLoadedEventArgs.Circuit">
+            <summary>
+            The <see cref="P:SatSolver.UserInterface.CustomControls.CircuitLoadedEventArgs.Circuit"/> which is loaded
+            </summary>
+        </member>
+        <member name="P:SatSolver.UserInterface.CustomControls.CircuitLoadedEventArgs.TreeId">
+            <summary>
+            Id of the <see cref="T:SatSolver.UserInterface.CustomControls.NetListTreeView"/> that loaded the <see cref="P:SatSolver.UserInterface.CustomControls.CircuitLoadedEventArgs.Circuit"/>
+            </summary>
+        </member>
+        <member name="M:SatSolver.UserInterface.CustomControls.CircuitLoadedEventArgs.#ctor(SatSolver.Objects.Circuit,System.Int32)">
+            <summary>
+            Construct a circuit load event arguments
+            </summary>
+            <param name="circuit"></param>
+            <param name="id"></param>
         </member>
         <member name="T:SatSolver.UserInterface.CustomControls.GateTreeNode">
             <summary>
@@ -63,6 +85,11 @@
             Drived from <see cref="T:System.Windows.Forms.TreeNode"/> to help maintaining <see cref="T:SatSolver.UserInterface.CustomControls.NetListTreeView"/>
             </summary>
         </member>
+        <member name="P:SatSolver.UserInterface.CustomControls.CircuitTreeNode.Circuit">
+            <summary>
+            The <see cref="P:SatSolver.UserInterface.CustomControls.CircuitTreeNode.Circuit"/> that will be used as data in this node
+            </summary>
+        </member>
         <member name="M:SatSolver.UserInterface.CustomControls.CircuitTreeNode.#ctor(SatSolver.Objects.Circuit,System.Windows.Forms.TreeView)">
             <summary>
             Constructor
@@ -71,9 +98,16 @@
             <param name="netListTreeView"></param>
             <param name="treeViewContainer">The TreeView that this node is going to be inside it</param>
         </member>
-        <member name="P:SatSolver.UserInterface.CustomControls.CircuitTreeNode.Circuit">
+        <member name="M:SatSolver.UserInterface.CustomControls.CircuitTreeNode.#ctor(System.String,SatSolver.UserInterface.CustomControls.NetListTreeView)">
             <summary>
-            The <see cref="P:SatSolver.UserInterface.CustomControls.CircuitTreeNode.Circuit"/> that will be used as data in this node
+            Constructor for Circuit node
+            </summary>
+            <param name="textToShow"></param>
+            <param name="treeViewContainer"></param>
+        </member>
+        <member name="P:SatSolver.UserInterface.CustomControls.NetListTreeView.LastSelectedNode">
+            <summary>
+            The last TreeNode which was selected by user
             </summary>
         </member>
         <member name="M:SatSolver.UserInterface.CustomControls.NetListTreeView.#ctor">
@@ -86,11 +120,6 @@
             Add
             </summary>
             <param name="circuit"></param>
-        </member>
-        <member name="P:SatSolver.UserInterface.CustomControls.NetListTreeView.LastSelectedNode">
-            <summary>
-            The last TreeNode which was selected by user
-            </summary>
         </member>
         <member name="M:SatSolver.UserInterface.CustomControls.SatTreeControl.Clean">
             <summary>
