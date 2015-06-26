@@ -20,5 +20,15 @@ namespace SatSolver.Objects.Gates
         {
             return "1";
         }
+
+        public override CNF GetCnf(int offset)
+        {
+            if (_lastCnfOffset == offset && _cnf != null)
+                return _cnf;
+
+            _lastCnfOffset = offset;
+
+            return null;
+        }
     }
 }

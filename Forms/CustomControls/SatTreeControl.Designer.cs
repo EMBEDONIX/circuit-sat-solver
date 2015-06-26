@@ -1,4 +1,6 @@
-﻿namespace SatSolver.UserInterface.CustomControls
+﻿using System.Windows.Forms;
+
+namespace SatSolver.UserInterface.CustomControls
 {
     partial class SatTreeControl
     {
@@ -28,32 +30,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBoxInfo = new MetroFramework.Controls.MetroTextBox();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.labelControlName = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.browseForNetlist = new System.Windows.Forms.ToolStripButton();
             this.expandNodes = new System.Windows.Forms.ToolStripButton();
             this.collapseNodes = new System.Windows.Forms.ToolStripButton();
+            this.textBoxInfo = new System.Windows.Forms.TextBox();
             this.treeView = new SatSolver.UserInterface.CustomControls.NetListTreeView();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // textBoxInfo
-            // 
-            this.textBoxInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.textBoxInfo.Lines = new string[0];
-            this.textBoxInfo.Location = new System.Drawing.Point(0, 481);
-            this.textBoxInfo.MaxLength = 32767;
-            this.textBoxInfo.Multiline = true;
-            this.textBoxInfo.Name = "textBoxInfo";
-            this.textBoxInfo.PasswordChar = '\0';
-            this.textBoxInfo.ReadOnly = true;
-            this.textBoxInfo.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.textBoxInfo.SelectedText = "";
-            this.textBoxInfo.Size = new System.Drawing.Size(181, 120);
-            this.textBoxInfo.TabIndex = 1;
-            this.textBoxInfo.UseSelectable = true;
             // 
             // toolStrip
             // 
@@ -114,6 +100,15 @@
             this.collapseNodes.Text = "Collapse Nodes";
             this.collapseNodes.Click += new System.EventHandler(this.collapseNodes_Click);
             // 
+            // textBoxInfo
+            // 
+            this.textBoxInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.textBoxInfo.Location = new System.Drawing.Point(0, 481);
+            this.textBoxInfo.Multiline = true;
+            this.textBoxInfo.Name = "textBoxInfo";
+            this.textBoxInfo.Size = new System.Drawing.Size(181, 120);
+            this.textBoxInfo.TabIndex = 3;
+            // 
             // treeView
             // 
             this.treeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -129,8 +124,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.textBoxInfo);
+            this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.treeView);
             this.Name = "SatTreeControl";
             this.Size = new System.Drawing.Size(181, 601);
@@ -144,14 +139,12 @@
         #endregion
 
         private NetListTreeView treeView;
-        private MetroFramework.Controls.MetroTextBox textBoxInfo;
-        private System.Windows.Forms.ToolStrip toolStrip;
-        private System.Windows.Forms.ToolStripButton browseForNetlist;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton expandNodes;
         private System.Windows.Forms.ToolStripButton collapseNodes;
-        private System.Windows.Forms.ToolStripLabel labelControlName;
-
-
+        private TextBox textBoxInfo;
+        protected ToolStripButton browseForNetlist;
+        protected ToolStrip toolStrip;
+        protected ToolStripLabel labelControlName;
     }
 }

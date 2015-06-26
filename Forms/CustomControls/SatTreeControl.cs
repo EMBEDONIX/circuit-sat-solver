@@ -20,6 +20,7 @@ namespace SatSolver.UserInterface.CustomControls
         public Circuit Circuit { get; private set; }
         private MainForm _mainForm;
         private ImageList _imageList;
+        private int _offset;
 
         public event EventHandler<CircuitLoadedEventArgs> CircuitLoaded;
 
@@ -29,7 +30,6 @@ namespace SatSolver.UserInterface.CustomControls
             if (handler != null)
                 handler(this, e);
         }
-        
 
         public SatTreeControl()
         {
@@ -163,7 +163,7 @@ namespace SatSolver.UserInterface.CustomControls
 
             if (File.Exists(pathToFile))
             {
-                NetListReader reader = new NetListReader(pathToFile);
+                NetListReader reader = new NetListReader(pathToFile, _offset);
                 try
                 {
                     circuit = reader.GenerateCircuit();
@@ -184,6 +184,16 @@ namespace SatSolver.UserInterface.CustomControls
             {
                 AddCircuit(circuit);
             }
+        }
+
+        public void SetNetIdOffset(int getHighestNetId)
+        {
+            _offset = getHighestNetId;
+        }
+
+        public void ExpandAll()
+        {
+            treeView.ExpandAll();
         }
     }
 }

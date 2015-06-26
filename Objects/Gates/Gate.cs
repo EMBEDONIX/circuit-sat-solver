@@ -11,6 +11,16 @@ namespace SatSolver.Objects.Gates
         protected GateType _type;
         protected List<Net> _inNets;
         protected Net _outNet;
+        protected CNF _cnf;
+        protected int _lastCnfOffset;
+        private bool _isFinalMiterOutput;
+
+        public bool IsFinalMiterOutput
+        {
+            get { return _isFinalMiterOutput; }
+            set { _isFinalMiterOutput = value; }
+        }
+
 
         /// <summary>
         /// Protected constructor
@@ -20,7 +30,7 @@ namespace SatSolver.Objects.Gates
         {
             _type = type;
             _inNets = new List<Net>();
-        }                                         
+        }
 
         /// <summary>
         /// Add a <see cref="Net"/> to list of input nets for this gate
@@ -36,6 +46,15 @@ namespace SatSolver.Objects.Gates
                                     " have been assigned with an input net. Can not add another net to this type" +
                                     " of gate");
             }
+
+            //Secomnd check if this gate is 2 input and inputs are already set!
+            if (_inNets.Count == 2)
+            {
+                throw new Exception("Error: This gate is '" + Helpers.GetEnumDescription(_type) + "' and it has already" +
+                                    " have been assigned with an input net. Can not add another net to this type" +
+                                    " of gate");
+            }
+
 
             _inNets.Add(net);
         }
@@ -165,30 +184,6 @@ namespace SatSolver.Objects.Gates
         }
 
         //returns CNF of this gate
-        public List<List<int>> GetCnf()
-        {
-            List<List<int>> cnf = new List<List<int>>();
-            
-            foreach (var i in _inNets)
-            {
-                 cnf.Add(new List<int>()
-                 {
-                    i.Id,
-                    -(_outNet.Id)
-                });
-            }
-
-            if (_inNets.Count == 2)
-            {
-                cnf.Add(new List<int>()
-                {
-                    -(_inNets[0].Id),
-                    -(_inNets[1].Id),
-                    _outNet.Id
-                });
-            }
-
-            return cnf;
-        }
+        public abstract CNF GetCnf(int offset = 0);
     }
 }

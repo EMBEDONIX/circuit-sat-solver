@@ -92,6 +92,12 @@
     <Compile Include="CustomControls\NetListTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomControls\SatMiterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\SatMiterControl.Designer.cs">
+      <DependentUpon>SatMiterControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomControls\SatTreeControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

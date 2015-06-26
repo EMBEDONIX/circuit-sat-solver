@@ -9,23 +9,62 @@ namespace SatSolver.Objects
 {
     public class Circuit
     {
-        private bool _gatesAssignedToNets;
-        private List<Gate> _gates;
-        private List<Gate> _inputGates;
-        private List<Gate> _middleGates;
-        private Gate _outputGate;
-        private string _file;
+        protected bool _gatesAssignedToNets;
+        protected List<Gate> _gates;
+        protected List<Gate> _inputGates;
+        protected List<Gate> _middleGates;
+        protected Gate _outputGate;
+        protected string _file;
+        protected int _offset;
 
+
+        public Circuit(string file, int offset)
+        {
+            _offset = offset;
+            _gates = new List<Gate>();
+            _file = file;
+        }
 
         public Circuit(string file)
         {
+            _offset = 0;
             _gates = new List<Gate>();
             _file = file;
+        }
+
+        internal void AddGate(Gate gate, int offset)
+        {
+            foreach (var net in gate.GetAllNets())
+            {
+                net.Id += offset;
+            }
+
+            _gates.Add(gate);
+        }
+
+        public Circuit()
+        {
+            _gates = new List<Gate>();
+            _file = "MITER CIRCUIT";
         }
 
         public void AddGate(Gate gate)
         {
             _gates.Add(gate);
+        }
+
+        public int GetHighestNetId()
+        {
+            int max = Int32.MinValue;
+            foreach (var gate in _gates)
+            {
+                foreach (var net in gate.GetAllNets())
+                {
+                    max = Math.Max(max, net.Id);
+                }
+            }
+
+            return max;
         }
 
 
@@ -202,6 +241,11 @@ namespace SatSolver.Objects
 
 
 
+        }
+
+        public Gate GetFinalOrGateId()
+        {
+            return _gates.Where(gate => gate.GetGateType() == GateType.Or).FirstOrDefault(gate => gate.IsFinalMiterOutput);
         }
     }
 }

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MetroFramework.Forms;
+using SatSolver.Objects;
 using SatSolver.Objects.Gates;
 using SatSolver.UserInterface.CustomControls;
 
@@ -14,7 +16,10 @@ namespace SatSolver.UserInterface.ApplicationForm
     /// 
     /// </summary>
     public partial class MainForm : MetroForm
-    {          
+    {
+        private Circuit _circuitA, _circuitB, _circuitM;
+        
+
         /// <summary>
         /// Default Constructor for the MainForm
         /// </summary>
@@ -37,15 +42,46 @@ namespace SatSolver.UserInterface.ApplicationForm
 
             netControl1.CircuitLoaded += (o, args) =>
             {
-               schematicControl.SetCircuit(args.Circuit, args.TreeId);
+                _circuitA = args.Circuit;
+               netControl2.SetNetIdOffset(netControl1.Circuit.GetHighestNetId());
             };
 
-            #if DEBUG
-            //netControl1.LoadNetListFromFile(@"D:\WORK\SatSolver\Forms\SampleNetlists\xor2_nand.net");
-            netControl1.LoadNetListFromFile(@"D:\WORK\SatSolver\Forms\SampleNetlists\xor2_nand.net");
-            netControl2.LoadNetListFromFile(@"D:\WORK\SatSolver\Forms\SampleNetlists\xor2_nand_wrong.net");
+            netControl2.CircuitLoaded += (o, args) =>
+            {
+                _circuitB = args.Circuit;
+
+                try
+                {
+                    _circuitM = new MiterCircuit(_circuitA, _circuitB);
+                }
+                catch (Exception exc)
+                {
+                    AddLine(exc.Message, 0);
+                }
+                miterControl.AddCircuit(_circuitM);
+                schematicControl.SetCircuit(_circuitM, args.TreeId);
+
+            };
+
+            miterControl.CircuitLoaded += (o, args) =>
+            {
+                solveToolStripMenuItem.PerformClick();
+                netControl1.ExpandAll();
+                netControl2.ExpandAll();
+                miterControl.ExpandAll();
+
+            };
+
+
+
+
+#if DEBUG
+            netControl1.LoadNetListFromFile(@"D:\WORK\SatSolver\Forms\SampleNetlists\test1.net");
+            netControl2.LoadNetListFromFile(@"D:\WORK\SatSolver\Forms\SampleNetlists\test2.net");
 #endif
         }
+
+
 
         private void solveToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -55,25 +91,38 @@ namespace SatSolver.UserInterface.ApplicationForm
                 return;
             }
 
-            var c1 = netControl1.Circuit;
-            var c2 = netControl1.Circuit;
-
             AddLine("Solving...", 0);
             AddLine("Net 1 Count: " + netControl1.Circuit.GetGatesCount(), 1);
             AddLine("Net 2 Count: " + netControl2.Circuit.GetGatesCount(), 1);
-
-            List<CNF> cnf = new List<CNF>();
-
-            foreach (var gate in c1.GetGates())
+            
+            List<CNF> cnf1 = _circuitA.GetGates().Select(gate => gate.GetCnf()).ToList();
+            List<CNF> cnf2 = _circuitB.GetGates().Select(gate => gate.GetCnf()).ToList();
+            List<CNF> cnft = _circuitM.GetGates().Select(gate => gate.GetCnf()).ToList();
+            //TODO this is a hack...and shity OO programing...I should take care of this asap!!!
+            cnft.Add(new CNF(new List<List<int>> {new List<int>() {_circuitM.GetFinalOrGateId().GetOutputNet().Id}}));
+            
+                
+            AddLine("CNF 1", 2);
+            foreach (var cnf in cnf1)
             {
-                cnf.Add(new CNF(gate.GetCnf()));
-            }
-
-            foreach (var cnf1 in cnf)
-            {
-                AddLine(cnf1.ToString(), 2);
+                AddLine(cnf.ToString(), 3);
             }
             
+            AddLine("", 0);
+
+            AddLine("CNF 2", 2);
+            foreach (var cnf in cnf2)
+            {
+                AddLine(cnf.ToString(), 3);
+            }
+
+            AddLine("", 0);
+
+            AddLine("MITER CNF", 2);
+            foreach (var cnf in cnft)
+            {
+                AddLine(cnf.ToString(), 3);
+            }
         }
 
         private void AddLine(string line, int level)
@@ -84,66 +133,6 @@ namespace SatSolver.UserInterface.ApplicationForm
                 indent += "  ";
             }
             tbDebug.AppendText(indent + line + Environment.NewLine);
-        }
-
-        ///// <summary>
-        /////  http://stackoverflow.com/questions/3718380/winforms-double-buffering
-        ///// </summary>
-        //protected override CreateParams CreateParams
-        //{
-        //    get
-        //    {
-        //        CreateParams cp = base.CreateParams;
-        //        cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
-        //        return cp;
-        //    }
-        //}
-    }
-
-    //TODO move this to a file later
-    public class CNF
-    {
-        public List<List<int>> HAHA;
-
-        public CNF(List<List<int>> haha)
-        {
-            HAHA = haha;
-        }
-
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-
-            sb.Append("{");
-            for (int i = 0; i < HAHA.Count; i++)
-            {
-                sb.Append("{");
-
-                for (int j = 0; j < HAHA[i].Count; j++)
-                {
-                    sb.Append(HAHA[i][j]);
-                    if (j != HAHA[i].Count - 1)
-                    {
-                        sb.Append(",");
-                    }
-
-                }
-
-
-                if (i == HAHA.Count - 1)
-                {
-                    sb.Append("}");
-                }
-                else
-                {
-                    sb.Append("},");
-                }
-                
-            }
-
-            sb.Append("}");
-
-            return sb.ToString();
         }
     }
 }

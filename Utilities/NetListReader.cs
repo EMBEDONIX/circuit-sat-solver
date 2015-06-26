@@ -12,14 +12,25 @@ namespace SatSolver.Utilities
     /// </summary>
     public class NetListReader
     {
-
+        private int _netOffset;
         private string _file;
+
         /// <summary>
         ///     Constructor for NetListReader
         /// </summary>
         /// <param name="netListFile">Path to the file to read</param>
         public NetListReader(string pathToFile)
         {
+            _file = pathToFile;
+        }
+
+        /// <summary>
+        ///     Constructor for NetListReader
+        /// </summary>
+        /// <param name="netListFile">Path to the file to read</param>
+        public NetListReader(string pathToFile, int offset)
+        {
+            _netOffset = offset;
             _file = pathToFile;
         }
 
@@ -237,7 +248,19 @@ namespace SatSolver.Utilities
                         throw new InvalidNetListFileException("Can not identify gate name", _file, i);
 
                 }
-            } 
+            }
+
+            //apply offset to net ids!
+            if (_netOffset > 0)
+            {
+                foreach (var gate in circuit.GetGates())
+                {
+                    foreach (var net in gate.GetAllNets())
+                    {
+                        net.Id += _netOffset;
+                    }
+                }
+            }
 
             return circuit;
         }

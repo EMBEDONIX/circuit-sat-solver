@@ -9,7 +9,7 @@ namespace SatSolver.Objects.Gates
     public class Net
     {
         public string Name { get; private set; }
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         private Gate _inGate;
         private Gate _outGate;

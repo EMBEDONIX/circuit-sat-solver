@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel = new System.Windows.Forms.Panel();
-            this.box = new SchematicBox();
+            this.tooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.box = new SatSolver.SchematicsDrawer.SchematicBox();
             this.panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.box)).BeginInit();
             this.SuspendLayout();
@@ -44,6 +46,12 @@
             this.panel.Size = new System.Drawing.Size(628, 531);
             this.panel.TabIndex = 0;
             this.panel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Paint);
+            // 
+            // tooltip
+            // 
+            this.tooltip.AutoPopDelay = 5000;
+            this.tooltip.InitialDelay = 300;
+            this.tooltip.ReshowDelay = 100;
             // 
             // box
             // 
@@ -74,6 +82,6 @@
 
         private System.Windows.Forms.Panel panel;
         private SchematicBox box;
-
+        private System.Windows.Forms.ToolTip tooltip;
     }
 }

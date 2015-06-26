@@ -32,6 +32,10 @@ namespace SatSolver.SchematicsDrawer
         private List<GateShape> _drawnShapes;
         private PointF _dPoint = new Point(MinDistanceFromLeft, MinDistanceFromTop);
 
+        private const int _tooltipDuration = 2000;
+        private bool _tooltipShown;
+        private Timer _tooltipTimer;
+
         public ShematicControl()
         {
             InitializeComponent();
@@ -64,6 +68,47 @@ namespace SatSolver.SchematicsDrawer
                     Debug.WriteLine("_zoomFactor is now " + _zoomFactor);
                 }
             };
+
+            box.MouseMove += (sender, args) =>
+            {
+                if (_drawnShapes != null && _drawnShapes.Count > 0)
+                {
+                    var p = (PointF)args.Location;
+#if DEBUG
+                    Debug.WriteLine($"Mouse move on {args.X},{args.Y}");
+#endif
+                    foreach (var gate in _drawnShapes)
+                    {
+                        if (gate.GetDrawingRectangle().Contains(p))
+                        {
+                            //tooltip.RemoveAll();
+                            //this.Capture = true;
+                            if (!_tooltipShown)
+                            {
+                                if (_tooltipTimer != null)
+                                {
+                                    _tooltipTimer.Stop();
+                                }
+                                tooltip.RemoveAll();
+                                tooltip.Show(gate.GetAssignedGate().GetCnf(0).ToString(), this, (int) p.X + 5, (int) p.Y,
+                                    _tooltipDuration);
+                                _tooltipShown = true;
+
+                                _tooltipTimer = new Timer();
+                                _tooltipTimer.Interval = _tooltipDuration;
+                                _tooltipTimer.Tick += (o, eventArgs) =>
+                                {
+                                    _tooltipShown = false;
+                                };
+                                _tooltipTimer.Start();
+                            }
+                            return;
+                        }
+                    }
+
+                }
+            };
+
 
             box.KeyDown += ShematicControl_KeyDown;
             box.KeyUp += ShematicControl_KeyUp;
@@ -172,7 +217,7 @@ namespace SatSolver.SchematicsDrawer
         {
             GateShape shape = null;
             //space between gates both vertical and horizontal
-            _spaceBetweenGates = 30;
+            _spaceBetweenGates = 80;
             //after each gate is drawn its shape should go in this list for further use!
             _drawnShapes = new List<GateShape>();
             //keep trak of how many gates are drawn in x axis, if near left side of

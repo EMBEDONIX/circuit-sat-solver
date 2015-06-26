@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Circuit.cs" />
+    <Compile Include="CNF.cs" />
     <Compile Include="Gates\GateAnd.cs" />
     <Compile Include="Gates\GateAttribute.cs" />
     <Compile Include="Gates\Gate.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Gates\Net.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Gates\NetValue.cs" />
+    <Compile Include="MiterCircuit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
