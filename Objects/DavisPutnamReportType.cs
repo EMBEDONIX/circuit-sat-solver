@@ -8,7 +8,7 @@ namespace SatSolver.Objects
     public enum DpType
     {
         PerformingUnitClause,
-        FindingPureLiterals,
+        PerformingPureLiteralRule,
         RemovingUintClause,
         RemovingPureLiteral,
         SolutionFound,
@@ -16,7 +16,7 @@ namespace SatSolver.Objects
         OnlyMessage,
         RemovingClause,
         FindingRightMostVariable,
-        Backtracking,
+        PerformingBacktrack,
         FoundUnitClause,
         Starting
     }

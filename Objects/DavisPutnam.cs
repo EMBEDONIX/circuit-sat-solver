@@ -103,9 +103,19 @@ namespace SatSolver.Objects
                         //do pure literal rule
                         PerformPureLiteralRule();
 
+                        //PerformingBacktrack
+                        PerformBackTracking();
+
+                        //Check if solution found
+                        if (CheckIfSolutionIsFound())
+                        {
+                            
+                        }
+
+
                         //Countermeasure to forever going loop! lol!
                         loopCount++;
-                        if (loopCount > 6) //go to backtracking mode!
+                        if (loopCount > 610) //go to backtracking mode!
                         {
                             OnReport("Can not find any solution!", 1, DpType.Stopped);
                             _thread = null;
@@ -122,37 +132,73 @@ namespace SatSolver.Objects
             }
         }
 
+        private bool CheckIfSolutionIsFound()
+        {
+            var empty = true;
+            foreach (var list in _cnf.Data)
+            {
+                if (list.Count > 0)
+                {
+                    empty = false;
+                }
+            }
+
+            if (empty) //CNF is empty
+            {
+                OnReport("Solution is found!", 1, DpType.SolutionFound);
+                Stop();
+            }
+
+            return empty;
+        }
+
+        private void PerformBackTracking()
+        {
+            _currentVar = GetRightMostInCnf();
+            OnReport($"Performing Backtracking with variable {_currentVar}", 1, DpType.PerformingBacktrack);
+
+            OnReport($"Setting {_currentVar} to 0", 2, DpType.PerformingBacktrack);
+            SimplifyZero(_currentVar);
+        }
+
         private void PerformUnitClauseRule()
         {
             OnReport("Performing Unit Clause Rule", 1, DpType.PerformingUnitClause);
-
+            var unitClauses = new List<int>();
             //check all items in cnf and see if it has any list
             //which has only one item inside it, then it should be unit clause!
             for (int i = 0; i < _cnf.Data.Count; i++)
             {
                 if (_cnf.Data[i].Count == 1)
                 {
-                    _unitClauseList.Add(_cnf.Data[i][0]);
+                    unitClauses.Add(_cnf.Data[i][0]);
                     OnReport($"Found Unit Clause {_cnf.Data[i].DumpList()}", 
                         2, DpType.FoundUnitClause);
                 }
             }
 
-            for (int i = 0; i < _unitClauseList.Count; i++)
+            if (unitClauses.Count == 0)
             {
-                if (_unitClauseList[i] > 0)
+                OnReport("Can not find any Unit Clauses!", 
+                    2, DpType.PerformingUnitClause);
+                return;
+            }
+
+            for (int i = 0; i < unitClauses.Count; i++)
+            {
+                if (unitClauses[i] > 0)
                 {
-                    SimplifyOne(_unitClauseList[i]);
+                    SimplifyOne(unitClauses[i]);
                 }
                 else
                 {
-                    SimplifyZero(_unitClauseList[i]);
+                    SimplifyZero(unitClauses[i]);
                 }
 
-                _unitClauseList.Remove(_unitClauseList[i]);
+                _unitClauseList.Remove(unitClauses[i]);
 
                 //defensive !
-                if (i >= _unitClauseList.Count)
+                if (i >= unitClauses.Count)
                 {
                     break;
                 }
@@ -230,8 +276,10 @@ namespace SatSolver.Objects
         /// </summary>
         private void PerformPureLiteralRule()
         {
+            OnReport("Performing Pure Literal Rule", 1, DpType.PerformingPureLiteralRule);
+
             var onlyPositives = new List<int>();
-            var onlyNegated = new List<int>();
+            var onlyNegateds = new List<int>();
 
             //first find current existing variables
             GenerateCurrentExistingVariables();
@@ -247,19 +295,33 @@ namespace SatSolver.Objects
 
                 if (ExistOnlyInNegatedForm(_uid[i]))
                 {
-                    onlyNegated.Add(_uid[i]);
-                }
-
-                if (onlyPositives.Count > 0)
-                {
-                    
-                }
-
-                if (onlyNegated.Count > 0)
-                {
-                    
+                    onlyNegateds.Add(_uid[i]);
                 }
             }
+
+            if (onlyPositives.Count == 0 && onlyNegateds.Count == 0)
+            {
+                OnReport("Can not find any variable which exist only in positive or negated form!"
+                    , 2, DpType.PerformingPureLiteralRule);
+                return;
+            }
+
+            if (onlyPositives.Count > 0)
+            {
+                foreach (var p in onlyPositives)
+                {
+                        
+                }
+            }
+
+            if (onlyNegateds.Count > 0)
+            {
+                foreach (var n in onlyNegateds)
+                {
+
+                }
+            }
+            
         }
 
         private bool ExistOnlyInNegatedForm(int id)
@@ -336,7 +398,6 @@ namespace SatSolver.Objects
                     max = Math.Max(max, i);
                 }
             }
-            OnReport($"Right most variable is {max}", 2, DpType.FindingRightMostVariable);
             return max;
         }
 

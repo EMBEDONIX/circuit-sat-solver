@@ -113,26 +113,7 @@ namespace SatSolver.UserInterface.CustomControls
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                NetListReader reader = new NetListReader(ofd.FileName);
-                try
-                {
-                    circuit = reader.GenerateCircuit();
-                }
-                catch (InvalidNetListFileException inlfException)
-                {
-                    MessageBox.Show(inlfException.ToString(), "Invalid NetList File", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString(), "Critical Error", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-                }
-            }
-
-            if (circuit != null)
-            {
-                AddCircuit(circuit);
+                LoadNetListFromFile(ofd.FileName);
             }
         }
 

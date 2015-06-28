@@ -68,7 +68,6 @@ namespace SatSolver.UserInterface.ApplicationForm
 
             miterControl.CircuitLoaded += (o, args) =>
             {
-                //solveToolStripMenuItem.PerformClick();
                 netControl1.ExpandAll();
                 netControl2.ExpandAll();
                 miterControl.ExpandAll();
@@ -95,7 +94,7 @@ namespace SatSolver.UserInterface.ApplicationForm
                    {
                        case DpType.PerformingUnitClause:
                            break;
-                       case DpType.FindingPureLiterals:
+                       case DpType.PerformingPureLiteralRule:
                            break;
                        case DpType.Starting:
                        case DpType.RemovingUintClause:
@@ -112,7 +111,7 @@ namespace SatSolver.UserInterface.ApplicationForm
                            break;
                         case DpType.FindingRightMostVariable:
                             break;
-                        case DpType.Backtracking:
+                        case DpType.PerformingBacktrack:
                            break;
                         case DpType.FoundUnitClause:
                             break;
