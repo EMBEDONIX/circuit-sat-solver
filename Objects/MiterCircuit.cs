@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SatSolver.Objects.Gates;
@@ -70,6 +71,55 @@ namespace SatSolver.Objects
             }
 
             _gates = new List<Gate>(_miter.GetGates());
+        }
+
+        public override List<CNF> GetMitterForInputs()
+        {
+            List<CNF> cnfs = new List<CNF>();
+            List<Gate> inputGates =  new List<Gate>();
+            inputGates.AddRange(_circB.GetInputGates());
+            inputGates.AddRange(_circA.GetInputGates());
+
+            List<Net> inNets = new List<Net>();
+
+            foreach (var gate in inputGates)
+            {
+                inNets.AddRange(gate.GetInputNets());
+            }
+
+            List<int> netIds = new List<int>();
+
+            foreach (var inNet in inNets)
+            {
+                netIds.Add(inNet.Id);
+            }
+
+            var uid = netIds.Distinct();
+            
+            var shit = uid.ToList();
+            shit.Sort();
+            var f = shit;
+
+
+            if (inputGates.Count == 4)
+            {
+                List<List<int>> cnf = new List<List<int>>();
+
+                cnf.Add(new List<int> { -f[0], f[2] });
+                cnf.Add(new List<int> { f[0], -f[2] });
+
+                cnfs.Add(new CNF(cnf));
+
+                cnf = new List<List<int>>();
+
+                cnf.Add(new List<int> { -f[1], f[3] });
+                cnf.Add(new List<int> { f[1], -f[3] });
+
+                cnfs.Add(new CNF(cnf));
+
+            }
+
+            return cnfs;
         }
     }
 

@@ -1,19 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace SatSolver.Objects
 {
+    [Serializable]
     public class CNF
     {
         public List<List<int>> Data;
 
         public CNF()
         {
+            Data = new List<List<int>>();
         }
 
         public CNF(List<List<int>> data)
         {
             Data = data;
+        }
+
+        public void AddCnf(CNF cnf)
+        {
+            Data.AddRange(cnf.Data);
         }
 
         public override string ToString()
@@ -48,8 +56,14 @@ namespace SatSolver.Objects
             }
 
             sb.Append("}");
-
             return sb.ToString();
+        }
+
+        public List<string> ToStringAsLines()
+        {
+            var ret = new List<string>();
+            var str = this.ToString();
+            return ret;
         }
     }
 }

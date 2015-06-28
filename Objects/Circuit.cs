@@ -247,5 +247,12 @@ namespace SatSolver.Objects
         {
             return _gates.Where(gate => gate.GetGateType() == GateType.Or).FirstOrDefault(gate => gate.IsFinalMiterOutput);
         }
+
+        //TODO this is fucking bad OO design....but my deadline closes!
+        public virtual List<CNF> GetMitterForInputs()
+        {
+            return null;
+        }
+
     }
 }

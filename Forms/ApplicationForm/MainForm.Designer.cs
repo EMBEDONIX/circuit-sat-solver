@@ -34,11 +34,17 @@ namespace SatSolver.UserInterface.ApplicationForm
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openNetList1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openNetList2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.solveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toggleTreesVisibilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startSolvingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stopSolvingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.docmentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPages = new MetroFramework.Controls.MetroTabControl();
             this.tabSchematic = new MetroFramework.Controls.MetroTabPage();
             this.schematicControl = new SatSolver.SchematicsDrawer.ShematicControl();
@@ -64,10 +70,12 @@ namespace SatSolver.UserInterface.ApplicationForm
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.viewToolStripMenuItem});
+            this.viewToolStripMenuItem,
+            this.toolsToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(20, 60);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(984, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(861, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -76,7 +84,6 @@ namespace SatSolver.UserInterface.ApplicationForm
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openNetList1ToolStripMenuItem,
             this.openNetList2ToolStripMenuItem,
-            this.solveToolStripMenuItem,
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -96,13 +103,6 @@ namespace SatSolver.UserInterface.ApplicationForm
             this.openNetList2ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openNetList2ToolStripMenuItem.Text = "Open NetList &2";
             this.openNetList2ToolStripMenuItem.Click += new System.EventHandler(this.openNetList2ToolStripMenuItem_Click);
-            // 
-            // solveToolStripMenuItem
-            // 
-            this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
-            this.solveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.solveToolStripMenuItem.Text = "&Solve";
-            this.solveToolStripMenuItem.Click += new System.EventHandler(this.solveToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -131,6 +131,60 @@ namespace SatSolver.UserInterface.ApplicationForm
             this.toggleTreesVisibilityToolStripMenuItem.Text = "&Toggle Trees Visibility";
             this.toggleTreesVisibilityToolStripMenuItem.Click += new System.EventHandler(this.toggleTreesVisibilityToolStripMenuItem_Click);
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startSolvingToolStripMenuItem,
+            this.stopSolvingToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.toolsToolStripMenuItem.Text = "&Tools";
+            // 
+            // startSolvingToolStripMenuItem
+            // 
+            this.startSolvingToolStripMenuItem.Name = "startSolvingToolStripMenuItem";
+            this.startSolvingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.startSolvingToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.startSolvingToolStripMenuItem.Text = "&Start Solving";
+            this.startSolvingToolStripMenuItem.Click += new System.EventHandler(this.startSolvingToolStripMenuItem_Click);
+            // 
+            // stopSolvingToolStripMenuItem
+            // 
+            this.stopSolvingToolStripMenuItem.Name = "stopSolvingToolStripMenuItem";
+            this.stopSolvingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
+            this.stopSolvingToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.stopSolvingToolStripMenuItem.Text = "Sto&p Solving";
+            this.stopSolvingToolStripMenuItem.Click += new System.EventHandler(this.stopSolvingToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.docmentationToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
+            // 
+            // docmentationToolStripMenuItem
+            // 
+            this.docmentationToolStripMenuItem.Name = "docmentationToolStripMenuItem";
+            this.docmentationToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.docmentationToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.docmentationToolStripMenuItem.Text = "&Docmentation";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(166, 6);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.aboutToolStripMenuItem.Text = "&About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
             // tabPages
             // 
             this.tabPages.Controls.Add(this.tabSchematic);
@@ -138,8 +192,8 @@ namespace SatSolver.UserInterface.ApplicationForm
             this.tabPages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabPages.Location = new System.Drawing.Point(0, 0);
             this.tabPages.Name = "tabPages";
-            this.tabPages.SelectedIndex = 0;
-            this.tabPages.Size = new System.Drawing.Size(521, 664);
+            this.tabPages.SelectedIndex = 1;
+            this.tabPages.Size = new System.Drawing.Size(529, 774);
             this.tabPages.TabIndex = 3;
             this.tabPages.UseSelectable = true;
             // 
@@ -152,7 +206,7 @@ namespace SatSolver.UserInterface.ApplicationForm
             this.tabSchematic.Location = new System.Drawing.Point(4, 38);
             this.tabSchematic.Margin = new System.Windows.Forms.Padding(10);
             this.tabSchematic.Name = "tabSchematic";
-            this.tabSchematic.Size = new System.Drawing.Size(513, 622);
+            this.tabSchematic.Size = new System.Drawing.Size(521, 732);
             this.tabSchematic.TabIndex = 0;
             this.tabSchematic.Text = "Schematics";
             this.tabSchematic.VerticalScrollbarBarColor = true;
@@ -166,7 +220,7 @@ namespace SatSolver.UserInterface.ApplicationForm
             this.schematicControl.Location = new System.Drawing.Point(0, 0);
             this.schematicControl.Name = "schematicControl";
             this.schematicControl.Padding = new System.Windows.Forms.Padding(10);
-            this.schematicControl.Size = new System.Drawing.Size(513, 622);
+            this.schematicControl.Size = new System.Drawing.Size(521, 732);
             this.schematicControl.TabIndex = 2;
             this.schematicControl.UseSelectable = true;
             // 
@@ -178,7 +232,7 @@ namespace SatSolver.UserInterface.ApplicationForm
             this.tabSolution.HorizontalScrollbarSize = 10;
             this.tabSolution.Location = new System.Drawing.Point(4, 38);
             this.tabSolution.Name = "tabSolution";
-            this.tabSolution.Size = new System.Drawing.Size(554, 622);
+            this.tabSolution.Size = new System.Drawing.Size(521, 732);
             this.tabSolution.TabIndex = 1;
             this.tabSolution.Text = "Solution";
             this.tabSolution.VerticalScrollbarBarColor = true;
@@ -187,13 +241,16 @@ namespace SatSolver.UserInterface.ApplicationForm
             // 
             // tbDebug
             // 
+            this.tbDebug.BackColor = System.Drawing.Color.White;
             this.tbDebug.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbDebug.Location = new System.Drawing.Point(0, 0);
             this.tbDebug.Multiline = true;
             this.tbDebug.Name = "tbDebug";
+            this.tbDebug.ReadOnly = true;
             this.tbDebug.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbDebug.Size = new System.Drawing.Size(554, 622);
+            this.tbDebug.Size = new System.Drawing.Size(521, 732);
             this.tbDebug.TabIndex = 2;
+            this.tbDebug.WordWrap = false;
             // 
             // splitContainer
             // 
@@ -208,8 +265,8 @@ namespace SatSolver.UserInterface.ApplicationForm
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.tabPages);
-            this.splitContainer.Size = new System.Drawing.Size(984, 664);
-            this.splitContainer.SplitterDistance = 459;
+            this.splitContainer.Size = new System.Drawing.Size(861, 774);
+            this.splitContainer.SplitterDistance = 328;
             this.splitContainer.TabIndex = 4;
             // 
             // tableLayoutPanel
@@ -226,7 +283,7 @@ namespace SatSolver.UserInterface.ApplicationForm
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 1;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(459, 664);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(328, 774);
             this.tableLayoutPanel.TabIndex = 4;
             // 
             // netControl1
@@ -234,25 +291,25 @@ namespace SatSolver.UserInterface.ApplicationForm
             this.netControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.netControl1.Location = new System.Drawing.Point(3, 3);
             this.netControl1.Name = "netControl1";
-            this.netControl1.Size = new System.Drawing.Size(145, 658);
+            this.netControl1.Size = new System.Drawing.Size(102, 768);
             this.netControl1.TabIndex = 1;
             this.netControl1.UseSelectable = true;
             // 
             // miterControl
             // 
             this.miterControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.miterControl.Location = new System.Drawing.Point(305, 3);
+            this.miterControl.Location = new System.Drawing.Point(219, 3);
             this.miterControl.Name = "miterControl";
-            this.miterControl.Size = new System.Drawing.Size(151, 658);
+            this.miterControl.Size = new System.Drawing.Size(106, 768);
             this.miterControl.TabIndex = 3;
             this.miterControl.UseSelectable = true;
             // 
             // netControl2
             // 
             this.netControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.netControl2.Location = new System.Drawing.Point(154, 3);
+            this.netControl2.Location = new System.Drawing.Point(111, 3);
             this.netControl2.Name = "netControl2";
-            this.netControl2.Size = new System.Drawing.Size(145, 658);
+            this.netControl2.Size = new System.Drawing.Size(102, 768);
             this.netControl2.TabIndex = 2;
             this.netControl2.UseSelectable = true;
             // 
@@ -260,13 +317,14 @@ namespace SatSolver.UserInterface.ApplicationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1024, 768);
+            this.ClientSize = new System.Drawing.Size(901, 878);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.menuStrip1);
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
-            this.Text = "SAT Solver";
+            this.Text = "CIRCUIT SAT SOLVER";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -298,12 +356,18 @@ namespace SatSolver.UserInterface.ApplicationForm
         private MetroFramework.Controls.MetroTabPage tabSchematic;
         private MetroFramework.Controls.MetroTabPage tabSolution;
         private SchematicsDrawer.ShematicControl schematicControl;
-        private System.Windows.Forms.ToolStripMenuItem solveToolStripMenuItem;
         private SplitContainer splitContainer;
         private TableLayoutPanel tableLayoutPanel;
         private CustomControls.SatMiterControl miterControl;
         private ToolStripMenuItem viewToolStripMenuItem;
         private ToolStripMenuItem toggleTreesVisibilityToolStripMenuItem;
         private TextBox tbDebug;
+        private ToolStripMenuItem toolsToolStripMenuItem;
+        private ToolStripMenuItem startSolvingToolStripMenuItem;
+        private ToolStripMenuItem stopSolvingToolStripMenuItem;
+        private ToolStripMenuItem helpToolStripMenuItem;
+        private ToolStripMenuItem docmentationToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem aboutToolStripMenuItem;
     }
 }

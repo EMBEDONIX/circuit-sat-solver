@@ -74,9 +74,9 @@ namespace SatSolver.SchematicsDrawer
                 if (_drawnShapes != null && _drawnShapes.Count > 0)
                 {
                     var p = (PointF)args.Location;
-#if DEBUG
-                    Debug.WriteLine($"Mouse move on {args.X},{args.Y}");
-#endif
+//#if DEBUG
+//                    Debug.WriteLine($"Mouse move on {args.X},{args.Y}");
+//#endif
                     foreach (var gate in _drawnShapes)
                     {
                         if (gate.GetDrawingRectangle().Contains(p))

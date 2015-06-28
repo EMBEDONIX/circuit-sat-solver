@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Forms")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("CIRCUIT SAT SOLVER")]
+[assembly: AssemblyDescription("Saeid Yazdani")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Forms")]
+[assembly: AssemblyCompany("EMBEDONIX GmbH")]
+[assembly: AssemblyProduct("Circuit Sat Solver")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

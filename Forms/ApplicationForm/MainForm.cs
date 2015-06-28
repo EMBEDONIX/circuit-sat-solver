@@ -1,9 +1,11 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 using SatSolver.Objects;
@@ -18,7 +20,8 @@ namespace SatSolver.UserInterface.ApplicationForm
     public partial class MainForm : MetroForm
     {
         private Circuit _circuitA, _circuitB, _circuitM;
-        
+
+        private DavisPutnam _dp;
 
         /// <summary>
         /// Default Constructor for the MainForm
@@ -65,7 +68,7 @@ namespace SatSolver.UserInterface.ApplicationForm
 
             miterControl.CircuitLoaded += (o, args) =>
             {
-                solveToolStripMenuItem.PerformClick();
+                //solveToolStripMenuItem.PerformClick();
                 netControl1.ExpandAll();
                 netControl2.ExpandAll();
                 miterControl.ExpandAll();
@@ -81,52 +84,59 @@ namespace SatSolver.UserInterface.ApplicationForm
 #endif
         }
 
-
-
-        private void solveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DavisPutnamReport(object o, DavisPutnamEventArgs e)
         {
-            if (netControl1.Circuit == null || netControl2.Circuit == null)
-            {
-                MessageBox.Show("Please load both net lists!");
-                return;
-            }
+               tbDebug.BeginInvoke((Action)(() =>
+               {
 
-            AddLine("Solving...", 0);
-            AddLine("Net 1 Count: " + netControl1.Circuit.GetGatesCount(), 1);
-            AddLine("Net 2 Count: " + netControl2.Circuit.GetGatesCount(), 1);
+                   AddLine(e.Message, e.Level);
+
+                   switch (e.Type)
+                   {
+                       case DpType.PerformingUnitClause:
+                           break;
+                       case DpType.FindingPureLiterals:
+                           break;
+                       case DpType.Starting:
+                       case DpType.RemovingUintClause:
+                       case DpType.RemovingPureLiteral:
+                       case DpType.RemovingClause:
+                           ShowCnf(e.CurrentCnf, 0);
+                           break;
+
+                       case DpType.Stopped:
+                           break;
+                       case DpType.SolutionFound:
+                           break;
+                       case DpType.OnlyMessage:
+                           break;
+                        case DpType.FindingRightMostVariable:
+                            break;
+                        case DpType.Backtracking:
+                           break;
+                        case DpType.FoundUnitClause:
+                            break;
+
+                       default:
+                           throw new ArgumentOutOfRangeException();
+                   }
+                   
+               }));
             
-            List<CNF> cnf1 = _circuitA.GetGates().Select(gate => gate.GetCnf()).ToList();
-            List<CNF> cnf2 = _circuitB.GetGates().Select(gate => gate.GetCnf()).ToList();
-            List<CNF> cnft = _circuitM.GetGates().Select(gate => gate.GetCnf()).ToList();
-            //TODO this is a hack...and shity OO programing...I should take care of this asap!!!
-            cnft.Add(new CNF(new List<List<int>> {new List<int>() {_circuitM.GetFinalOrGateId().GetOutputNet().Id}}));
-            
-                
-            AddLine("CNF 1", 2);
-            foreach (var cnf in cnf1)
-            {
-                AddLine(cnf.ToString(), 3);
-            }
-            
-            AddLine("", 0);
-
-            AddLine("CNF 2", 2);
-            foreach (var cnf in cnf2)
-            {
-                AddLine(cnf.ToString(), 3);
-            }
-
-            AddLine("", 0);
-
-            AddLine("MITER CNF", 2);
-            foreach (var cnf in cnft)
-            {
-                AddLine(cnf.ToString(), 3);
-            }
         }
 
+        
+        private void ShowCnf(CNF cnf, int level = 0)
+        {
+            AddLine(string.Empty, 0);
+            AddLine(cnf.ToString(), level);
+            AddLine(string.Empty, 0);
+        }
+
+        private int _lineCounter = 0;
         private void AddLine(string line, int level)
         {
+            tbDebug.AppendText($"{++_lineCounter,5}" + " | ");
             var indent = "";
             for (int i = 0; i < level; i++)
             {
