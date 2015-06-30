@@ -104,8 +104,16 @@ namespace SatSolver.UserInterface.ApplicationForm
                            break;
 
                        case DpType.Stopped:
-                           break;
                        case DpType.SolutionFound:
+                           var dic = e.UsedValues.OrderBy(k => k.Key);
+                              PrintLine();
+                           PrintRow("NET", "VALUE");
+                           PrintLine();
+                           foreach (var vals in dic)
+                           {
+                               PrintRow(vals.Key.ToString(), Convert.ToInt32(vals.Value).ToString());
+                           }
+                           PrintLine();
                            break;
                        case DpType.OnlyMessage:
                            break;
@@ -142,6 +150,42 @@ namespace SatSolver.UserInterface.ApplicationForm
                 indent += "  ";
             }
             tbDebug.AppendText(indent + line + Environment.NewLine);
+        }
+
+
+        static int tableWidth = 77;
+
+        private void PrintLine()
+        {
+            
+         AddLine(new string('-', tableWidth), 1);
+        }
+
+        private void PrintRow(params string[] columns)
+        {
+            int width = (tableWidth - columns.Length) / columns.Length;
+            string row = "|";
+
+            foreach (string column in columns)
+            {
+                row += AlignCentre(column, width) + "|";
+            }
+
+            AddLine(row, 1);
+        }
+
+        private string AlignCentre(string text, int width)
+        {
+            text = text.Length > width ? text.Substring(0, width - 3) + "..." : text;
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return new string(' ', width);
+            }
+            else
+            {
+                return text.PadRight(width - (width - text.Length) / 2).PadLeft(width);
+            }
         }
     }
 }

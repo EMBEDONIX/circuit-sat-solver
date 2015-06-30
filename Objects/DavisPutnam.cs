@@ -13,9 +13,15 @@ namespace SatSolver.Objects
     /// </summary>
     public class DavisPutnam
     {
+        /* Public Methods */
 
-        public Object ThreadLocker = new object();
+        /// <summary>
+        /// By subscribing to this event, the class which initializes DavisPutnam class can 
+        /// listen to the events it generates during solving steps
+        /// </summary>
         public event EventHandler<DavisPutnamEventArgs> Report;
+
+        /* Private Methods */
 
         private Thread _thread; //thread to solve in it
         private bool _continue; //should the execution continue?
@@ -27,8 +33,11 @@ namespace SatSolver.Objects
         private int _varUnitClause = int.MinValue; //The Unit Clause variable
         private int _currentVar = int.MinValue; //to hold current variable which we are setting to 0 or 1
 
-        private CNF _backupCnfA; //to backup original CNF when setting a variable to 0
-        private CNF _backupCnfB; //to backup original CNF when setting a variable to 1
+        private CNF _cnfOne; //to backup original CNF when setting a variable to 0
+        private CNF _cnfZero; //to backup original CNF when setting a variable to 1
+
+        //Dictionaries to hold assignements to nets
+        private Dictionary<int, bool> _valsDicMain = new Dictionary<int, bool>();
 
         public DavisPutnam(CNF cnf)
         {
@@ -42,7 +51,7 @@ namespace SatSolver.Objects
             if (Report != null)
             {
                     
-                    Report(this, new DavisPutnamEventArgs(msg, lvl, _cnf.Clone(), type));
+                    Report(this, new DavisPutnamEventArgs(msg, lvl, _cnf.Clone(), type, _valsDicMain));
                     Thread.Sleep(10);
             }
         }
@@ -115,7 +124,7 @@ namespace SatSolver.Objects
 
                         //Countermeasure to forever going loop! lol!
                         loopCount++;
-                        if (loopCount > 610) //go to backtracking mode!
+                        if (loopCount > 6) //go to backtracking mode!
                         {
                             OnReport("Can not find any solution!", 1, DpType.Stopped);
                             _thread = null;
@@ -156,49 +165,94 @@ namespace SatSolver.Objects
         {
             _currentVar = GetRightMostInCnf();
             OnReport($"Performing Backtracking with variable {_currentVar}", 1, DpType.PerformingBacktrack);
+            
+            //prepare to divide cnf in 2 branches
+            var cnfBackup = _cnf.Clone();
+            _cnfOne = _cnfZero = new CNF();
+            _cnfOne = _cnf.Clone();
+            _cnfZero = _cnf.Clone();
+
+            //Do simplification with current value set to 1
+            OnReport($"Setting {_currentVar} to 1", 2, DpType.PerformingBacktrack);
+            _cnf = _cnfOne;
+            SimplifyOne(_currentVar);
 
             OnReport($"Setting {_currentVar} to 0", 2, DpType.PerformingBacktrack);
+            _cnf = _cnfZero;
             SimplifyZero(_currentVar);
+
+            //see wich simplification resulted in shorter CNF
+            var originalCount = cnfBackup.Data.SelectMany(list => list).Count(); 
+            var countOne = _cnfOne.Data.SelectMany(list => list).Count();
+            var countZero = _cnfOne.Data.SelectMany(list => list).Count();
+
+
+
+            if (countOne < originalCount)
+            {
+                _cnf = _cnfOne.Clone();
+                _valsDicMain.Add(Math.Abs(_currentVar), true);
+                OnReport($"{_currentVar} with value 1 resulted in smaller CNF", 2, DpType.PerformingBacktrack);
+            }
+            else if (countZero < originalCount)
+            {
+                _cnf = _cnfZero.Clone();
+                _valsDicMain.Add(Math.Abs(_currentVar), false);
+                OnReport($"{_currentVar} with value 0 resulted in smaller CNF", 2, DpType.PerformingBacktrack);
+            }
+            else
+            {
+                //this must never happen!!!! lol
+                OnReport($"{_currentVar} with both 0 and 1 resulted in same CNF - NO SOLUTION!", 2, DpType.PerformingBacktrack);
+            }
+
+
+            //reset backups to free memory
+            _cnfOne = _cnfZero = new CNF();
         }
 
         private void PerformUnitClauseRule()
         {
             OnReport("Performing Unit Clause Rule", 1, DpType.PerformingUnitClause);
-            var unitClauses = new List<int>();
+            _unitClauseList = new List<int>();
             //check all items in cnf and see if it has any list
             //which has only one item inside it, then it should be unit clause!
             for (int i = 0; i < _cnf.Data.Count; i++)
             {
                 if (_cnf.Data[i].Count == 1)
                 {
-                    unitClauses.Add(_cnf.Data[i][0]);
+                    _unitClauseList.Add(_cnf.Data[i][0]);
                     OnReport($"Found Unit Clause {_cnf.Data[i].DumpList()}", 
                         2, DpType.FoundUnitClause);
                 }
             }
 
-            if (unitClauses.Count == 0)
+            if (_unitClauseList.Count == 0)
             {
                 OnReport("Can not find any Unit Clauses!", 
                     2, DpType.PerformingUnitClause);
                 return;
             }
 
-            for (int i = 0; i < unitClauses.Count; i++)
+            _unitClauseList = _unitClauseList.OrderByDescending(i => i).ToList();
+
+            for (int i = 0; i < _unitClauseList.Count; i++)
             {
-                if (unitClauses[i] > 0)
+                if (_unitClauseList[i] > 0)
                 {
-                    SimplifyOne(unitClauses[i]);
+                    _valsDicMain.Add(Math.Abs(_unitClauseList[i]), true);
+                    SimplifyOne(_unitClauseList[i]);
                 }
                 else
                 {
-                    SimplifyZero(unitClauses[i]);
+                    _valsDicMain.Add(Math.Abs(_unitClauseList[i]), false);
+                    SimplifyZero(_unitClauseList[i]);
                 }
 
-                _unitClauseList.Remove(unitClauses[i]);
+                _unitClauseList.Remove(_unitClauseList[i]);
 
                 //defensive !
-                if (i >= unitClauses.Count)
+                if (i > _unitClauseList.Count)
                 {
                     break;
                 }
@@ -310,7 +364,8 @@ namespace SatSolver.Objects
             {
                 foreach (var p in onlyPositives)
                 {
-                        
+                        _valsDicMain.Add(Math.Abs(p), true);
+                        SimplifyOne(p);
                 }
             }
 
@@ -318,7 +373,8 @@ namespace SatSolver.Objects
             {
                 foreach (var n in onlyNegateds)
                 {
-
+                    _valsDicMain.Add(Math.Abs(n), false);
+                    SimplifyZero(n);
                 }
             }
             

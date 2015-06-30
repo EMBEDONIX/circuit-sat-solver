@@ -11,13 +11,15 @@ namespace SatSolver.Objects
         public int Level { get; private set; }
         public CNF CurrentCnf { get; private set; }
         public DpType Type { get; private set; }
+        public Dictionary<int, bool> UsedValues { get; private set; }
 
-        public DavisPutnamEventArgs(string message, int level, CNF currentCnf, DpType type)
+        public DavisPutnamEventArgs(string message, int level, CNF currentCnf, DpType type, Dictionary<int, bool> usedValues )
         {
             Message = message;
             Level = level;
             CurrentCnf = currentCnf;
             Type = type;
+            UsedValues = usedValues;
         }
     }
 }
