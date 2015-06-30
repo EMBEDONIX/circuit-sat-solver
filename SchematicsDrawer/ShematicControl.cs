@@ -73,7 +73,7 @@ namespace SatSolver.SchematicsDrawer
             {
                 if (_drawnShapes != null && _drawnShapes.Count > 0)
                 {
-                    var p = (PointF)args.Location;
+                    var p = (PointF) args.Location;
 //#if DEBUG
 //                    Debug.WriteLine($"Mouse move on {args.X},{args.Y}");
 //#endif
@@ -96,16 +96,12 @@ namespace SatSolver.SchematicsDrawer
 
                                 _tooltipTimer = new Timer();
                                 _tooltipTimer.Interval = _tooltipDuration;
-                                _tooltipTimer.Tick += (o, eventArgs) =>
-                                {
-                                    _tooltipShown = false;
-                                };
+                                _tooltipTimer.Tick += (o, eventArgs) => { _tooltipShown = false; };
                                 _tooltipTimer.Start();
                             }
                             return;
                         }
                     }
-
                 }
             };
 
@@ -117,7 +113,6 @@ namespace SatSolver.SchematicsDrawer
             //is being scrolled by mousewheel
             panel.MouseWheel += (sender, e) =>
             {
-
                 box.SuspendDrawing(panel);
                 if (_keyControllPressed)
                 {
@@ -125,7 +120,6 @@ namespace SatSolver.SchematicsDrawer
                 }
 
                 box.ResumeDrawing(panel);
-                
             };
         }
 
@@ -139,11 +133,11 @@ namespace SatSolver.SchematicsDrawer
             {
                 DrawCircuit(p);
                 DrawNetConnections(p);
-            } 
+            }
         }
 
         private void DrawNetConnections(PaintEventArgs p)
-        {   
+        {
             GateShape[] shapes = _drawnShapes.ToArray();
             GateShape cs; //current shape
             GateShape ns = null; //next shape
@@ -152,11 +146,10 @@ namespace SatSolver.SchematicsDrawer
             Graphics g = p.Graphics;
             for (int i = 0; i < shapes.Length - 1; i++)
             {
-
                 Pen pen = new Pen(Color.Red, 0.8f);
                 pen.ScaleTransform(_zoomFactor, _zoomFactor);
                 pen.Brush = new SolidBrush(Color.Green);
-                
+
 
                 cs = shapes[i];
                 ns = shapes[i + 1];
@@ -172,7 +165,7 @@ namespace SatSolver.SchematicsDrawer
                     pen.Color = Color.Blue;
                     if (cg.IsSingleInput()) //if has onlye 1 input e.g. inv gate
                     {
-                        pi1 = new PointF(5, cs.PortInA.Y );
+                        pi1 = new PointF(5, cs.PortInA.Y);
                         pi2 = new PointF(0, 0);
                         g.DrawLine(pen, pi1, cs.PortInA);
                     }
@@ -192,7 +185,6 @@ namespace SatSolver.SchematicsDrawer
                     pen.Color = Color.SaddleBrown;
                     if (cg.IsSingleInput()) //if has onlye 1 input e.g. inv gate
                     {
-                        
                         pi1 = cs.PortOut;
                         pi2 = new PointF(50, 50);
                         g.DrawLine(pen, pi1, ns.PortOut);
@@ -207,10 +199,8 @@ namespace SatSolver.SchematicsDrawer
 
                     pen.Color = Color.Orange;
                     g.DrawLine(pen, cs.PortOut, ns.PortInA);
-
                 }
             }
-
         }
 
         private void DrawCircuit(PaintEventArgs p)
@@ -243,7 +233,6 @@ namespace SatSolver.SchematicsDrawer
             }
 
 
-
             for (int i = 0; i < inGates.Count; i++)
             {
                 //GateShape shape = new GateShape(inGates[i], _dPoint.X, _dPoint.Y, _zoomFactor, box, p);
@@ -255,26 +244,27 @@ namespace SatSolver.SchematicsDrawer
             }
 
             //now draw output gate!
-            var outGate = _circuit.GetOutputGate();                                    
+            var outGate = _circuit.GetOutputGate();
             //but we need to check how many middle gates do we have to make enoughspace
             var mgc = _circuit.GetMiddleGates().Count;
             if (mgc == 0) //if there are no middle gates!
                 mgc = 1; //just not to screw up calculation
             //worst case scenario is when all middle gates go in one row! so we take that for now :P
-            _dPoint.X += (_spaceBetweenGates * (mgc * 2)) + (_drawnShapes.FirstOrDefault().GetDrawingRectangle().Width * mgc);
+            _dPoint.X += (_spaceBetweenGates*(mgc*2)) + (_drawnShapes.FirstOrDefault().GetDrawingRectangle().Width*mgc);
             _dPoint.Y = MinDistanceFromTop;
             shape = new GateShape(outGate, _dPoint, _zoomFactor, box, p);
             shape.Draw();
-            _drawnShapes.Add(shape);                                     
+            _drawnShapes.Add(shape);
 
 
             //move draw point to next column
-            _dPoint.X = MinDistanceFromLeft + _spaceBetweenGates + _drawnShapes.FirstOrDefault().GetDrawingRectangle().Width;
+            _dPoint.X = MinDistanceFromLeft + _spaceBetweenGates +
+                        _drawnShapes.FirstOrDefault().GetDrawingRectangle().Width;
             _dPoint.Y = MinDistanceFromTop;
 
             //now we need to know how manny middle gate we have
             //we need to copy by value this time!
-            var midGates =_circuit.GetMiddleGates();
+            var midGates = _circuit.GetMiddleGates();
             var mgCount = midGates.Count;
             //Now find the gates that are connected to the input gates
             //and repeat this for the gates in next column
@@ -285,12 +275,12 @@ namespace SatSolver.SchematicsDrawer
             {
                 //see
                 var drawnGates = _drawnShapes.Select(t => t.GetAssignedGate()).ToArray();
-                
+
                 List<Gate> matchGates = new List<Gate>();
                 for (int i = 0; i < drawnGates.Length; i++)
                 {
                     Gate drawnGate = drawnGates[i];
-                    
+
                     //TODO using midGates here is a performance hit....fix this ASAP because it itterase over all
                     foreach (var gate in midGates)
                     {
@@ -307,16 +297,15 @@ namespace SatSolver.SchematicsDrawer
                     //if found any gates
                     if (matchGates.Count > 0)
                     {
-
                         MoveDrawerPointToNextColumnOfAShape(_drawnShapes[i]);
 
                         //draw gate(s)
                         foreach (var gate in matchGates)
-                        {                                                  
-                                shape = new GateShape(gate, _dPoint, _zoomFactor, box, p);
-                                shape.Draw();           
-                                _drawnShapes.Add(shape);
-                                MoveDrawerPointToNextColumnOfAShape(shape);
+                        {
+                            shape = new GateShape(gate, _dPoint, _zoomFactor, box, p);
+                            shape.Draw();
+                            _drawnShapes.Add(shape);
+                            MoveDrawerPointToNextColumnOfAShape(shape);
                         }
 
                         //decrement while condition
@@ -328,9 +317,6 @@ namespace SatSolver.SchematicsDrawer
                 }
             }
 
-            
-
-            
 
             ////if we have any
             ////draw them! 
@@ -362,16 +348,16 @@ namespace SatSolver.SchematicsDrawer
             //                break;
             //            }
             //        }
-                    
+
             //    }
             //}   
         }
 
         private void MoveDrawerPointToNextColumnOfAShape(GateShape shape)
         {
-            _dPoint.X = shape.GetDrawingRectangle().X 
-            + (shape.GetDrawingRectangle().Width * 2) + _spaceBetweenGates;
-            _dPoint.Y = shape.GetDrawingRectangle().Y  +  shape.GetDrawingRectangle().Height;
+            _dPoint.X = shape.GetDrawingRectangle().X
+                        + (shape.GetDrawingRectangle().Width*2) + _spaceBetweenGates;
+            _dPoint.Y = shape.GetDrawingRectangle().Y + shape.GetDrawingRectangle().Height;
         }
 
         private void DrawGrid(PaintEventArgs p)
@@ -411,11 +397,10 @@ namespace SatSolver.SchematicsDrawer
 
         private void ShematicControl_Load(object sender, EventArgs e)
         {
-            
         }
 
         public void SetCircuit(Circuit circuit, int treeId)
-        {   
+        {
             _circuit = circuit;
             _drawnShapes = new List<GateShape>();
 

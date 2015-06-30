@@ -5,6 +5,5 @@ namespace SatSolver.UserInterface.ApplicationForm
 {
     public partial class MainForm
     {
-
     }
 }

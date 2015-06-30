@@ -5,9 +5,11 @@ using System.Text;
 
 namespace SatSolver.Objects.Gates
 {
+
     /// <summary>
     /// Represents an inverter gate
     /// </summary>
+    [Serializable]
     public class GateInv : Gate
     {
         public GateInv(GateType type) : base(type)
@@ -15,7 +17,7 @@ namespace SatSolver.Objects.Gates
         }
 
         public override void CalculateOutput()
-        {   
+        {
             throw new NotImplementedException();
         }
 
@@ -33,8 +35,8 @@ namespace SatSolver.Objects.Gates
 
             List<List<int>> cnf = new List<List<int>>();
 
-            cnf.Add(new List<int> { _inNets[0].Id + offset , _outNet.Id + offset });
-            cnf.Add(new List<int> { -(_inNets[0].Id + offset), -(_outNet.Id + offset) });
+            cnf.Add(new List<int> {_inNets[0].Id + offset, _outNet.Id + offset});
+            cnf.Add(new List<int> {-(_inNets[0].Id + offset), -(_outNet.Id + offset)});
 
             _cnf = new CNF(cnf);
             return _cnf;

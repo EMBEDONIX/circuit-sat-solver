@@ -9,10 +9,9 @@ namespace SatSolver.Utilities
 {
     public class InvalidNetListFileException : Exception
     {
-
         public string FilePath { get; private set; }
         public int LineNumber { get; private set; }
-        
+
         public InvalidNetListFileException()
         {
         }

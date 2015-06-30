@@ -5,13 +5,11 @@ using System.Text;
 
 namespace SatSolver.Objects.Gates
 {
+    [Serializable]
     public class GateOr : Gate
     {
-        
-
         public GateOr(GateType type) : base(type)
         {
-
         }
 
         public override void CalculateOutput()
@@ -36,7 +34,7 @@ namespace SatSolver.Objects.Gates
             foreach (var i in _inNets)
             {
                 cnf.Add(new List<int>()
-                 {
+                {
                     -(i.Id + offset),
                     (_outNet.Id + offset)
                 });
@@ -46,7 +44,7 @@ namespace SatSolver.Objects.Gates
             {
                 (_inNets[0].Id + offset),
                 (_inNets[1].Id + offset),
-                -(_outNet.Id+ offset)
+                -(_outNet.Id + offset)
             });
 
             _cnf = new CNF(cnf);

@@ -59,11 +59,11 @@ namespace SatSolver.UserInterface.CustomControls
 
             Nodes.Clear();
             CircuitTreeNode root = new CircuitTreeNode(circuit, this) {ImageIndex = 0};
-            TreeNode countGatesNode = new TreeNode("Gate = " + circuit.GetGatesCount()) 
-                { ImageIndex = 1, SelectedImageIndex = 1};
+            TreeNode countGatesNode = new TreeNode("Gate = " + circuit.GetGatesCount())
+            {ImageIndex = 1, SelectedImageIndex = 1};
             TreeNode countNetsNode = new TreeNode("Nets = " + circuit.GetNetsCount())
-                { ImageIndex = 1, SelectedImageIndex = 1 };
-            root.Nodes.AddRange(new TreeNode[]{countGatesNode, countNetsNode});
+            {ImageIndex = 1, SelectedImageIndex = 1};
+            root.Nodes.AddRange(new TreeNode[] {countGatesNode, countNetsNode});
 
             GateTreeNode[] gateNodes = root.GetGateNodes();
 
@@ -72,8 +72,6 @@ namespace SatSolver.UserInterface.CustomControls
             Nodes.Add(root);
 
             EndUpdate();
-        } 
-
-
+        }
     }
 }

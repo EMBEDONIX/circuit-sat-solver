@@ -19,7 +19,8 @@ namespace SatSolver.UserInterface.ApplicationForm
     /// </summary>
     public partial class MainForm : MetroForm
     {
-        private Circuit _circuitA, _circuitB, _circuitM;
+        private Circuit _circuitA, _circuitB;
+        private MiterCircuit _circuitM;
 
         private DavisPutnam _dp;
 
@@ -46,24 +47,35 @@ namespace SatSolver.UserInterface.ApplicationForm
             netControl1.CircuitLoaded += (o, args) =>
             {
                 _circuitA = args.Circuit;
-               netControl2.SetNetIdOffset(netControl1.Circuit.GetHighestNetId());
+                _circuitA.SetName("A");
+                lock (this)
+                {
+                    // _circuitA.AssignGatesToNets();
+                }
+                netControl2.SetNetIdOffset(netControl1.Circuit.GetHighestNetId());
             };
 
             netControl2.CircuitLoaded += (o, args) =>
             {
                 _circuitB = args.Circuit;
+                _circuitA.SetName("B");
 
-                try
+                lock (this)
                 {
+                    //_circuitB.AssignGatesToNets();
+                }
+
+                //try
+                //{
                     _circuitM = new MiterCircuit(_circuitA, _circuitB);
-                }
-                catch (Exception exc)
-                {
-                    AddLine(exc.Message, 0);
-                }
+                    _circuitM.SetName("M");
+                //}
+                //catch (Exception exc)
+                //{
+                //    AddLine(exc.Message, 0);
+                //}
                 miterControl.AddCircuit(_circuitM);
                 schematicControl.SetCircuit(_circuitM, args.TreeId);
-
             };
 
             miterControl.CircuitLoaded += (o, args) =>
@@ -71,10 +83,7 @@ namespace SatSolver.UserInterface.ApplicationForm
                 netControl1.ExpandAll();
                 netControl2.ExpandAll();
                 miterControl.ExpandAll();
-
             };
-
-
 
 
 #if DEBUG
@@ -85,54 +94,51 @@ namespace SatSolver.UserInterface.ApplicationForm
 
         private void DavisPutnamReport(object o, DavisPutnamEventArgs e)
         {
-               tbDebug.BeginInvoke((Action)(() =>
-               {
+            tbDebug.BeginInvoke((Action) (() =>
+            {
+                AddLine(e.Message, e.Level);
 
-                   AddLine(e.Message, e.Level);
+                switch (e.Type)
+                {
+                    case DpType.PerformingUnitClause:
+                        break;
+                    case DpType.PerformingPureLiteralRule:
+                        break;
+                    case DpType.Starting:
+                    case DpType.RemovingUintClause:
+                    case DpType.RemovingPureLiteral:
+                    case DpType.RemovingClause:
+                        ShowCnf(e.CurrentCnf, 0);
+                        break;
 
-                   switch (e.Type)
-                   {
-                       case DpType.PerformingUnitClause:
-                           break;
-                       case DpType.PerformingPureLiteralRule:
-                           break;
-                       case DpType.Starting:
-                       case DpType.RemovingUintClause:
-                       case DpType.RemovingPureLiteral:
-                       case DpType.RemovingClause:
-                           ShowCnf(e.CurrentCnf, 0);
-                           break;
+                    case DpType.Stopped:
+                    case DpType.SolutionFound:
+                        var dic = e.UsedValues.OrderBy(k => k.Key);
+                        PrintLine();
+                        PrintRow("NET", "VALUE");
+                        PrintLine();
+                        foreach (var vals in dic)
+                        {
+                            PrintRow(vals.Key.ToString(), Convert.ToInt32(vals.Value).ToString());
+                        }
+                        PrintLine();
+                        break;
+                    case DpType.OnlyMessage:
+                        break;
+                    case DpType.FindingRightMostVariable:
+                        break;
+                    case DpType.PerformingBacktrack:
+                        break;
+                    case DpType.FoundUnitClause:
+                        break;
 
-                       case DpType.Stopped:
-                       case DpType.SolutionFound:
-                           var dic = e.UsedValues.OrderBy(k => k.Key);
-                              PrintLine();
-                           PrintRow("NET", "VALUE");
-                           PrintLine();
-                           foreach (var vals in dic)
-                           {
-                               PrintRow(vals.Key.ToString(), Convert.ToInt32(vals.Value).ToString());
-                           }
-                           PrintLine();
-                           break;
-                       case DpType.OnlyMessage:
-                           break;
-                        case DpType.FindingRightMostVariable:
-                            break;
-                        case DpType.PerformingBacktrack:
-                           break;
-                        case DpType.FoundUnitClause:
-                            break;
-
-                       default:
-                           throw new ArgumentOutOfRangeException();
-                   }
-                   
-               }));
-            
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }));
         }
 
-        
+
         private void ShowCnf(CNF cnf, int level = 0)
         {
             AddLine(string.Empty, 0);
@@ -141,6 +147,7 @@ namespace SatSolver.UserInterface.ApplicationForm
         }
 
         private int _lineCounter = 0;
+
         private void AddLine(string line, int level)
         {
             tbDebug.AppendText($"{++_lineCounter,5}" + " | ");
@@ -153,17 +160,16 @@ namespace SatSolver.UserInterface.ApplicationForm
         }
 
 
-        static int tableWidth = 77;
+        private static int tableWidth = 96;
 
         private void PrintLine()
         {
-            
-         AddLine(new string('-', tableWidth), 1);
+            AddLine(new string('-', tableWidth), 1);
         }
 
         private void PrintRow(params string[] columns)
         {
-            int width = (tableWidth - columns.Length) / columns.Length;
+            int width = (tableWidth - columns.Length)/columns.Length;
             string row = "|";
 
             foreach (string column in columns)
@@ -184,7 +190,7 @@ namespace SatSolver.UserInterface.ApplicationForm
             }
             else
             {
-                return text.PadRight(width - (width - text.Length) / 2).PadLeft(width);
+                return text.PadRight(width - (width - text.Length)/2).PadLeft(width);
             }
         }
     }

@@ -13,7 +13,7 @@ namespace SatSolver.SchematicsDrawer
         //rows and columns where drawing happens
         private int _rows; //rows
         private int _cols; //columns
-        
+
 
         //Circuits A and B
         private Circuit _circuitA;
@@ -24,7 +24,6 @@ namespace SatSolver.SchematicsDrawer
         /// </summary>
         public SchematicBox()
         {
-            
         }
 
         /// <summary>
@@ -57,17 +56,19 @@ namespace SatSolver.SchematicsDrawer
             Invalidate(); //invalidate to force redraw
         }
 
+        #region MARSHALS
 
-#region MARSHALS
         /*
          * I put this hack to prevent drawing when the container of this control is sending draw message
          * to it. In this case the panel which contains this, will not request paint if it is being scrolled
          * to this picturebox!
          * 
          */
+
         [DllImport("user32.dll")]
         private static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
-        private const int WM_SETREDRAW = 11;                                                      
+
+        private const int WM_SETREDRAW = 11;
 
         public void SuspendDrawing(Control parent)
         {
@@ -79,7 +80,7 @@ namespace SatSolver.SchematicsDrawer
             SendMessage(parent.Handle, WM_SETREDRAW, true, 0);
             parent.Refresh();
         }
-#endregion
 
+        #endregion
     }
 }

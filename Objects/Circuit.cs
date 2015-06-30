@@ -9,6 +9,8 @@ namespace SatSolver.Objects
 {
     public class Circuit
     {
+        public string Name { get; private set; }
+
         protected bool _gatesAssignedToNets;
         protected List<Gate> _gates;
         protected List<Gate> _inputGates;
@@ -16,6 +18,7 @@ namespace SatSolver.Objects
         protected Gate _outputGate;
         protected string _file;
         protected int _offset;
+        
 
 
         public Circuit(string file, int offset)
@@ -30,6 +33,18 @@ namespace SatSolver.Objects
             _offset = 0;
             _gates = new List<Gate>();
             _file = file;
+        }
+
+        public void SetName(string name)
+        {
+            Name = name;
+            if (_gates != null)
+            {
+                foreach (var gate in _gates)
+                {
+                    gate.SetCircuitName(name);
+                }
+            }
         }
 
         internal void AddGate(Gate gate, int offset)
@@ -72,7 +87,7 @@ namespace SatSolver.Objects
         /// <summary>
         /// Assigns gates to nets (input and output nets)
         /// </summary>
-        private void AssignGatesToNets()
+        public void AssignGatesToNets()
         {
             //itterate over all gates
             for (int i = 0; i < _gates.Count; i++)
@@ -105,7 +120,7 @@ namespace SatSolver.Objects
                             net.SetInputGate(gate);
                         else
                             throw new Exception("Top Level Nets should have a numerical name! Can not find this" +
-                                            " for " + gate.GetGateType() + " with net id " + net.Id);
+                                                " for " + gate.GetGateType() + " with net id " + net.Id);
                     }
                     else //not dealing with the first gate anymore
                     {
@@ -115,7 +130,7 @@ namespace SatSolver.Objects
 
                 //Assign ouput gate, usualy the next gate in _gates list
 
-                if(nextGate == null) //if nextGate is null then we have covered all gates
+                if (nextGate == null) //if nextGate is null then we have covered all gates
                     break; //breaking out of the loop
 
                 //if next gate is not null, do assignement                
@@ -126,7 +141,7 @@ namespace SatSolver.Objects
 
             //Assignements are done!
             _gatesAssignedToNets = true;
-        }  
+        }
 
         /// <summary>
         /// Get the file name which this circuit is generated from
@@ -209,7 +224,6 @@ namespace SatSolver.Objects
             if (_outputGate == null)
                 throw new Exception(GetName() + " Does not have an output gate!");
             return _outputGate;
-            
         }
 
         /// <summary>
@@ -221,7 +235,7 @@ namespace SatSolver.Objects
             if (_middleGates == null || _middleGates.Count == 0)
             {
                 _middleGates = new List<Gate>();
-              
+
                 foreach (var gate in _gates)
                 {
                     bool shouldAdd = true;
@@ -232,20 +246,18 @@ namespace SatSolver.Objects
                             shouldAdd = false;
                     }
 
-                    if(shouldAdd)
+                    if (shouldAdd)
                         _middleGates.Add(gate);
                 }
             }
 
             return _middleGates;
-
-
-
         }
 
         public Gate GetFinalOrGateId()
         {
-            return _gates.Where(gate => gate.GetGateType() == GateType.Or).FirstOrDefault(gate => gate.IsFinalMiterOutput);
+            return
+                _gates.Where(gate => gate.GetGateType() == GateType.Or).FirstOrDefault(gate => gate.IsFinalMiterOutput);
         }
 
         //TODO this is fucking bad OO design....but my deadline closes!
@@ -253,6 +265,5 @@ namespace SatSolver.Objects
         {
             return null;
         }
-
     }
 }

@@ -45,10 +45,9 @@ namespace SatSolver.UserInterface.CustomControls
             _imageList.Images.Add(new Bitmap(Properties.Resources.gate_xor)); //5
             _imageList.Images.Add(new Bitmap(Properties.Resources.gate_inv)); //6
             _imageList.Images.Add(new Bitmap(Properties.Resources.gate_one)); //7
-            
+
             treeView.ImageList = _imageList;
         }
-
 
 
         public void SetParent(MainForm mainForm)
@@ -83,7 +82,7 @@ namespace SatSolver.UserInterface.CustomControls
 
         private void browseForNetlist_Click(object sender, EventArgs e)
         {
-            ShowBrowseNetListFileDialog();            
+            ShowBrowseNetListFileDialog();
         }
 
         public void SetImageList(ImageList treeImageList)
@@ -109,7 +108,7 @@ namespace SatSolver.UserInterface.CustomControls
 
             //TODO only do this if is DEBUG BUILD!
             ofd.InitialDirectory = System.IO.Path.GetDirectoryName(
-            System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+                System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
@@ -128,7 +127,7 @@ namespace SatSolver.UserInterface.CustomControls
         }
 
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
-        {   
+        {
             textBoxInfo.Clear();
             textBoxInfo.Text = e.Node.ToString();
         }
@@ -139,7 +138,7 @@ namespace SatSolver.UserInterface.CustomControls
         /// </summary>
         /// <param name="pathToFile"></param>
         public void LoadNetListFromFile(string pathToFile)
-        {                                   
+        {
             Circuit circuit = null;
 
             if (File.Exists(pathToFile))

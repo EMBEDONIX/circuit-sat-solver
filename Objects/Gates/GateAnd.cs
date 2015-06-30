@@ -5,6 +5,7 @@ using System.Text;
 
 namespace SatSolver.Objects.Gates
 {
+    [Serializable]
     public class GateAnd : Gate
     {
         public GateAnd(GateType type) : base(type)
@@ -23,7 +24,7 @@ namespace SatSolver.Objects.Gates
 
         public override CNF GetCnf(int offset)
         {
-            if (_lastCnfOffset == offset &&  _cnf != null)
+            if (_lastCnfOffset == offset && _cnf != null)
                 return _cnf;
 
             _lastCnfOffset = offset;
@@ -33,7 +34,7 @@ namespace SatSolver.Objects.Gates
             foreach (var i in _inNets)
             {
                 cnf.Add(new List<int>()
-                 {
+                {
                     i.Id + offset,
                     -(_outNet.Id + offset)
                 });

@@ -9,7 +9,6 @@ using SatSolver.Objects.Gates;
 
 namespace SatSolver.UserInterface.CustomControls
 {
-    
     /// <summary>
     /// Node that deals with gates
     /// </summary>
@@ -54,7 +53,7 @@ namespace SatSolver.UserInterface.CustomControls
             }
 
             List<NetTreeNode> netNodes = new List<NetTreeNode>();
-            
+
             foreach (Net signal in _gate.GetAllNets())
             {
                 netNodes.Add(new NetTreeNode(signal, ContainerTreeView));

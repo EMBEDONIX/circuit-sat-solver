@@ -15,6 +15,7 @@ namespace SatSolver.UserInterface.CustomControls
         /// The <see cref="Circuit"/> which is loaded
         /// </summary>
         public Circuit Circuit { get; private set; }
+
         /// <summary>
         /// Id of the <see cref="NetListTreeView"/> that loaded the <see cref="Circuit"/>
         /// </summary>

@@ -16,12 +16,13 @@ namespace SatSolver.UserInterface.CustomControls
     public class CircuitTreeNode : BaseTreeNode
     {
         private bool _hasData = false;
-        
+
 
         /// <summary>
         /// The <see cref="Circuit"/> that will be used as data in this node
         /// </summary>
         public Circuit Circuit { get; private set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -29,7 +30,7 @@ namespace SatSolver.UserInterface.CustomControls
         /// <param name="netListTreeView"></param>
         /// <param name="treeViewContainer">The TreeView that this node is going to be inside it</param>
         public CircuitTreeNode(Circuit circuit, TreeView treeViewContainer)
-        : base(NodeType.Circuit, treeViewContainer)
+            : base(NodeType.Circuit, treeViewContainer)
         {
             Circuit = circuit;
             Text = circuit.GetName();
@@ -41,7 +42,7 @@ namespace SatSolver.UserInterface.CustomControls
         /// </summary>
         /// <param name="textToShow"></param>
         /// <param name="treeViewContainer"></param>
-        public CircuitTreeNode(string textToShow, NetListTreeView treeViewContainer) 
+        public CircuitTreeNode(string textToShow, NetListTreeView treeViewContainer)
             : base(NodeType.Default, treeViewContainer)
         {
             Text = textToShow;
@@ -50,7 +51,8 @@ namespace SatSolver.UserInterface.CustomControls
 
         public GateTreeNode[] GetGateNodes()
         {
-            IList<GateTreeNode> gateNodes = (from Gate gate in Circuit.GetGates() select new GateTreeNode(gate, ContainerTreeView)).ToList();
+            IList<GateTreeNode> gateNodes =
+                (from Gate gate in Circuit.GetGates() select new GateTreeNode(gate, ContainerTreeView)).ToList();
 
             return gateNodes.ToArray();
         }

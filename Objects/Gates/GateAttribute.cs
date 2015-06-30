@@ -2,9 +2,9 @@
 
 namespace SatSolver.Objects.Gates
 {
+    [Serializable]
     public class GateAttribute : Attribute
     {
-
         public string Name { get; private set; }
         public int MaxInputs { get; private set; }
 

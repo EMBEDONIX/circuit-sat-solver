@@ -19,7 +19,7 @@ namespace SatSolver.UserInterface.CustomControls
         /// <summary>
         /// The <see cref="TreeView"/> which will host this node
         /// </summary>
-        public TreeView ContainerTreeView { get; private set; } 
+        public TreeView ContainerTreeView { get; private set; }
 
         /// <summary>
         /// 

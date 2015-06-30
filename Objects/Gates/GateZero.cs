@@ -5,6 +5,7 @@ using System.Text;
 
 namespace SatSolver.Objects.Gates
 {
+    [Serializable]
     public class GateZero : Gate
     {
         public GateZero(GateType type) : base(type)

@@ -40,7 +40,6 @@ namespace SatSolver.Objects
                     {
                         sb.Append(",");
                     }
-
                 }
 
 
@@ -52,7 +51,6 @@ namespace SatSolver.Objects
                 {
                     sb.Append("},");
                 }
-
             }
 
             sb.Append("}");

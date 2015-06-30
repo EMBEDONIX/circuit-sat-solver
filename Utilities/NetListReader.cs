@@ -38,7 +38,7 @@ namespace SatSolver.Utilities
         {
             var circuit = new Circuit(_file);
             int numNets;
-            char[] delimiterChars = { ' ', ',', '.', ':', '\t' };
+            char[] delimiterChars = {' ', ',', '.', ':', '\t'};
             Dictionary<string, int> inputs = new Dictionary<string, int>();
             Dictionary<string, int> outputs = new Dictionary<string, int>();
 
@@ -73,10 +73,10 @@ namespace SatSolver.Utilities
 
             //check line 2 to get name of inputs 
             string[] inputNames = lines[1].Split(delimiterChars);
-            
+
             //check line 3 to get name of outputs
             string[] outputNames = lines[2].Split(delimiterChars);
-            
+
             /*
              *  We know for example if we have 2 inputs and 1 output, there should exist only 3 lines to assign a net to a name
              *  so we add the count of elements in inputNames and outputNames to see how many lines we need to read to assign
@@ -91,9 +91,9 @@ namespace SatSolver.Utilities
 
             int emptyLinePosition = 3 + numLinesToCheck;
             for (int i = 3; i < numLinesToCheck + 3; i++)
-            {      
+            {
                 int net;
-                string name;   
+                string name;
 
                 string[] data = lines[i].Split(delimiterChars);
                 name = data[1];
@@ -101,12 +101,12 @@ namespace SatSolver.Utilities
 
                 //if the net name exist in inputs, then we add it to dictionary of inputs
                 if (inputNames.Contains(data[1]))
-                    inputs.Add(name, net);          
+                    inputs.Add(name, net);
 
                 if (outputNames.Contains(data[1]))
-                    outputs.Add(name, net );                      
+                    outputs.Add(name, net);
             }
-            
+
             /*
              * Now, the next line should be an empty line and immideatly after it the gates should be 
              * presented. First we check if it is the case, if not, throwing exception, if yes, continue
@@ -114,8 +114,8 @@ namespace SatSolver.Utilities
 
             if (!string.IsNullOrWhiteSpace(lines[emptyLinePosition]))
                 throw new InvalidNetListFileException("Expected an empty line after " +
-                                    "the last netlist assignement to start reading gates."
-                                    , _file, emptyLinePosition);                
+                                                      "the last netlist assignement to start reading gates."
+                    , _file, emptyLinePosition);
 
             //Itterate over lines which supposed to contain gate definitions
             for (int i = 3 + numLinesToCheck + 1; i < lines.Count; i++)
@@ -124,15 +124,15 @@ namespace SatSolver.Utilities
                 Net net;
                 int id;
                 string name;
-                
+
                 string[] data = lines[i].Split(delimiterChars);
-                
+
                 //check if the line starts with letter (name of a gate e.g. "a" for AND gate
                 //TODO change this to implicitly check agains a,i,o,z,x or better the whole gate name
-                if (!Char.IsLetter(data[0][0])) 
-                   throw new InvalidNetListFileException("The line to generate gate from does not " +
-                                                         "start with a valid character", _file, i); 
-                
+                if (!Char.IsLetter(data[0][0]))
+                    throw new InvalidNetListFileException("The line to generate gate from does not " +
+                                                          "start with a valid character", _file, i);
+
                 GateType gateType = data[0].ParseEnum<GateType>();
 
                 switch (data[0])
@@ -152,7 +152,7 @@ namespace SatSolver.Utilities
                          */
                         if (data.Length != 4)
                             throw new InvalidNetListFileException("There are insufficent nets for" +
-                                     gateType.GetEnumDescription() + " gate", _file, i);
+                                                                  gateType.GetEnumDescription() + " gate", _file, i);
                         if (!Helpers.IsDigitsOnly(data.SubArray(1, 3)))
                             throw new InvalidNetListFileException("Nets are not nummeric", _file, i);
 
@@ -205,7 +205,7 @@ namespace SatSolver.Utilities
                         //similar checks as in the dual input case
                         if (data.Length != 3)
                             throw new InvalidNetListFileException("There are insufficent nets for" +
-                                                                 gateType.GetEnumDescription() + " gate", _file, i);
+                                                                  gateType.GetEnumDescription() + " gate", _file, i);
                         if (!Helpers.IsDigitsOnly(data.SubArray(1, 2)))
                             throw new InvalidNetListFileException("Nets are not nummeric", _file, i);
 
@@ -231,7 +231,7 @@ namespace SatSolver.Utilities
                         net = !string.IsNullOrWhiteSpace(name) ? new Net(name, id) : new Net(id);
 
                         gate.AddInputNet(net);
-                        
+
 
                         //get 1 output
                         id = Convert.ToInt32(data[2]);
@@ -241,12 +241,11 @@ namespace SatSolver.Utilities
 
                         circuit.AddGate(gate);
 
-                    break;
+                        break;
 
                     //Default case if we face an unknown name, throw exception and warning about line
                     default:
                         throw new InvalidNetListFileException("Can not identify gate name", _file, i);
-
                 }
             }
 
@@ -264,8 +263,5 @@ namespace SatSolver.Utilities
 
             return circuit;
         }
-
-
-
     }
 }

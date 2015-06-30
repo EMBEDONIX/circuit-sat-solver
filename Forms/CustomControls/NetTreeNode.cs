@@ -9,14 +9,14 @@ using SatSolver.Objects.Gates;
 namespace SatSolver.UserInterface.CustomControls
 {
     [DefaultProperty("Text")]
-    class NetTreeNode : BaseTreeNode
+    internal class NetTreeNode : BaseTreeNode
     {
         private Net _net;
 
         public NetTreeNode(Net net, TreeView containerTreeView) : base(NodeType.Net, containerTreeView)
         {
             _net = net;
-            
+
             if (!string.IsNullOrWhiteSpace(net.Name))
                 Text = net.Name + "/" + net.Id;
             else

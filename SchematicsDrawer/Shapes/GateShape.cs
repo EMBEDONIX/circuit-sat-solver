@@ -36,7 +36,7 @@ namespace SatSolver.SchematicsDrawer.Shapes
         /// </summary>
         public GateType GateType;
 
-        public PointF PortInA {get; private set;}
+        public PointF PortInA { get; private set; }
         public PointF PortInB { get; private set; }
         public PointF PortOut { get; private set; }
 
@@ -45,7 +45,7 @@ namespace SatSolver.SchematicsDrawer.Shapes
             _gate = gate;
             _p = p;
             StartPoint = new Point(x, y);
-            ShapeSize = new Size(20 , 20);
+            ShapeSize = new Size(20, 20);
             _zoomFactor = zoomFactor;
             //Draw();
         }
@@ -55,11 +55,10 @@ namespace SatSolver.SchematicsDrawer.Shapes
             _gate = gate;
             _p = p;
             StartPoint = dPoint;
-            ShapeSize = new SizeF(20 + (20 * _zoomFactor), 20 + (20 * _zoomFactor));
-            
+            ShapeSize = new SizeF(20 + (20*_zoomFactor), 20 + (20*_zoomFactor));
+
             _zoomFactor = zoomFactor;
             //Draw();
-            
         }
 
         /// <summary>
@@ -69,10 +68,9 @@ namespace SatSolver.SchematicsDrawer.Shapes
         /// <returns></returns>
         public GateShape Draw()
         {
-
-            #if DEBUG
+#if DEBUG
             Debug.WriteLine("Drawing gate '" + _gate.GetGateType() + "' with symbol '" + _gate.GetSymbol() + "'");
-            #endif
+#endif
 
             Color color;
             if (_gate.IsTopLevelGate())
@@ -98,21 +96,21 @@ namespace SatSolver.SchematicsDrawer.Shapes
                 Alignment = StringAlignment.Center,
                 LineAlignment = StringAlignment.Center
             };
-            using(Font font = new Font(FontFamily.GenericMonospace, 8))
-            _p.Graphics.DrawString(_gate.GetSymbol(), font, Brushes.Black, DrawingRect, sf);
+            using (Font font = new Font(FontFamily.GenericMonospace, 8))
+                _p.Graphics.DrawString(_gate.GetSymbol(), font, Brushes.Black, DrawingRect, sf);
 
             if (_gate.IsSingleInput())
             {
-                PortInA = new PointF(DrawingRect.X, StartPoint.Y + DrawingRect.Height / 2f);
-                PortInB = new PointF(0,0);
+                PortInA = new PointF(DrawingRect.X, StartPoint.Y + DrawingRect.Height/2f);
+                PortInB = new PointF(0, 0);
             }
             else
             {
-                PortInA = new PointF(DrawingRect.X, StartPoint.Y + DrawingRect.Height / 4f);
+                PortInA = new PointF(DrawingRect.X, StartPoint.Y + DrawingRect.Height/4f);
                 PortInB = new PointF(DrawingRect.X, StartPoint.Y + (DrawingRect.Height/1.3f));
-            }  
+            }
 
-            PortOut = new PointF(DrawingRect.X + DrawingRect.Width, StartPoint.Y + (DrawingRect.Height / 2f));
+            PortOut = new PointF(DrawingRect.X + DrawingRect.Width, StartPoint.Y + (DrawingRect.Height/2f));
 
             return this;
         }

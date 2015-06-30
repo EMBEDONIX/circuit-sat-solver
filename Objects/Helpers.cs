@@ -10,9 +10,8 @@ namespace SatSolver.Objects
 {
     public static class Helpers
     {
-
         #region Extensions
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -23,9 +22,9 @@ namespace SatSolver.Objects
             FieldInfo fi = value.GetType().GetField(value.ToString());
 
             DescriptionAttribute[] attributes =
-                (DescriptionAttribute[])fi.GetCustomAttributes(
-                typeof(DescriptionAttribute),
-                false);
+                (DescriptionAttribute[]) fi.GetCustomAttributes(
+                    typeof (DescriptionAttribute),
+                    false);
 
             if (attributes != null &&
                 attributes.Length > 0)
@@ -33,7 +32,7 @@ namespace SatSolver.Objects
             else
                 return value.ToString();
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -44,9 +43,9 @@ namespace SatSolver.Objects
             FieldInfo fi = value.GetType().GetField(value.ToString());
 
             GateAttribute[] attributes =
-                (GateAttribute[])fi.GetCustomAttributes(
-                typeof(GateAttribute),
-                false);
+                (GateAttribute[]) fi.GetCustomAttributes(
+                    typeof (GateAttribute),
+                    false);
 
             if (attributes != null &&
                 attributes.Length > 0)
@@ -67,9 +66,9 @@ namespace SatSolver.Objects
             FieldInfo fi = value.GetType().GetField(value.ToString());
 
             GateAttribute[] attributes =
-                (GateAttribute[])fi.GetCustomAttributes(
-                typeof(GateAttribute),
-                false);
+                (GateAttribute[]) fi.GetCustomAttributes(
+                    typeof (GateAttribute),
+                    false);
 
             if (attributes != null &&
                 attributes.Length > 0)
@@ -103,7 +102,7 @@ namespace SatSolver.Objects
         /// <returns></returns>
         public static T ParseEnum<T>(this string value)
         {
-            return (T)Enum.Parse(typeof(T), value, true);
+            return (T) Enum.Parse(typeof (T), value, true);
         }
 
         #endregion

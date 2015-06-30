@@ -6,7 +6,8 @@ using System.Text;
 
 namespace SatSolver.Objects.Gates
 {
-    public class Net
+    [Serializable]
+    public class Net : IEqualityComparer<Net>
     {
         public string Name { get; private set; }
         public int Id { get; set; }
@@ -14,7 +15,7 @@ namespace SatSolver.Objects.Gates
         private Gate _inGate;
         private Gate _outGate;
         private NetValue _value = NetValue.NotSet;
-        private bool _isMiddleNet;        
+        private bool _isMiddleNet;
 
         /// <summary>
         /// Constructs a net object with a given name and id
@@ -108,5 +109,28 @@ namespace SatSolver.Objects.Gates
         {
             return (!string.IsNullOrWhiteSpace(Name));
         }
+
+        public bool IsOutputNet()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(Net x, Net y)
+        {
+            return (x.Id == y.Id && x.Name == y.Name);
+        }
+
+        public int GetHashCode(Net obj)
+        {
+            return obj.Id.GetHashCode() ^ obj.Name.GetHashCode();
+        }
+
+
+        public override int GetHashCode()
+        {
+            return 13 * Id.GetHashCode() + 7 * Name.GetHashCode();
+        }
+
+
     }
 }

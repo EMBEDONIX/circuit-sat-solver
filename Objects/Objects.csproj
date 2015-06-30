@@ -58,6 +58,7 @@
     <Compile Include="Gates\GateXor.cs" />
     <Compile Include="Gates\GateZero.cs" />
     <Compile Include="Gates\Net.cs" />
+    <Compile Include="Gates\NetComparer.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Gates\NetValue.cs" />
     <Compile Include="MiterCircuit.cs" />

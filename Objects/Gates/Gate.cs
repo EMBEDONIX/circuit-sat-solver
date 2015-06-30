@@ -6,8 +6,10 @@ using System.Text;
 
 namespace SatSolver.Objects.Gates
 {
+    [Serializable]
     public abstract class Gate
     {
+        public string CircuitName;
         protected GateType _type;
         protected List<Net> _inNets;
         protected Net _outNet;
@@ -30,6 +32,11 @@ namespace SatSolver.Objects.Gates
         {
             _type = type;
             _inNets = new List<Net>();
+        }
+
+        public void SetCircuitName(string name)
+        {
+            CircuitName = name;
         }
 
         /// <summary>
@@ -114,7 +121,7 @@ namespace SatSolver.Objects.Gates
                     return 2;
                 default:
                     throw new ArgumentOutOfRangeException();
-            } 
+            }
         }
 
         /// <summary>
@@ -157,8 +164,8 @@ namespace SatSolver.Objects.Gates
         public Net GetOutputNet()
         {
             return _outNet;
-        } 
-        
+        }
+
         /// <summary>
         /// Gets the string which represents the gate symbol
         /// </summary>
@@ -171,7 +178,7 @@ namespace SatSolver.Objects.Gates
         /// <returns></returns>
         public bool IsTopLevelGate()
         {
-            return _inNets.Any(net => net.HasName());
+            return _inNets.All(net => net.HasName());
         }
 
         /// <summary>

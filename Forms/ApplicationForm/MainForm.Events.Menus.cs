@@ -12,7 +12,6 @@ namespace SatSolver.UserInterface.ApplicationForm
 {
     partial class MainForm
     {
-
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (_dp != null && _dp.IsSolving())
@@ -36,7 +35,7 @@ namespace SatSolver.UserInterface.ApplicationForm
 
             List<CNF> cnft = _circuitM.GetGates().Select(gate => gate.GetCnf()).ToList();
             //TODO this is a hack...and shity OO programing...I should take care of this asap!!!
-            cnft.Add(new CNF(new List<List<int>> { new List<int>() { _circuitM.GetFinalOrGateId().GetOutputNet().Id } }));
+            //cnft.Add(new CNF(new List<List<int>> { new List<int>() { _circuitM.GetFinalOrGateId().GetOutputNet().Id } }));
             cnft.AddRange(_circuitM.GetMitterForInputs());
 
             //Must flatten the cnf list to a single cnf!
@@ -82,12 +81,11 @@ namespace SatSolver.UserInterface.ApplicationForm
         {
             splitContainer.Panel1Collapsed = !splitContainer.Panel1Collapsed;
         }
-        
+
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutBox ab = new AboutBox();
             ab.ShowDialog();
         }
-
     }
 }

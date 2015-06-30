@@ -7,7 +7,6 @@ using System.Threading;
 
 namespace SatSolver.Objects
 {
-    
     /// <summary>
     /// An implementation of Davis-Putnam algorithm
     /// </summary>
@@ -37,7 +36,7 @@ namespace SatSolver.Objects
         private CNF _cnfZero; //to backup original CNF when setting a variable to 1
 
         //Dictionaries to hold assignements to nets
-        private Dictionary<int, bool> _valsDicMain = new Dictionary<int, bool>();
+        private List<KeyValuePair<int, bool>> _valsDicMain = new List<KeyValuePair<int, bool>>();
 
         public DavisPutnam(CNF cnf)
         {
@@ -50,9 +49,8 @@ namespace SatSolver.Objects
         {
             if (Report != null)
             {
-                    
-                    Report(this, new DavisPutnamEventArgs(msg, lvl, _cnf.Clone(), type, _valsDicMain));
-                    Thread.Sleep(10);
+                Report(this, new DavisPutnamEventArgs(msg, lvl, _cnf.Clone(), type, _valsDicMain));
+                Thread.Sleep(10);
             }
         }
 
@@ -105,6 +103,7 @@ namespace SatSolver.Objects
                     //MAIN LOOP
                     while (_continue)
                     {
+                        Debug.WriteLine($"IN LOOP {loopCount}");
 
                         //do unit clause rule
                         PerformUnitClauseRule();
@@ -118,24 +117,23 @@ namespace SatSolver.Objects
                         //Check if solution found
                         if (CheckIfSolutionIsFound())
                         {
-                            
                         }
 
 
                         //Countermeasure to forever going loop! lol!
-                        loopCount++;
-                        if (loopCount > 6) //go to backtracking mode!
+                        if (loopCount > 4096) //go to backtracking mode!
                         {
-                            OnReport("Can not find any solution!", 1, DpType.Stopped);
+                            OnReport($"Loop Count exceeded {loopCount}. Can not find any solution!", 1, DpType.Stopped);
                             _thread = null;
                             _continue = false;
                             _thread = null;
                             loopCount = 0;
                         }
 
-                        Thread.Sleep(50);
+                        loopCount++;
+
+                        Thread.Sleep(30);
                     }
-                    
                 });
                 _thread.Start();
             }
@@ -146,9 +144,9 @@ namespace SatSolver.Objects
             var empty = true;
             foreach (var list in _cnf.Data)
             {
-                if (list.Count > 0)
+                foreach (var i in list)
                 {
-                    empty = false;
+                    return false;
                 }
             }
 
@@ -165,7 +163,7 @@ namespace SatSolver.Objects
         {
             _currentVar = GetRightMostInCnf();
             OnReport($"Performing Backtracking with variable {_currentVar}", 1, DpType.PerformingBacktrack);
-            
+
             //prepare to divide cnf in 2 branches
             var cnfBackup = _cnf.Clone();
             _cnfOne = _cnfZero = new CNF();
@@ -182,28 +180,28 @@ namespace SatSolver.Objects
             SimplifyZero(_currentVar);
 
             //see wich simplification resulted in shorter CNF
-            var originalCount = cnfBackup.Data.SelectMany(list => list).Count(); 
+            var originalCount = cnfBackup.Data.SelectMany(list => list).Count();
             var countOne = _cnfOne.Data.SelectMany(list => list).Count();
             var countZero = _cnfOne.Data.SelectMany(list => list).Count();
-
 
 
             if (countOne < originalCount)
             {
                 _cnf = _cnfOne.Clone();
-                _valsDicMain.Add(Math.Abs(_currentVar), true);
+                _valsDicMain.Add(new KeyValuePair<int, bool>(Math.Abs(_currentVar), true));
                 OnReport($"{_currentVar} with value 1 resulted in smaller CNF", 2, DpType.PerformingBacktrack);
             }
             else if (countZero < originalCount)
             {
                 _cnf = _cnfZero.Clone();
-                _valsDicMain.Add(Math.Abs(_currentVar), false);
+                _valsDicMain.Add(new KeyValuePair<int, bool>(Math.Abs(_currentVar), false));
                 OnReport($"{_currentVar} with value 0 resulted in smaller CNF", 2, DpType.PerformingBacktrack);
             }
             else
             {
                 //this must never happen!!!! lol
-                OnReport($"{_currentVar} with both 0 and 1 resulted in same CNF - NO SOLUTION!", 2, DpType.PerformingBacktrack);
+                OnReport($"{_currentVar} with both 0 and 1 resulted in same CNF - NO SOLUTION!", 2,
+                    DpType.PerformingBacktrack);
             }
 
 
@@ -222,14 +220,14 @@ namespace SatSolver.Objects
                 if (_cnf.Data[i].Count == 1)
                 {
                     _unitClauseList.Add(_cnf.Data[i][0]);
-                    OnReport($"Found Unit Clause {_cnf.Data[i].DumpList()}", 
+                    OnReport($"Found Unit Clause {_cnf.Data[i].DumpList()}",
                         2, DpType.FoundUnitClause);
                 }
             }
 
             if (_unitClauseList.Count == 0)
             {
-                OnReport("Can not find any Unit Clauses!", 
+                OnReport("Can not find any Unit Clauses!",
                     2, DpType.PerformingUnitClause);
                 return;
             }
@@ -240,12 +238,12 @@ namespace SatSolver.Objects
             {
                 if (_unitClauseList[i] > 0)
                 {
-                    _valsDicMain.Add(Math.Abs(_unitClauseList[i]), true);
+                    _valsDicMain.Add(new KeyValuePair<int, bool>(Math.Abs(_unitClauseList[i]), true));
                     SimplifyOne(_unitClauseList[i]);
                 }
                 else
                 {
-                    _valsDicMain.Add(Math.Abs(_unitClauseList[i]), false);
+                    _valsDicMain.Add(new KeyValuePair<int, bool>(Math.Abs(_unitClauseList[i]), false));
                     SimplifyZero(_unitClauseList[i]);
                 }
 
@@ -269,7 +267,6 @@ namespace SatSolver.Objects
             {
                 for (int i = 0; i < _cnf.Data.Count; i++)
                 {
-
                     if (_cnf.Data[i].Contains(-num))
                     {
                         var toRemove = _cnf.Data[i].DumpList();
@@ -302,7 +299,6 @@ namespace SatSolver.Objects
             {
                 for (int i = 0; i < _cnf.Data.Count; i++)
                 {
-
                     if (_cnf.Data[i].Contains(num))
                     {
                         var toRemove = _cnf.Data[i].DumpList();
@@ -364,8 +360,8 @@ namespace SatSolver.Objects
             {
                 foreach (var p in onlyPositives)
                 {
-                        _valsDicMain.Add(Math.Abs(p), true);
-                        SimplifyOne(p);
+                    _valsDicMain.Add(new KeyValuePair<int, bool>(Math.Abs(p), true));
+                    SimplifyOne(p);
                 }
             }
 
@@ -373,11 +369,10 @@ namespace SatSolver.Objects
             {
                 foreach (var n in onlyNegateds)
                 {
-                    _valsDicMain.Add(Math.Abs(n), false);
+                    _valsDicMain.Add(new KeyValuePair<int, bool>(Math.Abs(n), false));
                     SimplifyZero(n);
                 }
             }
-            
         }
 
         private bool ExistOnlyInNegatedForm(int id)
@@ -467,8 +462,5 @@ namespace SatSolver.Objects
             _uid.Reverse(); //reverse so highest numbers would evalaute first!
             _uid = _uid.Where(i => i >= 0).ToList(); //remove negative numbers
         }
-
-
-
     }
 }
