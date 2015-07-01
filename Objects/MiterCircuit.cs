@@ -10,11 +10,11 @@ namespace SatSolver.Objects
     public class MiterCircuit : Circuit
     {
         private bool _hasSingleOutput;
+        private bool _hasDualOutputs;
+        private bool _hasThreeOrMoreOutputs;
         private Circuit _circA, _circB;
         private List<Gate> _finalOutputsA = new List<Gate>();
         private List<Gate> _finalOutputsB = new List<Gate>();
-        private GateXor _xor1 = new GateXor(GateType.Xor);
-        private GateXor _xor2 = new GateXor(GateType.Xor);
         private GateOr _orFinal = new GateOr(GateType.Or);
         private List<GateXor> _xorGates = new List<GateXor>();
         private List<GateOr> _orGates = new List<GateOr>();
@@ -36,18 +36,8 @@ namespace SatSolver.Objects
                 this.AddGate(gate, 0);
             }
 
-            List<Gate> finalOutputsA, finalOutputsB;
-            //finalOutputsA = finalOutputsB = new List<Gate>(); //lol this make them joied! WTF!
-
             _finalOutputsA.AddRange(_circA.GetGates().Where(gate => gate.IsLastOutputGate()));
             _finalOutputsB.AddRange(_circB.GetGates().Where(gate => gate.IsLastOutputGate()));
-
-            //if (_finalOutputsA.Count != _finalOutputsB.Count)
-            //{
-            //    throw new Exception(
-            //        $"Output net count of {_circA.GetName()} does not match to {_circB.GetName()} ouput counts!");
-            //}
-
             
             var c1 = _finalOutputsA.Count;
             var c2 = _finalOutputsB.Count;
@@ -57,10 +47,23 @@ namespace SatSolver.Objects
                 throw new Exception("Output Nets of 'CIRCUIT A' does not match the count of Output Nets of 'CIRCUIT B'");
             }
 
-
-            if (_finalOutputsA.Count > 1 && _finalOutputsB.Count > 1)
+            
+            if (_finalOutputsA.Count == 1 && _finalOutputsB.Count == 1)
             {
-                _hasSingleOutput = false;
+
+                _hasSingleOutput = true;
+                _xorGates = new List<GateXor>();
+
+                GateXor gx = new GateXor(GateType.Xor);
+                gx.AddInputNet(_finalOutputsA[0].GetOutputNet());
+                gx.AddInputNet(_finalOutputsB[0].GetOutputNet());
+                gx.SetOutputNet(new Net("XORFINAL", ++maxB));
+                _xorGates.Add(gx);
+                _gates.Add(gx);
+            }
+            else if (_finalOutputsA.Count == 2 && _finalOutputsB.Count == 2) //CircuitA and B both have only 1 output
+            {
+                _hasDualOutputs = true;
 
                 _xorGates = new List<GateXor>();
                 _orGates = new List<GateOr>();
@@ -71,7 +74,7 @@ namespace SatSolver.Objects
 
                     gx.AddInputNet(_finalOutputsA[i].GetOutputNet());
                     gx.AddInputNet(_finalOutputsB[i].GetOutputNet());
-                    gx.SetOutputNet(new Net($"XOR{i}", ++maxB));
+                    gx.SetOutputNet(new Net("XOR" + i, ++maxB));
                     _xorGates.Add(gx);
 
                     if (i >= 1 && i%2 != 0) //add or gate!
@@ -80,7 +83,7 @@ namespace SatSolver.Objects
                         og.IsFinalMiterOutput = true;
                         og.AddInputNet(_xorGates[i - 1].GetOutputNet());
                         og.AddInputNet(_xorGates[i].GetOutputNet());
-                        og.SetOutputNet(new Net($"OR{i}", ++maxB));
+                        og.SetOutputNet(new Net("OR", ++maxB));
                         _orGates.Add(og);
                     }
                 }
@@ -88,22 +91,23 @@ namespace SatSolver.Objects
                 _gates.AddRange(_xorGates);
                 _gates.AddRange(_orGates);
             }
-            else if (_finalOutputsA.Count == 1 && _finalOutputsB.Count == 1)
+            else
             {
+                _hasThreeOrMoreOutputs = true;
 
-                _hasSingleOutput = true;
+                _xorGates = new List<GateXor>();
 
-                //_xor1.AddInputNet(_finalOutputsA[0].GetOutputNet());
-                //_xor1.AddInputNet(_finalOutputsB[0].GetOutputNet());
-                //_xor1.SetOutputNet(new Net("XOR1", ++maxB));
-                //this.AddGate(_xor1);
+                for (int i = 0; i < _finalOutputsA.Count; i++)
+                {
+                    GateXor gx = new GateXor(GateType.Xor);
 
-                _orFinal = new GateOr(GateType.Or);
-                _orFinal.AddInputNet(_finalOutputsA[0].GetOutputNet());
-                _orFinal.AddInputNet(_finalOutputsB[0].GetOutputNet());
-                _orFinal.SetOutputNet(new Net("_orFinal", ++maxB));
-                this.AddGate(_orFinal);
+                    gx.AddInputNet(_finalOutputsA[i].GetOutputNet());
+                    gx.AddInputNet(_finalOutputsB[i].GetOutputNet());
+                    gx.SetOutputNet(new Net("XOR" + i, ++maxB));
+                    _xorGates.Add(gx);
+                }
 
+                _gates.AddRange(_xorGates);
             }
 
 
@@ -137,19 +141,19 @@ namespace SatSolver.Objects
 
             if (_hasSingleOutput)
             {
-                cnf.Add(new List<int> {_orFinal.GetOutputNet().Id});
+                cnf.Add(new List<int> {_xorGates[0].GetOutputNet().Id});
             }
-            else
+            else if(_hasDualOutputs)
             {
-                for (int i = 0; i < _orGates.Count; i++)
+                cnf.Add(new List<int> { _orGates[0].GetOutputNet().Id });
+            }
+            else if(_hasThreeOrMoreOutputs)
+            {
+                for (int i = 0; i < _xorGates.Count; i++)
                 {
-                    cnf.Add(new List<int> {_orGates[i].GetOutputNet().Id});
+                    cnf.Add(new List<int> { _xorGates[i].GetOutputNet().Id });
                 }
             }
-
-
-
-
 
             cnfs.Add(new CNF(cnf));
             return cnfs;

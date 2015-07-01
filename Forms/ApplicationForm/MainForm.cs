@@ -150,7 +150,7 @@ namespace SatSolver.UserInterface.ApplicationForm
 
         private void AddLine(string line, int level)
         {
-            tbDebug.AppendText($"{++_lineCounter,5}" + " | ");
+            tbDebug.AppendText(++_lineCounter+"   " + " | ");
             var indent = "";
             for (int i = 0; i < level; i++)
             {
